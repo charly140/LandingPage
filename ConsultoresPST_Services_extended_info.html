@@ -1,0 +1,356 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Servicios - Consultores PST</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    /* Copy navbar, tooltip, and footer styles from your front page */
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: "Rubik", sans-serif;
+    }
+    .navbar {
+      display: flex;
+      justify-content: space-between;
+      padding: 10px;
+      background: #2b2d42;
+      position: fixed;
+      top: 0;
+      width: 100%;
+      transition: height 0.5s ease, background 0.3s linear;
+      z-index: 50;
+      height: 70px;
+    }
+    .sticky {
+      background: rgba(43, 45, 66, 0.65);
+      height: 50px;
+    }
+    .left {
+      display: flex;
+      align-items: center;
+    }
+    .left a {
+      font-size: 35px;
+      text-decoration: none;
+      color: #edf2f4;
+      font-weight: 750;
+      transition: 0.3s linear;
+    }
+    .left a:hover,
+    .sticky .left a:hover {
+      color: #22b455;
+    }
+    .right {
+      display: flex;
+      align-items: center;
+    }
+    .right a {
+      margin: 10.5px;
+      font-size: 18px;
+      text-decoration: none;
+      color: #edf2f4;
+      transition: 0.3s linear;
+    }
+    .right a:hover,
+    .sticky .right a:hover {
+      color: #92e5a1;
+    }
+    .menu {
+      align-self: center;
+      z-index: 10;
+      cursor: pointer;
+      display: none;
+    }
+    .sticky .menu {
+      filter: invert(1);
+    }
+    @media screen and (max-width: 800px) {
+      .menu {
+        display: block;
+      }
+      .right {
+        display: flex;
+        position: absolute;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        top: 0;
+        right: -100%;
+        width: 100%;
+        height: 100vh;
+        background: #2b2d42;
+        transition: 0.3s ease all;
+      }
+      .right a {
+        font-size: 30px;
+        margin: 15px 0;
+      }
+      .right.active {
+        left: 0;
+        right: 0;
+      }
+      .sticky .right {
+        background: #edf2f4;
+      }
+    }
+    .tooltip {
+      position: relative;
+      cursor: pointer;
+      display: inline-block;
+    }
+    .tooltiptext {
+      visibility: hidden;
+      width: 260px;
+      background-color: #2b2d42;
+      color: #fff;
+      text-align: left;
+      border-radius: 8px;
+      padding: 10px;
+      position: absolute;
+      z-index: 100;
+      bottom: 125%;
+      left: 50%;
+      transform: translateX(-50%);
+      opacity: 0;
+      transition: opacity 0.3s;
+      font-size: 1rem;
+    }
+    .tooltip:hover .tooltiptext {
+      visibility: visible;
+      opacity: 1;
+    }
+    .service-card {
+      transition: transform 0.4s cubic-bezier(0.4,0,0.2,1), box-shadow 0.4s;
+      box-shadow: 0 2px 12px 0 rgba(0,0,0,0.15);
+    }
+    .service-card:hover {
+      transform: translateY(-5px) scale(1.05);
+      box-shadow: 0 8px 32px 0 rgba(0,0,0,0.25);
+      z-index: 2;
+    }
+  </style>
+</head>
+<body class="bg-gray-900 text-white">
+  <nav class="navbar">
+    <div class="left">
+      <a href="ConsultoresPST_FrontPage.html">
+        <h2>PST Logo</h2>
+      </a>
+    </div>
+    <img src="https://arsentech.github.io/source-codes/icons/menu.svg" alt="menu" class="menu" width="48" height="48">
+    <div class="right">
+      <a href="ConsultoresPST_FrontPage.html">Inicio</a>
+       <a href="ConsultoresPST_Services_extended_info.html">Servicios</a>
+      <a href="#">Conócenos</a>
+      <a href="#">Portfolio</a>
+      <a href="#contact" class="bg-orange-500 hover:bg-orange-600 text-white px-3 py-2 rounded-lg text-lg font-semibold transition">
+        Contáctanos
+      </a>
+    </div>
+  </nav>
+
+  <section class="pt-32 pb-20 bg-gray-900">
+    <div class="max-w-6xl mx-auto px-4 space-y-16">
+      <!-- Servicio 1: Texto izquierda, imagen derecha -->
+      <div class="flex flex-col md:flex-row items-center gap-10">
+        <div class="md:w-1/2">
+          <h2 class="text-2xl font-bold mb-4 text-orange-300">Consultoría y Asesoría Integral</h2>
+          <p class="text-gray-300">
+            Ofrecemos asesoría estratégica, técnica, administrativa y financiera para planes, programas y proyectos en los sectores social, público, privado y comunitario. Nuestros servicios incorporan ejes transversales como equidad de género, sostenibilidad ambiental, inclusión social y enfoque de derechos humanos, garantizando soluciones alineadas con los Objetivos de Desarrollo Sostenible (ODS).
+          </p>
+        </div>
+        <div class="md:w-1/2 flex justify-center">
+          <div class="bg-gray-800 rounded-xl shadow-lg w-full max-w-md flex items-center justify-center h-64">
+            <img src="https://cdn.pixabay.com/photo/2017/08/06/11/05/people-2591874_960_720.jpg" alt="Consultoría y Asesoría Integral" class="rounded-lg object-cover h-56 w-auto">
+          </div>
+        </div>
+      </div>
+      <!-- Servicio 2: Imagen izquierda, texto derecha -->
+      <div class="flex flex-col md:flex-row-reverse items-center gap-10">
+        <div class="md:w-1/2">
+          <h2 class="text-2xl font-bold mb-4 text-orange-300">Diseño, Desarrollo y Evaluación de Proyectos</h2>
+          <p class="text-gray-300">
+            Diseñamos, formulamos, analizamos y evaluamos planes, programas y estrategias adaptados a las necesidades de cada territorio. Desarrollamos metodologías participativas, presupuestos realistas y esquemas de financiamiento innovadores, asegurando la viabilidad y sostenibilidad de cada iniciativa. Además, implementamos sistemas de monitoreo, evaluación y aprendizaje (MEAL) para medir el impacto y optimizar resultados.
+          </p>
+        </div>
+        <div class="md:w-1/2 flex justify-center">
+          <div class="bg-gray-800 rounded-xl shadow-lg w-full max-w-md flex items-center justify-center h-64">
+            <img src="https://cdn.pixabay.com/photo/2016/11/29/09/32/adult-1867483_960_720.jpg" alt="Diseño, Desarrollo y Evaluación de Proyectos" class="rounded-lg object-cover h-56 w-auto">
+          </div>
+        </div>
+      </div>
+      <!-- Servicio 3: Texto izquierda, imagen derecha -->
+      <div class="flex flex-col md:flex-row items-center gap-10">
+        <div class="md:w-1/2">
+          <h2 class="text-2xl font-bold mb-4 text-orange-300">Ejecución e Implementación con Enfoque Participativo</h2>
+          <p class="text-gray-300">
+            Llevamos a cabo proyectos con metodologías colaborativas que fomentan el liderazgo comunitario y el empoderamiento local. Organizamos brigadas de voluntariado para fortalecer vínculos sociales y promover la corresponsabilidad. Nuestro enfoque integra procesos transparentes de rendición de cuentas y aprendizaje continuo, maximizando el impacto en cada intervención.
+          </p>
+        </div>
+        <div class="md:w-1/2 flex justify-center">
+          <div class="bg-gray-800 rounded-xl shadow-lg w-full max-w-md flex items-center justify-center h-64">
+            <img src="https://cdn.pixabay.com/photo/2017/01/10/19/05/team-1969264_960_720.jpg" alt="Ejecución e Implementación" class="rounded-lg object-cover h-56 w-auto">
+          </div>
+        </div>
+      </div>
+      <!-- Servicio 4: Imagen izquierda, texto derecha -->
+      <div class="flex flex-col md:flex-row-reverse items-center gap-10">
+        <div class="md:w-1/2">
+          <h2 class="text-2xl font-bold mb-4 text-orange-300">Fortalecimiento de Capacidades y Formación</h2>
+          <p class="text-gray-300">
+            Potenciamos habilidades técnicas y organizacionales a través de programas de capacitación enfocados en mejora continua, eficiencia y gestión de proyectos. Formamos a líderes comunitarios, equipos técnicos y organizaciones en temas como sostenibilidad, evaluación de impacto y financiamiento, asegurando que los actores locales sean autosuficientes y los proyectos perduren en el tiempo.
+          </p>
+        </div>
+        <div class="md:w-1/2 flex justify-center">
+          <div class="bg-gray-800 rounded-xl shadow-lg w-full max-w-md flex items-center justify-center h-64">
+            <img src="https://cdn.pixabay.com/photo/2015/01/08/18/25/startup-593341_960_720.jpg" alt="Fortalecimiento de Capacidades" class="rounded-lg object-cover h-56 w-auto">
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Footer (copied from front page) -->
+  <!-- Footer -->
+  <footer class="bg-gray-900">
+  <div class="max-w-screen-xl px-4 pt-16 pb-6 mx-auto sm:px-6 lg:px-8 lg:pt-24">
+    <div class="grid grid-cols-1 gap-8 lg:grid-cols-3">
+      <div>
+        <div class="flex justify-center text-orange-400 sm:justify-start">
+          <!-- Replace with your logo SVG or image if needed -->
+          <span class="text-2xl font-bold">Desde la estrategia hasta la ejecución, impacto para la transformación</span>
+        </div>
+        
+        <ul class="flex justify-center gap-6 mt-8 md:gap-8 sm:justify-start">
+          <li>
+            <a href="#" target="_blank" class="text-orange-400 transition hover:text-orange-300">
+              <span class="sr-only">Facebook</span>
+              <!-- Facebook SVG icon -->
+              <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24"><path d="M22 12c0-5.523-4.477-10-10-10S2 6.477 2 12c0 4.991 3.657 9.128 8.438 9.878v-6.987h-2.54V12h2.54V9.797c0-2.506 1.492-3.89 3.777-3.89 1.094 0 2.238.195 2.238.195v2.46h-1.26c-1.243 0-1.63.771-1.63 1.562V12h2.773l-.443 2.89h-2.33v6.988C18.343 21.128 22 16.991 22 12z"/></svg>
+            </a>
+          </li>
+          <li>
+            <a href="#" target="_blank" class="text-orange-400 transition hover:text-orange-300">
+              <span class="sr-only">Instagram</span>
+              <!-- Instagram SVG icon -->
+              <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24"><path d="M12.315 2c2.43 0 2.784.013 3.808.06 1.064.049 1.791.218 2.427.465a4.902 4.902 0 011.772 1.153 4.902 4.902 0 011.153 1.772c.247.636.416 1.363.465 2.427.048 1.067.06 1.407.06 4.123v.08c0 2.643-.012 2.987-.06 4.043-.049 1.064-.218 1.791-.465 2.427a4.902 4.902 0 01-1.153 1.772 4.902 4.902 0 01-1.772 1.153c-.636.247-1.363.416-2.427.465-1.067.048-1.407.06-4.123.06h-.08c-2.643 0-2.987-.012-4.043-.06-1.064-.049-1.791-.218-2.427-.465a4.902 4.902 0 01-1.772-1.153 4.902 4.902 0 01-1.153-1.772c-.247-.636-.416-1.363-.465-2.427-.047-1.024-.06-1.379-.06-3.808v-.63c0-2.43.013-2.784.06-3.808.049-1.064.218-1.791.465-2.427a4.902 4.902 0 011.153-1.772A4.902 4.902 0 015.45 2.525c.636-.247 1.363-.416 2.427-.465C8.901 2.013 9.256 2 11.685 2h.63zm-.081 1.802h-.468c-2.456 0-2.784.011-3.807.058-.975.045-1.504.207-1.857.344-.467.182-.8.398-1.15.748-.35.35-.566.683-.748 1.15-.137.353-.3.882-.344 1.857-.047 1.023-.058 1.351-.058 3.807v.468c0 2.456.011 2.784.058 3.807.045.975.207 1.504.344 1.857.182.466.399.8.748 1.15.35.35.683.566 1.15.748.353.137.882.3 1.857.344 1.054.048 1.37.058 4.041.058h.08c2.597 0 2.917-.01 3.96-.058.976-.045 1.505-.207 1.858-.344.466-.182.8-.398 1.15-.748.35-.35.566-.683.748-1.15.137-.353.3-.882.344-1.857.048-1.055.058-1.37.058-4.041v-.08c0-2.597-.01-2.917-.058-3.96-.045-.976-.207-1.505-.344-1.858a3.097 3.097 0 00-.748-1.15 3.098 3.098 0 00-1.15-.748c-.353-.137-.882-.3-1.857-.344-1.023-.047-1.351-.058-3.807-.058zM12 6.865a5.135 5.135 0 110 10.27 5.135 5.135 0 010-10.27zm0 1.802a3.333 3.333 0 100 6.666 3.333 3.333 0 000-6.666zm5.338-3.205a1.2 1.2 0 110 2.4 1.2 1.2 0 010-2.4z"/></svg>
+            </a>
+          </li>
+          <li>
+            <a href="#" target="_blank" class="text-orange-400 transition hover:text-orange-300">
+              <span class="sr-only">Twitter</span>
+              <!-- Twitter SVG icon -->
+              <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24"><path d="M8.29 20.251c7.547 0 11.675-6.253 11.675-11.675 0-.178 0-.355-.012-.53A8.348 8.348 0 0022 5.92a8.19 8.19 0 01-2.357.646 4.118 4.118 0 001.804-2.27 8.224 8.224 0 01-2.605.996 4.107 4.107 0 00-6.993 3.743 11.65 11.65 0 01-8.457-4.287 4.106 4.106 0 001.27 5.477A4.072 4.072 0 012.8 9.713v.052a4.105 4.105 0 003.292 4.022 4.095 4.095 0 01-1.853.07 4.108 4.108 0 003.834 2.85A8.233 8.233 0 012 18.407a11.616 11.616 0 006.29 1.84"/></svg>
+            </a>
+          </li>
+        </ul>
+      </div>
+      <div class="grid grid-cols-1 gap-8 sm:grid-cols-2 lg:col-span-2 md:grid-cols-4">
+        <div class="text-center sm:text-left">
+          <p class="text-lg font-medium text-white">Sobre Nosotros</p>
+          <nav class="mt-8">
+            <ul class="space-y-4 text-sm">
+              <li><a class="text-white transition hover:text-white/75" href="#">Historia</a></li>
+              <li><a class="text-white transition hover:text-white/75" href="#">Equipo</a></li>
+              <li><a class="text-white transition hover:text-white/75" href="#">Mision / Vision</a></li>
+              <li><a class="text-white transition hover:text-white/75" href="#">Valores</a></li>
+            </ul>
+          </nav>
+        </div>
+        <div class="text-center sm:text-left">
+          <p class="text-lg font-medium text-white">Servicios</p>
+          <nav class="mt-8">
+            <ul class="space-y-4 text-sm">
+              <li><a class="text-white transition hover:text-white/75" href="#">Consultoría</a></li>
+              <li><a class="text-white transition hover:text-white/75" href="#">Diseño de Proyectos</a></li>
+              <li><a class="text-white transition hover:text-white/75" href="#">Implementación</a></li>
+              <li><a class="text-white transition hover:text-white/75" href="#">Capacitación</a></li>
+            </ul>
+          </nav>
+        </div>
+        <div class="text-center sm:text-left">
+          <p class="text-lg font-medium text-white">Recursos</p>
+          <nav class="mt-8">
+            <ul class="space-y-4 text-sm">
+              <li><a class="text-white transition hover:text-white/75" href="#">Blog</a></li>
+              <li><a class="text-white transition hover:text-white/75" href="#">Preguntas Frecuentes</a></li>
+              <li>
+                <a class="flex group justify-center sm:justify-start gap-1.5" href="#">
+                  
+                 
+                </a>
+              </li>
+            </ul>
+          </nav>
+        </div>
+        <div class="text-center sm:text-left">
+          <p class="text-lg font-medium text-white">Contacto</p>
+          <ul class="mt-8 space-y-4 text-sm">
+            <li>
+              <a class="flex items-center justify-center sm:justify-start gap-1.5 group" href="mailto:info@consultorespst.com">
+                <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5 text-white shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                  <path stroke-linecap="round" stroke-linejoin="round" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/>
+                </svg>
+                <span class="text-white transition group-hover:text-white/75">info@consultorespst.com</span>
+              </a>
+            </li>
+            <li>
+              <a class="flex items-center justify-center sm:justify-start gap-1.5 group" href="tel:+521234567890">
+                <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5 text-white shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                  <path stroke-linecap="round" stroke-linejoin="round" d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z"/>
+                </svg>
+                <span class="text-white transition group-hover:text-white/75">+52 123 456 7890</span>
+              </a>
+            </li>
+            <li class="flex items-start justify-center gap-1.5 sm:justify-start">
+              <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5 text-white shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"/>
+                <path stroke-linecap="round" stroke-linejoin="round" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"/>
+              </svg>
+              <address class="-mt-0.5 not-italic text-white">
+                CDMX, México
+              </address>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </div>
+    <div class="pt-6 mt-12 border-t border-gray-800">
+      <div class="text-center sm:flex sm:justify-between sm:text-left">
+        <p class="text-sm text-gray-400">
+          <span class="block sm:inline">Todos los derechos reservados.</span>
+          <a class="inline-block text-orange-400 underline transition hover:text-orange-300" href="#">Términos y Condiciones</a>
+          <span>&middot;</span>
+          <a class="inline-block text-orange-400 underline transition hover:text-orange-300" href="#">Política de Privacidad</a>
+        </p>
+        <p class="mt-4 text-sm text-gray-500 sm:order-first sm:mt-0">
+          &copy; 2025 Consultores PST
+        </p>
+      </div>
+    </div>
+  </div>
+</footer>
+  <script>
+    const navbar = document.querySelector(".navbar");
+    const toggler = document.querySelector(".menu");
+    window.addEventListener("scroll", () => {
+      if (window.scrollY > 20) {
+        navbar.classList.add("sticky");
+      } else {
+        navbar.classList.remove("sticky");
+      }
+    });
+    toggler.addEventListener("click", () => {
+      navbar.querySelector(".right").classList.toggle("active");
+      toggler.classList.toggle("active");
+      toggler.classList.contains("active")
+        ? (toggler.src = "https://arsentech.github.io/source-codes/icons/close.svg")
+        : (toggler.src = "https://arsentech.github.io/source-codes/icons/menu.svg");
+    });
+  </script>
+</body>
+</html>
