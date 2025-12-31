@@ -24,9 +24,13 @@
   position: fixed;
   top: 0;
   width: 100%;
-  transition: height 0.5s ease, background 0.3s linear;
+  transition: height 0.5s ease, background 0.3s linear, transform 0.3s ease;
   z-index: 50;
   height: 70px; /* Default height */
+}
+
+.navbar.navbar-hidden {
+  transform: translateY(-100%);
 }
 .left {
   display: flex;
@@ -1047,13 +1051,42 @@
 
     const navbar = document.querySelector(".navbar");
 const toggler = document.querySelector(".menu");
+let lastScrollY = window.scrollY;
+let ticking = false;
+
 window.addEventListener("scroll", () => {
-  if (window.scrollY > 20) {
-    navbar.classList.add("sticky");
-  } else {
-    navbar.classList.remove("sticky");
+  const currentScrollY = window.scrollY;
+  
+  if (!ticking) {
+    window.requestAnimationFrame(() => {
+      // Always apply sticky class behavior
+      if (currentScrollY > 20) {
+        navbar.classList.add("sticky");
+      } else {
+        navbar.classList.remove("sticky");
+      }
+      
+      // Hide/show navbar on mobile only (screen width <= 800px)
+      if (window.innerWidth <= 800) {
+        if (currentScrollY > lastScrollY && currentScrollY > 100) {
+          // Scrolling down & past 100px - hide on mobile
+          navbar.classList.add("navbar-hidden");
+        } else {
+          // Scrolling up or at top - show
+          navbar.classList.remove("navbar-hidden");
+        }
+      } else {
+        // On desktop, always show navbar
+        navbar.classList.remove("navbar-hidden");
+      }
+      
+      lastScrollY = currentScrollY;
+      ticking = false;
+    });
+    ticking = true;
   }
 });
+
 toggler.addEventListener("click", () => {
   navbar.querySelector(".right").classList.toggle("active");
   toggler.classList.toggle("active");
