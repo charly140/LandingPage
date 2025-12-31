@@ -28,11 +28,6 @@
   z-index: 50;
   height: 70px; /* Default height */
 }
-
-.navbar.navbar-hidden {
-  transform: translateY(-100%) !important;
-  transition: transform 0.3s ease;
-}
 .left {
   display: flex;
   align-items: center;
@@ -338,7 +333,7 @@
         <!-- replace src with your logo path or URL -->
         <img src="Recursos/Recurso 6.png" alt="CRESCERE PST logo" class="h-12 w-auto" />
         <!-- optional text shown on larger screens -->
-        <span class="inline-block font-bold text-xl text-white">CRESCERE PST</span>
+        <span class="hidden sm:inline-block font-bold text-xl text-white">CRESCERE PST</span>
       </a>
     </div>
     <img src="https://arsentech.github.io/source-codes/icons/menu.svg" alt="menu" class="menu" width="48" height="48">
@@ -958,7 +953,6 @@
       let dragStartX = 0;
       let dragStartPosition = 0;
 
-      // Mouse events
       container.addEventListener('mousedown', (e) => {
         isDragging = true;
         dragStartX = e.clientX;
@@ -979,36 +973,6 @@
           container.style.cursor = 'grab';
         }
       });
-
-      // Touch events for mobile
-      let touchStartX = 0;
-      let touchStartPosition = 0;
-      let isTouching = false;
-
-      container.addEventListener('touchstart', (e) => {
-        isTouching = true;
-        touchStartX = e.touches[0].clientX;
-        touchStartPosition = position;
-        isHovering = true; // Pause auto-scroll on touch
-      }, { passive: true });
-
-      container.addEventListener('touchmove', (e) => {
-        if (!isTouching) return;
-        const touchCurrentX = e.touches[0].clientX;
-        const dx = touchCurrentX - touchStartX;
-        
-        // Only prevent default if moving horizontally (to allow vertical scroll)
-        if (Math.abs(dx) > 10) {
-          e.preventDefault();
-          position = touchStartPosition + dx;
-          track.style.transform = `translateX(${position}px)`;
-        }
-      }, { passive: false });
-
-      container.addEventListener('touchend', () => {
-        isTouching = false;
-        isHovering = false; // Resume auto-scroll
-      }, { passive: true });
 
       // Optional: change cursor on hover
       container.addEventListener('mouseenter', () => {
@@ -1052,42 +1016,13 @@
 
     const navbar = document.querySelector(".navbar");
 const toggler = document.querySelector(".menu");
-let lastScrollY = window.scrollY;
-let ticking = false;
-
 window.addEventListener("scroll", () => {
-  const currentScrollY = window.scrollY;
-  
-  if (!ticking) {
-    window.requestAnimationFrame(() => {
-      // Always apply sticky class behavior
-      if (currentScrollY > 20) {
-        navbar.classList.add("sticky");
-      } else {
-        navbar.classList.remove("sticky");
-      }
-      
-      // Hide/show navbar on mobile only (screen width <= 800px)
-      if (window.innerWidth <= 800) {
-        if (currentScrollY > lastScrollY && currentScrollY > 100) {
-          // Scrolling down & past 100px - hide on mobile
-          navbar.classList.add("navbar-hidden");
-        } else {
-          // Scrolling up or at top - show
-          navbar.classList.remove("navbar-hidden");
-        }
-      } else {
-        // On desktop, always show navbar
-        navbar.classList.remove("navbar-hidden");
-      }
-      
-      lastScrollY = currentScrollY;
-      ticking = false;
-    });
-    ticking = true;
+  if (window.scrollY > 20) {
+    navbar.classList.add("sticky");
+  } else {
+    navbar.classList.remove("sticky");
   }
 });
-
 toggler.addEventListener("click", () => {
   navbar.querySelector(".right").classList.toggle("active");
   toggler.classList.toggle("active");
