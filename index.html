@@ -990,6 +990,36 @@ body {
         }
       });
 
+      // Touch events for mobile
+      let touchStartX = 0;
+      let touchStartPosition = 0;
+      let isTouching = false;
+
+      container.addEventListener('touchstart', (e) => {
+        isTouching = true;
+        touchStartX = e.touches[0].clientX;
+        touchStartPosition = position;
+        isHovering = true; // Pause auto-scroll on touch
+      }, { passive: true });
+
+      container.addEventListener('touchmove', (e) => {
+        if (!isTouching) return;
+        const touchCurrentX = e.touches[0].clientX;
+        const dx = touchCurrentX - touchStartX;
+        
+        // Only prevent default if moving horizontally (to allow vertical scroll)
+        if (Math.abs(dx) > 10) {
+          e.preventDefault();
+          position = touchStartPosition + dx;
+          track.style.transform = `translateX(${position}px)`;
+        }
+      }, { passive: false });
+
+      container.addEventListener('touchend', () => {
+        isTouching = false;
+        isHovering = false; // Resume auto-scroll
+      }, { passive: true });
+
       // Optional: change cursor on hover
       container.addEventListener('mouseenter', () => {
         container.style.cursor = 'grab';
