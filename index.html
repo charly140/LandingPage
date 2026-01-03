@@ -200,15 +200,17 @@ body {
 
     /* === Navbar Styles === */
     
-    /* Prevent horizontal scroll globally except carousel and dropdowns */
-    body > *:not(script):not(style):not(nav) {
-      max-width: 100vw;
-      overflow-x: hidden;
-    }
-    
-    section, div:not(.dropdown):not(.dropdown-content), header, footer {
-      max-width: 100vw;
-      box-sizing: border-box;
+    /* Mobile-only: Prevent horizontal scroll except carousel and dropdowns */
+    @media (max-width: 800px) {
+      body > *:not(script):not(style):not(nav) {
+        max-width: 100vw;
+        overflow-x: hidden;
+      }
+      
+      section, div:not(.dropdown):not(.dropdown-content):not(.robotCarousel), header, footer {
+        max-width: 100vw;
+        box-sizing: border-box;
+      }
     }
     
     .robotCarousel {
