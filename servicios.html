@@ -1,0 +1,1256 @@
+﻿<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Servicios - CRESCERE PST</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: "Rubik", sans-serif;
+    }
+
+    html {
+      overflow-x: hidden;
+      max-width: 100vw;
+      scroll-behavior: smooth;
+    }
+
+    body {
+      overflow-x: hidden;
+      width: 100%;d
+      max-width: 100vw;
+      position: relative;
+    }
+
+    .navbar {
+      opacity: 0;
+      transform: translateY(-20px);
+      animation: fadeInUp .3s forwards .5s;
+      display: flex;
+      justify-content: space-between;
+      padding: 1.5rem 10px;
+      background: transparent;
+      backdrop-filter: blur(0px);
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      width: 100%;
+      max-width: 100vw;
+      transition: all 0.3s ease;
+      z-index: 50;
+      box-sizing: border-box;
+    }
+
+    .navbar.scrolled {
+      padding: 0.75rem 10px;
+      backdrop-filter: blur(20px);
+      background: rgba(43, 45, 66, 0.7);
+      border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+      box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37),
+        0 0 20px 0 rgba(194, 152, 63, 0.1);
+    }
+
+    .left {
+      display: flex;
+      align-items: center;
+    }
+
+    .left a {
+      font-size: 35px;
+      text-decoration: none;
+      color: #edf2f4;
+      font-weight: 750;
+      transition: 0.3s linear;
+    }
+
+    .left a:hover {
+      color: #22b455;
+    }
+
+    .right {
+      display: flex;
+      align-items: center;
+      overflow: visible;
+    }
+
+    .right a {
+      margin: 10.5px;
+      font-size: 18px;
+      text-decoration: none;
+      color: rgba(237, 242, 244, 0.9);
+      transition: color 0.3s ease;
+      position: relative;
+      display: inline-block;
+      padding: 0.5rem 0;
+    }
+
+    .right a::after {
+      content: "";
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      width: 0;
+      height: 2px;
+      background: linear-gradient(90deg, #c2983f, #92e5a1);
+      transition: width 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+      border-radius: 2px;
+    }
+
+    .right a:hover {
+      color: #ffffff;
+    }
+
+    .right a:hover::after {
+      width: 100%;
+    }
+
+    .menu {
+      align-self: center;
+      z-index: 60;
+      cursor: pointer;
+      display: none;
+      position: relative;
+    }
+
+    @media screen and (max-width: 800px) {
+      .menu {
+        display: block;
+        z-index: 60;
+      }
+      .right {
+        display: flex;
+        position: fixed;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        top: 0;
+        left: 0;
+        right: 0;
+        width: 100%;
+        max-width: 100vw;
+        height: 100vh;
+        background: rgba(43, 53, 66, 0.98);
+        backdrop-filter: blur(20px);
+        opacity: 0;
+        visibility: hidden;
+        pointer-events: none;
+        transition: opacity 0.3s ease, visibility 0.3s ease;
+        z-index: 55;
+        overflow-y: auto;
+        overflow-x: hidden;
+      }
+      .right a {
+        font-size: 30px;
+        margin: 15px 0;
+        opacity: 0;
+        transform: translateY(20px);
+        transition: opacity 0.3s ease, transform 0.3s ease;
+      }
+      .right.active {
+        opacity: 1;
+        visibility: visible;
+        pointer-events: auto;
+      }
+      .right.active a {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    @keyframes fadeInUp {
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    .fade-in {
+      opacity: 0;
+      transform: translateY(20px);
+      animation: fadeInUp 1s forwards;
+    }
+
+    .service-menu-button {
+      transition: all 0.3s ease;
+    }
+
+    .service-menu-button.active {
+      background: linear-gradient(135deg, rgba(194, 152, 63, 0.2), rgba(194, 152, 63, 0.1));
+      border-left-color: #c2983f !important;
+      border-left-width: 4px;
+    }
+
+    .service-menu-button:hover {
+      transform: translateX(5px);
+    }
+
+    .service-content {
+      display: none;
+      animation: fadeIn 0.4s ease-in;
+    }
+
+    .service-content.active {
+      display: block;
+    }
+
+    @keyframes fadeIn {
+      from {
+        opacity: 0;
+        transform: translateY(10px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    .sub-accordion-button {
+      transition: all 0.3s ease;
+      cursor: pointer;
+    }
+
+    .sub-accordion-button:hover {
+      background: rgba(55, 65, 81, 0.8);
+    }
+
+    .sub-accordion-content {
+      max-height: 0;
+      overflow: hidden;
+      transition: max-height 0.3s ease;
+    }
+
+    .sub-accordion-content.active {
+      max-height: 3000px;
+    }
+
+    /* Dropdown Styles */
+    .dropdown {
+      position: relative;
+      display: inline-block;
+      overflow: visible;
+    }
+
+    .dropdown-content {
+      display: none;
+      position: absolute;
+      left: 0;
+      background-color: #2b2d4288;
+      min-width: 200px;
+      box-shadow: 0 8px 24px rgba(180, 74, 74, 0.15);
+      z-index: 100;
+      border-radius: 0.5rem;
+      overflow: visible;
+      transition: background-color 0.3s ease;
+    }
+
+    .navbar.scrolled .dropdown-content {
+      background-color: rgba(43, 45, 66, 0.9);
+    }
+
+    .dropdown-content a {
+      color: #edf2f4;
+      padding: 12px 16px;
+      text-decoration: none;
+      display: block;
+      font-size: 16px;
+      transition: background 0.2s;
+      white-space: nowrap;
+    }
+
+    .dropdown-content a:hover {
+      color: #fff;
+    }
+
+    .dropdown:hover .dropdown-content {
+      display: block;
+    }
+
+    @media (max-width: 800px) {
+      .dropdown-content {
+        position: static;
+        box-shadow: none;
+        min-width: 100%;
+      }
+    }
+  </style>
+</head>
+<body class="bg-gray-900 text-white">
+
+  <!-- Navbar -->
+  <nav class="navbar">
+    <div class="left">
+      <a href="index.html" class="flex items-center gap-3">
+        <img src="Recursos/Recurso 6.png" alt="CRESCERE PST logo" class="h-12 w-auto" />
+        <span class="inline-block font-bold text-xl text-white">CRESCERE PST</span>
+      </a>
+    </div>
+    <img src="https://arsentech.github.io/source-codes/icons/menu.svg" alt="menu" class="menu" width="48" height="48">
+    <div class="right">
+      <a href="index.html">Inicio</a>
+      <div class="dropdown">
+        <a href="servicios.html">Servicios ▾</a>
+        <div class="dropdown-content" id="serviciosDropdown">
+          <a href="servicios.html?servicio=servicio1">Liderazgo Estratégico y Gobernanza</a>
+          <a href="servicios.html?servicio=servicio2">Gestión Integral de Proyectos</a>
+          <a href="servicios.html?servicio=servicio3">Alianzas Multisectoriales</a>
+          <a href="servicios.html?servicio=servicio4">Estrategia Financiera y Análisis de Riesgos</a>
+          <a href="servicios.html?servicio=servicio5">Fortalecimiento de Capacidades</a>
+        </div>
+      </div>
+      <div class="dropdown">
+        <a href="conocenos.html">Conócenos ▾</a>
+        <div class="dropdown-content" id="conocenosDropdown">
+          <a href="conocenos.html#quienes-somos">Quiénes Somos</a>
+          <a href="conocenos.html#mision">Misión / Visión</a>
+          <a href="conocenos.html#trayectoria">Trayectoria</a>
+          <a href="conocenos.html#equipo">Equipo</a>
+          <a href="conocenos.html#enfoque-estrategico">Enfoque Estratégico</a>
+          <a href="conocenos.html#enfoque-pilares">Enfoque Pilares</a>
+        </div>
+      </div>
+      <a href="index.html#recursos">Recursos</a>
+      <a href="index.html#contact" style="background: #c2983f; color: white;" class="hover:opacity-90 px-3 py-2 rounded-lg text-lg font-semibold transition">
+        Contáctanos
+      </a>
+    </div>
+  </nav>
+
+  <!-- Hero Section -->
+  <section class="relative min-h-[50vh] flex items-center justify-center text-center pt-32 pb-20">
+    <div class="absolute inset-0" style="background:
+         linear-gradient(rgba(0,0,0,0.75), rgba(0,0,0,0.75)),
+         url('https://cdn.pixabay.com/photo/2015/07/17/22/43/student-849825_960_720.jpg') center/cover no-repeat;">
+    </div>
+    <div class="relative z-10 max-w-4xl mx-auto px-4 fade-in">
+      <h1 class="text-5xl md:text-6xl font-bold mb-6 style="color: #c2983f;"">Nuestros Servicios</h1>
+      <p class="text-xl md:text-2xl text-gray-300 leading-relaxed">
+        Soluciones integrales para la transformación institucional y el desarrollo sostenible
+      </p>
+    </div>
+  </section>
+
+  <!-- Services Section -->
+  <section class="bg-gray-900 py-20">
+    <div class="max-w-7xl mx-auto px-4">
+      
+      <!-- Two Column Layout: Menu Left, Content Right -->
+      <div class="grid grid-cols-1 lg:grid-cols-12 gap-6">
+        
+        <!-- Left Column: Service Menu -->
+        <div class="lg:col-span-4 space-y-3">
+          <button class="service-menu-button active w-full text-left p-5 bg-gray-800 rounded-lg border-l-4 style="border-color: #c2983f;" hover:bg-gray-750 transition" onclick="toggleAccordion('servicio1')" id="btn-servicio1">
+            <h2 class="text-lg md:text-xl font-bold text-white">LIDERAZGO ESTRATÉGICO Y GOBERNANZA</h2>
+          </button>
+          
+          <button class="service-menu-button w-full text-left p-5 bg-gray-800 rounded-lg border-l-4 border-transparent hover:style="border-color: #c2983f;" hover:bg-gray-750 transition" onclick="toggleAccordion('servicio2')" id="btn-servicio2">
+            <h2 class="text-lg md:text-xl font-bold text-white">GESTIÓN INTEGRAL DE PROYECTOS Y DESARROLLO DE RECURSOS</h2>
+          </button>
+          
+          <button class="service-menu-button w-full text-left p-5 bg-gray-800 rounded-lg border-l-4 border-transparent hover:style="border-color: #c2983f;" hover:bg-gray-750 transition" onclick="toggleAccordion('servicio3')" id="btn-servicio3">
+            <h2 class="text-lg md:text-xl font-bold text-white">ALIANZAS MULTISECTORIALES</h2>
+          </button>
+          
+          <button class="service-menu-button w-full text-left p-5 bg-gray-800 rounded-lg border-l-4 border-transparent hover:style="border-color: #c2983f;" hover:bg-gray-750 transition" onclick="toggleAccordion('servicio4')" id="btn-servicio4">
+            <h2 class="text-lg md:text-xl font-bold text-white">ESTRATEGIA FINANCIERA Y ANÁLISIS DE RIESGOS</h2>
+          </button>
+          
+          <button class="service-menu-button w-full text-left p-5 bg-gray-800 rounded-lg border-l-4 border-transparent hover:style="border-color: #c2983f;" hover:bg-gray-750 transition" onclick="toggleAccordion('servicio5')" id="btn-servicio5">
+            <h2 class="text-lg md:text-xl font-bold text-white">FORTALECIMIENTO DE CAPACIDADES Y FORMACIÓN</h2>
+          </button>
+        </div>
+        
+        <!-- Right Column: Service Content -->
+        <div class="lg:col-span-8">
+          
+          <!-- Servicio 1: LIDERAZGO ESTRATÉGICO Y GOBERNANZA -->
+          <div class="service-content active" id="content-servicio1">
+            <h3 class="text-2xl font-bold style="color: #c2983f;" mb-6">LIDERAZGO ESTRATÉGICO Y GOBERNANZA</h3>
+            <div class="p-4 bg-gray-800 rounded-lg space-y-3">
+            
+            <!-- Subservicio A -->
+            <div class="mb-2">
+              <button class="sub-accordion-button w-full text-left p-4 bg-gray-700 rounded-lg flex justify-between items-center border border-gray-600" onclick="toggleSubAccordion('servicio1-a')">
+                <h3 class="text-lg font-bold style="color: #c2983f;"">A. Formación y Desarrollo de Liderazgos</h3>
+                <svg class="w-5 h-5 transform transition-transform duration-300" id="icon-servicio1-a" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/>
+                </svg>
+              </button>
+              <div class="sub-accordion-content" id="content-servicio1-a">
+                <div class="p-4 bg-gray-750 rounded-b-lg mt-2 border-l-4 border-orange-400">
+                  <p class="text-gray-400 text-sm mb-3"><strong>Justificación:</strong> Se centra en el fortalecimiento de competencias individuales y colectivas de liderazgo, mediante procesos formativos, capacitación, mentoría y aprendizaje continuo.</p>
+                  <p class="text-gray-300 mb-4"><strong>Objetivo:</strong> Fortalecer las capacidades individuales y colectivas de liderazgo mediante procesos formativos, de capacitación, mentoría y aprendizaje continuo, con el fin de impulsar liderazgos transformadores, éticos y comprometidos con el desarrollo sostenible y el bienestar comunitario.</p>
+                  <ul class="list-disc list-inside text-gray-300 space-y-2">
+                    <li>Desarrollo de Capacidades y Formación Estratégica</li>
+                  </ul>
+                </div>
+              </div>
+            </div>
+
+            <!-- Subservicio B -->
+            <div class="mb-2">
+              <button class="sub-accordion-button w-full text-left p-4 bg-gray-700 rounded-lg flex justify-between items-center border border-gray-600" onclick="toggleSubAccordion('servicio1-b')">
+                <h3 class="text-lg font-bold style="color: #c2983f;"">B. Planeación Estratégica y Alineación Institucional</h3>
+                <svg class="w-5 h-5 transform transition-transform duration-300" id="icon-servicio1-b" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/>
+                </svg>
+              </button>
+              <div class="sub-accordion-content" id="content-servicio1-b">
+                <div class="p-4 bg-gray-750 rounded-b-lg mt-2 border-l-4 border-orange-400">
+                  <p class="text-gray-400 text-sm mb-3"><strong>Justificación:</strong> Apunta a construir una visión compartida y asegurar la coherencia entre decisiones, estructura organizacional y objetivos estratégicos, a través de mecanismos participativos.</p>
+                  <p class="text-gray-300 mb-4"><strong>Objetivo:</strong> Impulsar la construcción de una visión compartida y fortalecer la coherencia entre los objetivos estratégicos, la estructura organizacional y los procesos institucionales, mediante mecanismos participativos de planeación, seguimiento y evaluación.</p>
+                  <ul class="list-disc list-inside text-gray-300 space-y-2">
+                    <li>Alineación Institucional y Planeación Estratégica Participativa</li>
+                    <li>Desarrollo de Capacidades y Formación Estratégica</li>
+                  </ul>
+                </div>
+              </div>
+            </div>
+
+            <!-- Subservicio C -->
+            <div class="mb-2">
+              <button class="sub-accordion-button w-full text-left p-4 bg-gray-700 rounded-lg flex justify-between items-center border border-gray-600" onclick="toggleSubAccordion('servicio1-c')">
+                <h3 class="text-lg font-bold style="color: #c2983f;"">C. Gestión del Conocimiento y Toma de Decisiones Basada en Evidencia</h3>
+                <svg class="w-5 h-5 transform transition-transform duration-300" id="icon-servicio1-c" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/>
+                </svg>
+              </button>
+              <div class="sub-accordion-content" id="content-servicio1-c">
+                <div class="p-4 bg-gray-750 rounded-b-lg mt-2 border-l-4 border-orange-400">
+                  <p class="text-gray-400 text-sm mb-3"><strong>Justificación:</strong> Impulsa herramientas analíticas y sistemas de monitoreo que mejoran la calidad de las decisiones y promueven una cultura organizacional orientada a resultados y evidencia.</p>
+                  <p class="text-gray-300 mb-4"><strong>Objetivo:</strong> Desarrollar y fortalecer herramientas, sistemas y capacidades para la gestión del conocimiento y el monitoreo, que faciliten una toma de decisiones informada, mejoren la calidad de las intervenciones y consoliden una cultura organizacional orientada a resultados y sustentada en evidencia.</p>
+                  <ul class="list-disc list-inside text-gray-300 space-y-2">
+                    <li>Fortalecimiento de herramientas y procesos de toma de decisiones</li>
+                  </ul>
+                </div>
+              </div>
+            </div>
+
+            <!-- Subservicio D -->
+            <div class="mb-2">
+              <button class="sub-accordion-button w-full text-left p-4 bg-gray-700 rounded-lg flex justify-between items-center border border-gray-600" onclick="toggleSubAccordion('servicio1-d')">
+                <h3 class="text-lg font-bold style="color: #c2983f;"">D. Cultura Organizacional y Gobernanza Participativa</h3>
+                <svg class="w-5 h-5 transform transition-transform duration-300" id="icon-servicio1-d" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/>
+                </svg>
+              </button>
+              <div class="sub-accordion-content" id="content-servicio1-d">
+                <div class="p-4 bg-gray-750 rounded-b-lg mt-2 border-l-4 border-orange-400">
+                  <p class="text-gray-400 text-sm mb-3"><strong>Justificación:</strong> Enfocada en promover valores, comportamientos colaborativos y una cultura de liderazgo horizontal que fortalece la gobernanza desde adentro.</p>
+                  <p class="text-gray-300 mb-4"><strong>Objetivo:</strong> Fomentar una cultura organizacional basada en valores compartidos, prácticas colaborativas y liderazgos horizontales que fortalezcan la gobernanza interna, la cohesión institucional y la participación activa en los procesos de toma de decisiones.</p>
+                  <ul class="list-disc list-inside text-gray-300 space-y-2">
+                    <li>Fomento de una cultura de liderazgo colaborativo</li>
+                  </ul>
+                </div>
+              </div>
+            </div>
+
+            <!-- Subservicio E -->
+            <div class="mb-2">
+              <button class="sub-accordion-button w-full text-left p-4 bg-gray-700 rounded-lg flex justify-between items-center border border-gray-600" onclick="toggleSubAccordion('servicio1-e')">
+                <h3 class="text-lg font-bold style="color: #c2983f;"">E. Planificación Estratégica con Visión de Impacto y Escalabilidad</h3>
+                <svg class="w-5 h-5 transform transition-transform duration-300" id="icon-servicio1-e" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/>
+                </svg>
+              </button>
+              <div class="sub-accordion-content" id="content-servicio1-e">
+                <div class="p-4 bg-gray-750 rounded-b-lg mt-2 border-l-4 border-orange-400">
+                  <p class="text-gray-400 text-sm mb-3"><strong>Justificación:</strong> Apunta a construir una visión compartida y asegurar la coherencia entre decisiones, estructura organizacional y objetivos estratégicos, a través de mecanismos participativos.</p>
+                  <p class="text-gray-300 mb-4"><strong>Objetivo:</strong> Diseñar y fortalecer procesos participativos e inclusivos de planificación estratégica que construyan una visión compartida, establezcan prioridades institucionales claras y aseguren la apropiación colectiva, con el fin de maximizar el impacto y facilitar la escalabilidad de las acciones institucionales.</p>
+                  <ul class="list-disc list-inside text-gray-300 space-y-2">
+                    <li>Facilitar procesos participativos e inclusivos de planificación estratégica</li>
+                    <li>Construir una visión estratégica compartida, legítima y operativa</li>
+                    <li>Brindar acompañamiento técnico y metodológico para su formulación</li>
+                  </ul>
+                </div>
+              </div>
+            </div>
+
+            <!-- Subservicio F -->
+            <div class="mb-2">
+              <button class="sub-accordion-button w-full text-left p-4 bg-gray-700 rounded-lg flex justify-between items-center border border-gray-600" onclick="toggleSubAccordion('servicio1-f')">
+                <h3 class="text-lg font-bold style="color: #c2983f;"">F. Alineación Estratégica con Agendas Globales</h3>
+                <svg class="w-5 h-5 transform transition-transform duration-300" id="icon-servicio1-f" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/>
+                </svg>
+              </button>
+              <div class="sub-accordion-content" id="content-servicio1-f">
+                <div class="p-4 bg-gray-750 rounded-b-lg mt-2 border-l-4 border-orange-400">
+                  <p class="text-gray-400 text-sm mb-3"><strong>Justificación:</strong> Estas líneas priorizan la coherencia entre el accionar institucional y los marcos internacionales que orientan el desarrollo sostenible.</p>
+                  <p class="text-gray-300 mb-4"><strong>Objetivo:</strong> Garantizar que los planes y acciones institucionales estén alineados y contribuyan de manera coherente a los compromisos internacionales, como la Agenda 2030 y los Objetivos de Desarrollo Sostenible (ODS), promoviendo la sostenibilidad, resiliencia y transformación conforme a marcos globales reconocidos.</p>
+                  <ul class="list-disc list-inside text-gray-300 space-y-2">
+                    <li>Diseñar e implementar estrategias institucionales alineadas con la Agenda 2030 y los ODS</li>
+                    <li>Diseñar e implementar estrategias integrales que fortalezcan la resiliencia organizacional y comunitaria</li>
+                  </ul>
+                </div>
+              </div>
+            </div>
+
+            <!-- Subservicio G -->
+            <div class="mb-2">
+              <button class="sub-accordion-button w-full text-left p-4 bg-gray-700 rounded-lg flex justify-between items-center border border-gray-600" onclick="toggleSubAccordion('servicio1-g')">
+                <h3 class="text-lg font-bold style="color: #c2983f;"">G. Gestión Estratégica Basada en Resultados y Aprendizaje (MEAL)</h3>
+                <svg class="w-5 h-5 transform transition-transform duration-300" id="icon-servicio1-g" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/>
+                </svg>
+              </button>
+              <div class="sub-accordion-content" id="content-servicio1-g">
+                <div class="p-4 bg-gray-750 rounded-b-lg mt-2 border-l-4 border-orange-400">
+                  <p class="text-gray-400 text-sm mb-3"><strong>Justificación:</strong> Esta línea impulsa la retroalimentación de la estrategia institucional mediante evidencia, asegurando mejora continua y rendición de cuentas.</p>
+                  <p class="text-gray-300 mb-4"><strong>Objetivo:</strong> Implementar y fortalecer sistemas integrados de monitoreo, evaluación, aprendizaje y rendición de cuentas que permitan medir el desempeño, ajustar estrategias en función de la evidencia y promover la mejora continua de los procesos institucionales.</p>
+                  <ul class="list-disc list-inside text-gray-300 space-y-2">
+                    <li>Articular la planificación estratégica con sistemas MEAL</li>
+                  </ul>
+                </div>
+              </div>
+            </div>
+
+            <!-- Subservicio H -->
+            <div class="mb-2">
+              <button class="sub-accordion-button w-full text-left p-4 bg-gray-700 rounded-lg flex justify-between items-center border border-gray-600" onclick="toggleSubAccordion('servicio1-h')">
+                <h3 class="text-lg font-bold style="color: #c2983f;"">H. Diseño de Marcos Estratégicos de Intervención</h3>
+                <svg class="w-5 h-5 transform transition-transform duration-300" id="icon-servicio1-h" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/>
+                </svg>
+              </button>
+              <div class="sub-accordion-content" id="content-servicio1-h">
+                <div class="p-4 bg-gray-750 rounded-b-lg mt-2 border-l-4 border-orange-400">
+                  <p class="text-gray-400 text-sm mb-3"><strong>Justificación:</strong> Esta línea permite pasar de la visión a la acción, asegurando la coherencia entre lo institucional y lo programático.</p>
+                  <p class="text-gray-300 mb-4"><strong>Objetivo:</strong> Desarrollar marcos estratégicos operativos que traduzcan la visión y misión institucional en programas y proyectos coherentes, asegurando la alineación efectiva entre los objetivos organizacionales y las acciones programáticas.</p>
+                  <ul class="list-disc list-inside text-gray-300 space-y-2">
+                    <li>Diseñar marcos estratégicos de intervención que alineen las acciones institucionales con su misión</li>
+                  </ul>
+                </div>
+              </div>
+            </div>
+
+            <!-- Subservicio I -->
+            <div class="mb-2">
+              <button class="sub-accordion-button w-full text-left p-4 bg-gray-700 rounded-lg flex justify-between items-center border border-gray-600" onclick="toggleSubAccordion('servicio1-i')">
+                <h3 class="text-lg font-bold style="color: #c2983f;"">I. Fortalecimiento de la Gobernanza Institucional</h3>
+                <svg class="w-5 h-5 transform transition-transform duration-300" id="icon-servicio1-i" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/>
+                </svg>
+              </button>
+              <div class="sub-accordion-content" id="content-servicio1-i">
+                <div class="p-4 bg-gray-750 rounded-b-lg mt-2 border-l-4 border-orange-400">
+                  <p class="text-gray-400 text-sm mb-3"><strong>Justificación:</strong> La gobernanza institucional es el conjunto de principios, normas, procesos y estructuras que regulan la toma de decisiones y la distribución de responsabilidades dentro de una organización.</p>
+                  <p class="text-gray-300 mb-4"><strong>Objetivo:</strong> Mejorar y consolidar los principios, normas, procesos y estructuras de gobernanza para garantizar una toma de decisiones transparente, responsable, participativa y eficiente.</p>
+                  <ul class="list-disc list-inside text-gray-300 space-y-2">
+                    <li>Evaluar y estructurar un Plan para mejorar la Gobernanza</li>
+                  </ul>
+                </div>
+              </div>
+            </div>
+
+            <!-- Subservicio J -->
+            <div class="mb-2">
+              <button class="sub-accordion-button w-full text-left p-4 bg-gray-700 rounded-lg flex justify-between items-center border border-gray-600" onclick="toggleSubAccordion('servicio1-j')">
+                <h3 class="text-lg font-bold style="color: #c2983f;"">J. Responsabilidad Social Institucional y Vinculación Comunitaria</h3>
+                <svg class="w-5 h-5 transform transition-transform duration-300" id="icon-servicio1-j" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/>
+                </svg>
+              </button>
+              <div class="sub-accordion-content" id="content-servicio1-j">
+                <div class="p-4 bg-gray-750 rounded-b-lg mt-2 border-l-4 border-orange-400">
+                  <p class="text-gray-400 text-sm mb-3"><strong>Justificación:</strong> La implementación de programas de responsabilidad social y voluntariado fortalece la legitimidad institucional, promueve una cultura de servicio y refuerza la conexión entre la organización y la sociedad.</p>
+                  <p class="text-gray-300 mb-4"><strong>Objetivo:</strong> Promover y fortalecer el compromiso activo de la organización con el bienestar social, ambiental y comunitario mediante la implementación de programas de responsabilidad social y vinculación comunitaria.</p>
+                  <ul class="list-disc list-inside text-gray-300 space-y-2">
+                    <li>Programa de responsabilidad social y voluntariado</li>
+                  </ul>
+                </div>
+              </div>
+            </div>
+
+            <!-- Subservicio K -->
+            <div class="mb-2">
+              <button class="sub-accordion-button w-full text-left p-4 bg-gray-700 rounded-lg flex justify-between items-center border border-gray-600" onclick="toggleSubAccordion('servicio1-k')">
+                <h3 class="text-lg font-bold style="color: #c2983f;"">K. Gestión del Voluntariado y Participación Social Estratégica</h3>
+                <svg class="w-5 h-5 transform transition-transform duration-300" id="icon-servicio1-k" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/>
+                </svg>
+              </button>
+              <div class="sub-accordion-content" id="content-servicio1-k">
+                <div class="p-4 bg-gray-750 rounded-b-lg mt-2 border-l-4 border-orange-400">
+                  <p class="text-gray-400 text-sm mb-3"><strong>Justificación:</strong> El voluntariado no solo es una expresión solidaria, sino una estrategia de movilización social y fortalecimiento institucional cuando se vincula de manera estructurada con los objetivos estratégicos.</p>
+                  <p class="text-gray-300 mb-4"><strong>Objetivo:</strong> Diseñar y gestionar programas de voluntariado alineados con los objetivos estratégicos de la organización, que potencien la movilización social, fomenten la participación ciudadana y la corresponsabilidad.</p>
+                  <ul class="list-disc list-inside text-gray-300 space-y-2">
+                    <li>Diseño y ejecución de programas de voluntariado estratégico</li>
+                  </ul>
+                </div>
+              </div>
+            </div>
+
+            </div>
+          </div>
+
+          <!-- Servicio 2: GESTIÓN INTEGRAL DE PROYECTOS -->
+          <div class="service-content" id="content-servicio2">
+            <h3 class="text-2xl font-bold style="color: #c2983f;" mb-6">GESTIÓN INTEGRAL DE PROYECTOS</h3>
+            <div class="p-4 bg-gray-800 rounded-lg space-y-3">
+            
+            <!-- Subservicio A -->
+            <div class="mb-2">
+              <button class="sub-accordion-button w-full text-left p-4 bg-gray-700 rounded-lg flex justify-between items-center border border-gray-600" onclick="toggleSubAccordion('servicio2-a')">
+                <h3 class="text-lg font-bold style="color: #c2983f;"">A. Diseño de Proyectos con Enfoque de Teoría del Cambio</h3>
+                <svg class="w-5 h-5 transform transition-transform duration-300" id="icon-servicio2-a" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/>
+                </svg>
+              </button>
+              <div class="sub-accordion-content" id="content-servicio2-a">
+                <div class="p-4 bg-gray-750 rounded-b-lg mt-2 border-l-4 border-orange-400">
+                  <p class="text-gray-400 text-sm mb-3"><strong>Justificación:</strong> La Teoría del Cambio proporciona una lógica clara sobre cómo se producirá la transformación social, fortaleciendo la coherencia y viabilidad de las intervenciones.</p>
+                  <p class="text-gray-300 mb-4"><strong>Objetivo:</strong> Diseñar proyectos robustos y fundamentados en una teoría del cambio clara, que establezcan conexiones explícitas entre las intervenciones, los resultados esperados y el impacto a largo plazo.</p>
+                  <ul class="list-disc list-inside text-gray-300 space-y-2">
+                    <li>Formulación de proyectos con enfoque de Teoría del Cambio</li>
+                    <li>Desarrollo de marcos lógicos y cadenas de resultados</li>
+                  </ul>
+                </div>
+              </div>
+            </div>
+
+            <!-- Subservicio B -->
+            <div class="mb-2">
+              <button class="sub-accordion-button w-full text-left p-4 bg-gray-700 rounded-lg flex justify-between items-center border border-gray-600" onclick="toggleSubAccordion('servicio2-b')">
+                <h3 class="text-lg font-bold style="color: #c2983f;"">B. Gestión Programática y Operativa de Proyectos</h3>
+                <svg class="w-5 h-5 transform transition-transform duration-300" id="icon-servicio2-b" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/>
+                </svg>
+              </button>
+              <div class="sub-accordion-content" id="content-servicio2-b">
+                <div class="p-4 bg-gray-750 rounded-b-lg mt-2 border-l-4 border-orange-400">
+                  <p class="text-gray-400 text-sm mb-3"><strong>Justificación:</strong> Una gestión operativa eficiente es esencial para alcanzar los objetivos del proyecto, optimizando recursos, tiempos y asegurando la calidad de las intervenciones.</p>
+                  <p class="text-gray-300 mb-4"><strong>Objetivo:</strong> Fortalecer la gestión operativa de proyectos mediante la implementación de metodologías ágiles, herramientas de planificación y seguimiento que aseguren el cumplimiento de metas en tiempo, forma y calidad.</p>
+                  <ul class="list-disc list-inside text-gray-300 space-y-2">
+                    <li>Implementación de metodologías ágiles de gestión de proyectos</li>
+                    <li>Seguimiento operativo y control de desempeño</li>
+                  </ul>
+                </div>
+              </div>
+            </div>
+
+            <!-- Subservicio C -->
+            <div class="mb-2">
+              <button class="sub-accordion-button w-full text-left p-4 bg-gray-700 rounded-lg flex justify-between items-center border border-gray-600" onclick="toggleSubAccordion('servicio2-c')">
+                <h3 class="text-lg font-bold style="color: #c2983f;"">C. Monitoreo, Evaluación, Aprendizaje y Rendición de Cuentas (MEAL)</h3>
+                <svg class="w-5 h-5 transform transition-transform duration-300" id="icon-servicio2-c" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/>
+                </svg>
+              </button>
+              <div class="sub-accordion-content" id="content-servicio2-c">
+                <div class="p-4 bg-gray-750 rounded-b-lg mt-2 border-l-4 border-orange-400">
+                  <p class="text-gray-400 text-sm mb-3"><strong>Justificación:</strong> El MEAL es fundamental para medir el progreso, aprender de la experiencia, ajustar las intervenciones y garantizar la transparencia frente a las partes interesadas.</p>
+                  <p class="text-gray-300 mb-4"><strong>Objetivo:</strong> Implementar sistemas integrales de monitoreo, evaluación, aprendizaje y rendición de cuentas que permitan medir el desempeño de los proyectos, facilitar la toma de decisiones basada en evidencia y fortalecer la transparencia.</p>
+                  <ul class="list-disc list-inside text-gray-300 space-y-2">
+                    <li>Diseño e implementación de sistemas MEAL</li>
+                    <li>Evaluaciones de impacto y estudios de resultados</li>
+                  </ul>
+                </div>
+              </div>
+            </div>
+
+            <!-- Subservicio D -->
+            <div class="mb-2">
+              <button class="sub-accordion-button w-full text-left p-4 bg-gray-700 rounded-lg flex justify-between items-center border border-gray-600" onclick="toggleSubAccordion('servicio2-d')">
+                <h3 class="text-lg font-bold style="color: #c2983f;"">D. Gestión de Riesgos y Sostenibilidad de Proyectos</h3>
+                <svg class="w-5 h-5 transform transition-transform duration-300" id="icon-servicio2-d" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/>
+                </svg>
+              </button>
+              <div class="sub-accordion-content" id="content-servicio2-d">
+                <div class="p-4 bg-gray-750 rounded-b-lg mt-2 border-l-4 border-orange-400">
+                  <p class="text-gray-400 text-sm mb-3"><strong>Justificación:</strong> Identificar y gestionar riesgos de manera proactiva, así como garantizar la sostenibilidad a largo plazo, es esencial para asegurar el éxito duradero de las intervenciones.</p>
+                  <p class="text-gray-300 mb-4"><strong>Objetivo:</strong> Diseñar estrategias de gestión de riesgos y sostenibilidad que anticipen amenazas, mitiguen vulnerabilidades y aseguren la continuidad y el impacto de los proyectos más allá de su período de ejecución.</p>
+                  <ul class="list-disc list-inside text-gray-300 space-y-2">
+                    <li>Análisis y gestión de riesgos en proyectos</li>
+                    <li>Estrategias de sostenibilidad y escalabilidad</li>
+                  </ul>
+                </div>
+              </div>
+            </div>
+
+            </div>
+          </div>
+
+          <!-- Servicio 3: ALIANZAS MULTISECTORIALES -->
+          <div class="service-content" id="content-servicio3">
+            <h3 class="text-2xl font-bold style="color: #c2983f;" mb-6">ALIANZAS MULTISECTORIALES</h3>
+            <div class="p-4 bg-gray-800 rounded-lg space-y-3">
+            
+            <!-- Subservicio A -->
+            <div class="mb-2">
+              <button class="sub-accordion-button w-full text-left p-4 bg-gray-700 rounded-lg flex justify-between items-center border border-gray-600" onclick="toggleSubAccordion('servicio3-a')">
+                <h3 class="text-lg font-bold style="color: #c2983f;"">A. Diseño y Construcción de Alianzas Estratégicas</h3>
+                <svg class="w-5 h-5 transform transition-transform duration-300" id="icon-servicio3-a" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/>
+                </svg>
+              </button>
+              <div class="sub-accordion-content" id="content-servicio3-a">
+                <div class="p-4 bg-gray-750 rounded-b-lg mt-2 border-l-4 border-orange-400">
+                  <p class="text-gray-400 text-sm mb-3"><strong>Justificación:</strong> Las alianzas estratégicas amplían capacidades, recursos y alcance, potenciando el impacto colectivo en la solución de problemas complejos.</p>
+                  <p class="text-gray-300 mb-4"><strong>Objetivo:</strong> Facilitar la identificación, el diseño y la construcción de alianzas estratégicas y colaborativas entre organizaciones del sector público, privado y social para promover intervenciones integrales y sostenibles.</p>
+                  <ul class="list-disc list-inside text-gray-300 space-y-2">
+                    <li>Mapeo de actores y análisis de potenciales aliados</li>
+                    <li>Diseño de modelos de colaboración intersectorial</li>
+                    <li>Facilitación de procesos de negociación y formalización de alianzas</li>
+                  </ul>
+                </div>
+              </div>
+            </div>
+
+            <!-- Subservicio B -->
+            <div class="mb-2">
+              <button class="sub-accordion-button w-full text-left p-4 bg-gray-700 rounded-lg flex justify-between items-center border border-gray-600" onclick="toggleSubAccordion('servicio3-b')">
+                <h3 class="text-lg font-bold style="color: #c2983f;"">B. Gestión y Fortalecimiento de Redes de Colaboración</h3>
+                <svg class="w-5 h-5 transform transition-transform duration-300" id="icon-servicio3-b" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/>
+                </svg>
+              </button>
+              <div class="sub-accordion-content" id="content-servicio3-b">
+                <div class="p-4 bg-gray-750 rounded-b-lg mt-2 border-l-4 border-orange-400">
+                  <p class="text-gray-400 text-sm mb-3"><strong>Justificación:</strong> Las redes bien gestionadas permiten el intercambio de conocimiento, la coordinación de esfuerzos y el fortalecimiento mutuo entre sus miembros.</p>
+                  <p class="text-gray-300 mb-4"><strong>Objetivo:</strong> Fortalecer y gestionar redes de colaboración que promuevan el aprendizaje compartido, la articulación de acciones y la generación de sinergias para el logro de objetivos comunes.</p>
+                  <ul class="list-disc list-inside text-gray-300 space-y-2">
+                    <li>Desarrollo de plataformas de articulación y coordinación</li>
+                    <li>Facilitación de espacios de intercambio y aprendizaje colaborativo</li>
+                    <li>Fortalecimiento de capacidades organizacionales dentro de redes</li>
+                  </ul>
+                </div>
+              </div>
+            </div>
+
+            <!-- Subservicio C -->
+            <div class="mb-2">
+              <button class="sub-accordion-button w-full text-left p-4 bg-gray-700 rounded-lg flex justify-between items-center border border-gray-600" onclick="toggleSubAccordion('servicio3-c')">
+                <h3 class="text-lg font-bold style="color: #c2983f;"">C. Articulación Público-Privada y Responsabilidad Social Empresarial (RSE)</h3>
+                <svg class="w-5 h-5 transform transition-transform duration-300" id="icon-servicio3-c" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/>
+                </svg>
+              </button>
+              <div class="sub-accordion-content" id="content-servicio3-c">
+                <div class="p-4 bg-gray-750 rounded-b-lg mt-2 border-l-4 border-orange-400">
+                  <p class="text-gray-400 text-sm mb-3"><strong>Justificación:</strong> La colaboración entre el sector público, privado y social genera valor compartido, moviliza recursos y potencia las intervenciones de desarrollo.</p>
+                  <p class="text-gray-300 mb-4"><strong>Objetivo:</strong> Promover y facilitar la articulación entre el sector público, privado y organizaciones de la sociedad civil para desarrollar iniciativas conjuntas que generen valor compartido y contribuyan al desarrollo sostenible.</p>
+                  <ul class="list-disc list-inside text-gray-300 space-y-2">
+                    <li>Diseño de programas de responsabilidad social empresarial alineados con los ODS</li>
+                    <li>Facilitación de alianzas público-privadas (APP)</li>
+                    <li>Estrategias de inversión social privada</li>
+                  </ul>
+                </div>
+              </div>
+            </div>
+
+            </div>
+          </div>
+
+          <!-- Servicio 4: ESTRATEGIA FINANCIERA -->
+          <div class="service-content" id="content-servicio4">
+            <h3 class="text-2xl font-bold style="color: #c2983f;" mb-6">ESTRATEGIA FINANCIERA</h3>
+            <div class="p-4 bg-gray-800 rounded-lg space-y-3">
+            
+            <!-- Subservicio A -->
+            <div class="mb-2">
+              <button class="sub-accordion-button w-full text-left p-4 bg-gray-700 rounded-lg flex justify-between items-center border border-gray-600" onclick="toggleSubAccordion('servicio4-a')">
+                <h3 class="text-lg font-bold style="color: #c2983f;"">A. Diversificación de Fuentes de Financiamiento</h3>
+                <svg class="w-5 h-5 transform transition-transform duration-300" id="icon-servicio4-a" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/>
+                </svg>
+              </button>
+              <div class="sub-accordion-content" id="content-servicio4-a">
+                <div class="p-4 bg-gray-750 rounded-b-lg mt-2 border-l-4 border-orange-400">
+                  <p class="text-gray-400 text-sm mb-3"><strong>Justificación:</strong> La dependencia de una única fuente de financiamiento pone en riesgo la sostenibilidad institucional. Diversificar las fuentes de ingreso fortalece la autonomía y estabilidad financiera.</p>
+                  <p class="text-gray-300 mb-4"><strong>Objetivo:</strong> Diseñar e implementar estrategias de diversificación de fuentes de financiamiento que fortalezcan la sostenibilidad financiera institucional y reduzcan la dependencia de un solo tipo de ingreso.</p>
+                  <ul class="list-disc list-inside text-gray-300 space-y-2">
+                    <li>Diagnóstico de fuentes de financiamiento actuales y potenciales</li>
+                    <li>Desarrollo de estrategias de recaudación de fondos (fundraising)</li>
+                    <li>Diseño de modelos de sostenibilidad financiera</li>
+                  </ul>
+                </div>
+              </div>
+            </div>
+
+            <!-- Subservicio B -->
+            <div class="mb-2">
+              <button class="sub-accordion-button w-full text-left p-4 bg-gray-700 rounded-lg flex justify-between items-center border border-gray-600" onclick="toggleSubAccordion('servicio4-b')">
+                <h3 class="text-lg font-bold style="color: #c2983f;"">B. Gestión de Proyectos con Enfoque Financiero</h3>
+                <svg class="w-5 h-5 transform transition-transform duration-300" id="icon-servicio4-b" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/>
+                </svg>
+              </button>
+              <div class="sub-accordion-content" id="content-servicio4-b">
+                <div class="p-4 bg-gray-750 rounded-b-lg mt-2 border-l-4 border-orange-400">
+                  <p class="text-gray-400 text-sm mb-3"><strong>Justificación:</strong> La eficiencia en el uso de recursos financieros es fundamental para maximizar el impacto de los proyectos y garantizar el cumplimiento de los compromisos adquiridos con los financiadores.</p>
+                  <p class="text-gray-300 mb-4"><strong>Objetivo:</strong> Fortalecer la gestión financiera de proyectos mediante la implementación de herramientas de planificación, ejecución presupuestaria, control de gastos y rendición de cuentas financieras.</p>
+                  <ul class="list-disc list-inside text-gray-300 space-y-2">
+                    <li>Elaboración de presupuestos de proyectos</li>
+                    <li>Seguimiento y control financiero de proyectos</li>
+                    <li>Auditorías y rendición de cuentas financieras</li>
+                  </ul>
+                </div>
+              </div>
+            </div>
+
+            <!-- Subservicio C -->
+            <div class="mb-2">
+              <button class="sub-accordion-button w-full text-left p-4 bg-gray-700 rounded-lg flex justify-between items-center border border-gray-600" onclick="toggleSubAccordion('servicio4-c')">
+                <h3 class="text-lg font-bold style="color: #c2983f;"">C. Relaciones con Donantes y Cooperación Internacional</h3>
+                <svg class="w-5 h-5 transform transition-transform duration-300" id="icon-servicio4-c" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/>
+                </svg>
+              </button>
+              <div class="sub-accordion-content" id="content-servicio4-c">
+                <div class="p-4 bg-gray-750 rounded-b-lg mt-2 border-l-4 border-orange-400">
+                  <p class="text-gray-400 text-sm mb-3"><strong>Justificación:</strong> La gestión efectiva de las relaciones con donantes y cooperantes internacionales es clave para el acceso continuo a recursos y para construir relaciones de confianza de largo plazo.</p>
+                  <p class="text-gray-300 mb-4"><strong>Objetivo:</strong> Fortalecer la relación con donantes, agencias de cooperación internacional y otros financiadores mediante estrategias de comunicación, rendición de cuentas y gestión de alianzas estratégicas.</p>
+                  <ul class="list-disc list-inside text-gray-300 space-y-2">
+                    <li>Gestión de relaciones con donantes (donor engagement)</li>
+                    <li>Elaboración de informes financieros y narrativos para donantes</li>
+                    <li>Mapeo y vinculación con agencias de cooperación internacional</li>
+                  </ul>
+                </div>
+              </div>
+            </div>
+
+            <!-- Subservicio D -->
+            <div class="mb-2">
+              <button class="sub-accordion-button w-full text-left p-4 bg-gray-700 rounded-lg flex justify-between items-center border border-gray-600" onclick="toggleSubAccordion('servicio4-d')">
+                <h3 class="text-lg font-bold style="color: #c2983f;"">D. Estrategias de Movilización de Recursos y Fundraising</h3>
+                <svg class="w-5 h-5 transform transition-transform duration-300" id="icon-servicio4-d" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/>
+                </svg>
+              </button>
+              <div class="sub-accordion-content" id="content-servicio4-d">
+                <div class="p-4 bg-gray-750 rounded-b-lg mt-2 border-l-4 border-orange-400">
+                  <p class="text-gray-400 text-sm mb-3"><strong>Justificación:</strong> El fundraising es una disciplina estratégica que permite a las organizaciones acceder a recursos mediante la construcción de propuestas de valor y el establecimiento de relaciones con múltiples actores.</p>
+                  <p class="text-gray-300 mb-4"><strong>Objetivo:</strong> Desarrollar e implementar estrategias integrales de movilización de recursos y fundraising que incluyan la identificación de oportunidades de financiamiento, el diseño de propuestas competitivas y la gestión de relaciones con donantes.</p>
+                  <ul class="list-disc list-inside text-gray-300 space-y-2">
+                    <li>Diseño de estrategias de fundraising institucional</li>
+                    <li>Elaboración de propuestas de financiamiento</li>
+                    <li>Campañas de movilización de recursos</li>
+                  </ul>
+                </div>
+              </div>
+            </div>
+
+            <!-- Subservicio E -->
+            <div class="mb-2">
+              <button class="sub-accordion-button w-full text-left p-4 bg-gray-700 rounded-lg flex justify-between items-center border border-gray-600" onclick="toggleSubAccordion('servicio4-e')">
+                <h3 class="text-lg font-bold style="color: #c2983f;"">E. Finanzas Sostenibles y Responsabilidad Fiscal</h3>
+                <svg class="w-5 h-5 transform transition-transform duration-300" id="icon-servicio4-e" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/>
+                </svg>
+              </button>
+              <div class="sub-accordion-content" id="content-servicio4-e">
+                <div class="p-4 bg-gray-750 rounded-b-lg mt-2 border-l-4 border-orange-400">
+                  <p class="text-gray-400 text-sm mb-3"><strong>Justificación:</strong> La sostenibilidad financiera no solo se trata de contar con recursos, sino de administrarlos de manera responsable, transparente y eficiente para asegurar la continuidad institucional.</p>
+                  <p class="text-gray-300 mb-4"><strong>Objetivo:</strong> Promover prácticas de gestión financiera sostenible y responsable que aseguren la eficiencia en el uso de recursos, la transparencia en la rendición de cuentas y el cumplimiento de las normativas fiscales y contables.</p>
+                  <ul class="list-disc list-inside text-gray-300 space-y-2">
+                    <li>Implementación de sistemas de gestión financiera y contable</li>
+                    <li>Auditorías financieras y cumplimiento normativo</li>
+                    <li>Estrategias de sostenibilidad financiera a largo plazo</li>
+                  </ul>
+                </div>
+              </div>
+            </div>
+
+            </div>
+          </div>
+
+          <!-- Servicio 5: FORTALECIMIENTO DE CAPACIDADES -->
+          <div class="service-content" id="content-servicio5">
+            <h3 class="text-2xl font-bold style="color: #c2983f;" mb-6">FORTALECIMIENTO DE CAPACIDADES</h3>
+            <div class="p-4 bg-gray-800 rounded-lg space-y-3">
+            
+            <!-- Subservicio A -->
+            <div class="mb-2">
+              <button class="sub-accordion-button w-full text-left p-4 bg-gray-700 rounded-lg flex justify-between items-center border border-gray-600" onclick="toggleSubAccordion('servicio5-a')">
+                <h3 class="text-lg font-bold style="color: #c2983f;"">A. Capacitación Técnica y Metodológica</h3>
+                <svg class="w-5 h-5 transform transition-transform duration-300" id="icon-servicio5-a" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/>
+                </svg>
+              </button>
+              <div class="sub-accordion-content" id="content-servicio5-a">
+                <div class="p-4 bg-gray-750 rounded-b-lg mt-2 border-l-4 border-orange-400">
+                  <p class="text-gray-400 text-sm mb-3"><strong>Justificación:</strong> El fortalecimiento de capacidades técnicas y metodológicas es esencial para mejorar la calidad de las intervenciones, profesionalizar equipos y asegurar la eficiencia operativa.</p>
+                  <p class="text-gray-300 mb-4"><strong>Objetivo:</strong> Diseñar e implementar programas de capacitación técnica y metodológica dirigidos a equipos institucionales, socios y comunidades, con el fin de fortalecer sus competencias y mejorar la calidad de las intervenciones.</p>
+                  <ul class="list-disc list-inside text-gray-300 space-y-2">
+                    <li>Diseño de programas de formación y capacitación</li>
+                    <li>Talleres y cursos especializados (planificación, MEAL, gestión de proyectos, fundraising, etc.)</li>
+                    <li>Desarrollo de materiales didácticos y herramientas metodológicas</li>
+                  </ul>
+                </div>
+              </div>
+            </div>
+
+            <!-- Subservicio B -->
+            <div class="mb-2">
+              <button class="sub-accordion-button w-full text-left p-4 bg-gray-700 rounded-lg flex justify-between items-center border border-gray-600" onclick="toggleSubAccordion('servicio5-b')">
+                <h3 class="text-lg font-bold style="color: #c2983f;"">B. Acompañamiento y Asistencia Técnica</h3>
+                <svg class="w-5 h-5 transform transition-transform duration-300" id="icon-servicio5-b" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/>
+                </svg>
+              </button>
+              <div class="sub-accordion-content" id="content-servicio5-b">
+                <div class="p-4 bg-gray-750 rounded-b-lg mt-2 border-l-4 border-orange-400">
+                  <p class="text-gray-400 text-sm mb-3"><strong>Justificación:</strong> El acompañamiento técnico cercano y continuo permite a las organizaciones aplicar de manera efectiva los conocimientos adquiridos y superar desafíos operativos específicos.</p>
+                  <p class="text-gray-300 mb-4"><strong>Objetivo:</strong> Brindar asistencia técnica y acompañamiento continuo a organizaciones e instituciones en el diseño, implementación y evaluación de proyectos, procesos estratégicos y sistemas de gestión.</p>
+                  <ul class="list-disc list-inside text-gray-300 space-y-2">
+                    <li>Asistencia técnica en diseño de proyectos y planeación estratégica</li>
+                    <li>Acompañamiento en la implementación de sistemas MEAL</li>
+                    <li>Asesoría en gestión financiera y movilización de recursos</li>
+                  </ul>
+                </div>
+              </div>
+            </div>
+
+            <!-- Subservicio C -->
+            <div class="mb-2">
+              <button class="sub-accordion-button w-full text-left p-4 bg-gray-700 rounded-lg flex justify-between items-center border border-gray-600" onclick="toggleSubAccordion('servicio5-c')">
+                <h3 class="text-lg font-bold style="color: #c2983f;"">C. Fortalecimiento Organizacional e Institucional</h3>
+                <svg class="w-5 h-5 transform transition-transform duration-300" id="icon-servicio5-c" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/>
+                </svg>
+              </button>
+              <div class="sub-accordion-content" id="content-servicio5-c">
+                <div class="p-4 bg-gray-750 rounded-b-lg mt-2 border-l-4 border-orange-400">
+                  <p class="text-gray-400 text-sm mb-3"><strong>Justificación:</strong> El fortalecimiento institucional integral mejora la capacidad organizacional para cumplir su misión, gestionar recursos y generar impacto sostenible.</p>
+                  <p class="text-gray-300 mb-4"><strong>Objetivo:</strong> Fortalecer la capacidad institucional de las organizaciones mediante el desarrollo de estructuras organizacionales eficientes, sistemas de gestión robustos y una cultura organizacional orientada a resultados.</p>
+                  <ul class="list-disc list-inside text-gray-300 space-y-2">
+                    <li>Diagnósticos organizacionales y planes de fortalecimiento institucional</li>
+                    <li>Desarrollo de estructuras organizacionales y sistemas de gestión</li>
+                    <li>Fortalecimiento de la gobernanza y cultura organizacional</li>
+                  </ul>
+                </div>
+              </div>
+            </div>
+
+            <!-- Subservicio D -->
+            <div class="mb-2">
+              <button class="sub-accordion-button w-full text-left p-4 bg-gray-700 rounded-lg flex justify-between items-center border border-gray-600" onclick="toggleSubAccordion('servicio5-d')">
+                <h3 class="text-lg font-bold style="color: #c2983f;"">D. Gestión del Conocimiento y Aprendizaje Organizacional</h3>
+                <svg class="w-5 h-5 transform transition-transform duration-300" id="icon-servicio5-d" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/>
+                </svg>
+              </button>
+              <div class="sub-accordion-content" id="content-servicio5-d">
+                <div class="p-4 bg-gray-750 rounded-b-lg mt-2 border-l-4 border-orange-400">
+                  <p class="text-gray-400 text-sm mb-3"><strong>Justificación:</strong> La gestión del conocimiento transforma la experiencia y el aprendizaje en activos institucionales, promoviendo la innovación y la mejora continua.</p>
+                  <p class="text-gray-300 mb-4"><strong>Objetivo:</strong> Desarrollar sistemas y prácticas de gestión del conocimiento que faciliten el aprendizaje organizacional, la documentación de buenas prácticas y la transferencia de conocimientos dentro y entre organizaciones.</p>
+                  <ul class="list-disc list-inside text-gray-300 space-y-2">
+                    <li>Diseño de sistemas de gestión del conocimiento</li>
+                    <li>Documentación y sistematización de experiencias y buenas prácticas</li>
+                    <li>Facilitación de espacios de aprendizaje e intercambio de conocimientos</li>
+                  </ul>
+                </div>
+              </div>
+            </div>
+
+            <!-- Subservicio E -->
+            <div class="mb-2">
+              <button class="sub-accordion-button w-full text-left p-4 bg-gray-700 rounded-lg flex justify-between items-center border border-gray-600" onclick="toggleSubAccordion('servicio5-e')">
+                <h3 class="text-lg font-bold style="color: #c2983f;"">E. Desarrollo de Liderazgos y Equipos de Alto Desempeño</h3>
+                <svg class="w-5 h-5 transform transition-transform duration-300" id="icon-servicio5-e" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/>
+                </svg>
+              </button>
+              <div class="sub-accordion-content" id="content-servicio5-e">
+                <div class="p-4 bg-gray-750 rounded-b-lg mt-2 border-l-4 border-orange-400">
+                  <p class="text-gray-400 text-sm mb-3"><strong>Justificación:</strong> Los líderes y equipos efectivos son fundamentales para impulsar el cambio organizacional, movilizar recursos y generar impacto sostenible.</p>
+                  <p class="text-gray-300 mb-4"><strong>Objetivo:</strong> Fortalecer las competencias de liderazgo y las dinámicas de trabajo en equipo mediante programas de formación, coaching y desarrollo de habilidades blandas y estratégicas.</p>
+                  <ul class="list-disc list-inside text-gray-300 space-y-2">
+                    <li>Programas de desarrollo de liderazgo transformador</li>
+                    <li>Coaching y mentoría para líderes y equipos</li>
+                    <li>Desarrollo de habilidades de comunicación, negociación y resolución de conflictos</li>
+                  </ul>
+                </div>
+              </div>
+            </div>
+
+            </div>
+          </div>
+          
+        </div> <!-- End Right Column -->
+      </div> <!-- End Grid -->
+      
+    </div>
+  </section>
+
+  <!-- Call to Action Section -->
+  <section class="py-20 bg-gradient-to-b from-gray-800 to-gray-900">
+    <div class="max-w-4xl mx-auto px-4 text-center">
+      <h2 class="text-4xl md:text-5xl font-bold mb-6" style="color: #c2983f;">
+        ¿Listo para Transformar tu Proyecto?
+      </h2>
+      <p class="text-xl text-gray-300 mb-8 max-w-2xl mx-auto">
+        Acompañamos a nuestros aliados desde la estrategia hasta la ejecución. Generemos juntos impacto social y territorial sostenible.
+      </p>
+      <div class="flex flex-col sm:flex-row gap-4 justify-center items-center">
+        <a href="mailto:info@consultorespst.com" 
+           class="text-white px-8 py-4 rounded-lg text-lg font-semibold transition transform hover:scale-105 inline-flex items-center shadow-lg" style="background-color: #c2983f;" onmouseover="this.style.backgroundColor='#a67c32'" onmouseout="this.style.backgroundColor='#c2983f'">
+          Contáctanos
+          <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 ml-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
+          </svg>
+        </a>
+        <a href="conocenos.html" 
+           class="border-2 px-8 py-4 rounded-lg text-lg font-semibold transition transform hover:scale-105 inline-flex items-center" style="border-color: #c2983f; color: #c2983f;" onmouseover="this.style.backgroundColor='#c2983f'; this.style.color='white'" onmouseout="this.style.backgroundColor='transparent'; this.style.color='#c2983f'">
+          Conócenos
+          <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 ml-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7l5 5m0 0l-5 5m5-5H6" />
+          </svg>
+        </a>
+      </div>
+      <div class="mt-12 grid grid-cols-1 md:grid-cols-3 gap-6 text-gray-300">
+        <div class="flex items-center justify-center gap-2">
+          <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" style="color: #c2983f;">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+          </svg>
+          <span class="text-sm">+20 años de experiencia</span>
+        </div>
+        <div class="flex items-center justify-center gap-2">
+          <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" style="color: #c2983f;">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
+          </svg>
+          <span class="text-sm">+25 estados atendidos</span>
+        </div>
+        <div class="flex items-center justify-center gap-2">
+          <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" style="color: #c2983f;">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z" />
+          </svg>
+          <span class="text-sm">+1,500 viviendas construidas</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer class="bg-gray-900">
+  <div class="max-w-screen-xl px-4 pt-16 pb-6 mx-auto sm:px-6 lg:px-8 lg:pt-24">
+    <div class="grid grid-cols-1 gap-8 lg:grid-cols-3">
+      <div>
+        <div class="flex justify-center sm:justify-start" style="color: #c2983f;">
+          <span class="text-2xl font-bold">Desde la estrategia hasta la ejecución, impacto para la transformación</span>
+        </div>
+        
+        <ul class="flex justify-center gap-6 mt-8 md:gap-8 sm:justify-start">
+          <li>
+            <a href="#" target="_blank" class="transition hover:text-orange-300" style="color: #c2983f;">
+              <span class="sr-only">Facebook</span>
+              <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24"><path d="M22 12c0-5.523-4.477-10-10-10S2 6.477 2 12c0 4.991 3.657 9.128 8.438 9.878v-6.987h-2.54V12h2.54V9.797c0-2.506 1.492-3.89 3.777-3.89 1.094 0 2.238.195 2.238.195v2.46h-1.26c-1.243 0-1.63.771-1.63 1.562V12h2.773l-.443 2.89h-2.33v6.988C18.343 21.128 22 16.991 22 12z"/></svg>
+            </a>
+          </li>
+          <li>
+            <a href="#" target="_blank" class="transition hover:text-orange-300" style="color: #c2983f;">
+              <span class="sr-only">Instagram</span>
+              <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24"><path d="M12.315 2c2.43 0 2.784.013 3.808.06 1.064.049 1.791.218 2.427.465a4.902 4.902 0 011.772 1.153 4.902 4.902 0 011.153 1.772c.247.636.416 1.363.465 2.427.048 1.067.06 1.407.06 4.123v.08c0 2.643-.012 2.987-.06 4.043-.049 1.064-.218 1.791-.465 2.427a4.902 4.902 0 01-1.153 1.772 4.902 4.902 0 01-1.772 1.153c-.636.247-1.363.416-2.427.465-1.067.048-1.407.06-4.123.06h-.08c-2.643 0-2.987-.012-4.043-.06-1.064-.049-1.791-.218-2.427-.465a4.902 4.902 0 01-1.772-1.153 4.902 4.902 0 01-1.153-1.772c-.247-.636-.416-1.363-.465-2.427-.047-1.024-.06-1.379-.06-3.808v-.63c0-2.43.013-2.784.06-3.808.049-1.064.218-1.791.465-2.427a4.902 4.902 0 011.153-1.772A4.902 4.902 0 015.45 2.525c.636-.247 1.363-.416 2.427-.465C8.901 2.013 9.256 2 11.685 2h.63zm-.081 1.802h-.468c-2.456 0-2.784.011-3.807.058-.975.045-1.504.207-1.857.344-.467.182-.8.398-1.15.748-.35.35-.566.683-.748 1.15-.137.353-.3.882-.344 1.857-.047 1.023-.058 1.351-.058 3.807v.468c0 2.456.011 2.784.058 3.807.045.975.207 1.504.344 1.857.182.466.399.8.748 1.15.35.35.683.566 1.15.748.353.137.882.3 1.857.344 1.054.048 1.37.058 4.041.058h.08c2.597 0 2.917-.01 3.96-.058.976-.045 1.505-.207 1.858-.344.466-.182.8-.398 1.15-.748.35-.35.566-.683.748-1.15.137-.353.3-.882.344-1.857.048-1.055.058-1.37.058-4.041v-.08c0-2.597-.01-2.917-.058-3.96-.045-.976-.207-1.505-.344-1.858a3.097 3.097 0 00-.748-1.15 3.098 3.098 0 00-1.15-.748c-.353-.137-.882-.3-1.857-.344-1.023-.047-1.351-.058-3.807-.058zM12 6.865a5.135 5.135 0 110 10.27 5.135 5.135 0 010-10.27zm0 1.802a3.333 3.333 0 100 6.666 3.333 3.333 0 000-6.666zm5.338-3.205a1.2 1.2 0 110 2.4 1.2 1.2 0 010-2.4z"/></svg>
+            </a>
+          </li>
+          <li>
+            <a href="#" target="_blank" class="transition hover:text-orange-300" style="color: #c2983f;">
+              <span class="sr-only">Twitter</span>
+              <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24"><path d="M8.29 20.251c7.547 0 11.675-6.253 11.675-11.675 0-.178 0-.355-.012-.53A8.348 8.348 0 0022 5.92a8.19 8.19 0 01-2.357.646 4.118 4.118 0 001.804-2.27 8.224 8.224 0 01-2.605.996 4.107 4.107 0 00-6.993 3.743 11.65 11.65 0 01-8.457-4.287 4.106 4.106 0 001.27 5.477A4.072 4.072 0 012.8 9.713v.052a4.105 4.105 0 003.292 4.022 4.095 4.095 0 01-1.853.07 4.108 4.108 0 003.834 2.85A8.233 8.233 0 012 18.407a11.616 11.616 0 006.29 1.84"/></svg>
+            </a>
+          </li>
+        </ul>
+      </div>
+      <div class="grid grid-cols-1 gap-8 sm:grid-cols-2 lg:col-span-2 md:grid-cols-4">
+        <div class="text-center sm:text-left">
+          <p class="text-lg font-medium text-white">Sobre Nosotros</p>
+          <nav class="mt-8">
+            <ul class="space-y-4 text-sm">
+              <li><a class="text-white transition hover:text-white/75" href="conocenos.html#quienes-somos">Quiénes Somos</a></li>
+              <li><a class="text-white transition hover:text-white/75" href="conocenos.html#trayectoria">Trayectoria</a></li>
+              <li><a class="text-white transition hover:text-white/75" href="conocenos.html#equipo">Equipo</a></li>
+              <li><a class="text-white transition hover:text-white/75" href="conocenos.html#mision">Misión / Visión</a></li>
+            </ul>
+          </nav>
+        </div>
+        <div class="text-center sm:text-left">
+          <p class="text-lg font-medium text-white">Servicios</p>
+          <nav class="mt-8">
+            <ul class="space-y-4 text-sm">
+              <li><a class="text-white transition hover:text-white/75" href="servicios.html?servicio=servicio1">Liderazgo Estratégico</a></li>
+              <li><a class="text-white transition hover:text-white/75" href="servicios.html?servicio=servicio2">Gestión de Proyectos</a></li>
+              <li><a class="text-white transition hover:text-white/75" href="servicios.html?servicio=servicio3">Alianzas Multisectoriales</a></li>
+              <li><a class="text-white transition hover:text-white/75" href="servicios.html?servicio=servicio4">Estrategia Financiera</a></li>
+            </ul>
+          </nav>
+        </div>
+        <div class="text-center sm:text-left">
+          <p class="text-lg font-medium text-white">Recursos</p>
+          <nav class="mt-8">
+            <ul class="space-y-4 text-sm">
+              <li><a class="text-white transition hover:text-white/75" href="index.html#features">Portafolio</a></li>
+              <li><a class="text-white transition hover:text-white/75" href="#">Blog</a></li>
+              <li><a class="text-white transition hover:text-white/75" href="#">Preguntas Frecuentes</a></li>
+            </ul>
+          </nav>
+        </div>
+        <div class="text-center sm:text-left">
+          <p class="text-lg font-medium text-white">Contacto</p>
+          <ul class="mt-8 space-y-4 text-sm">
+            <li>
+              <a class="flex items-center justify-center sm:justify-start gap-1.5 group" href="mailto:info@consultorespst.com">
+                <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5 text-white shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                  <path stroke-linecap="round" stroke-linejoin="round" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/>
+                </svg>
+                <span class="text-white transition group-hover:text-white/75">info@consultorespst.com</span>
+              </a>
+            </li>
+            <li>
+              <a class="flex items-center justify-center sm:justify-start gap-1.5 group" href="tel:+521234567890">
+                <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5 text-white shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                  <path stroke-linecap="round" stroke-linejoin="round" d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z"/>
+                </svg>
+                <span class="text-white transition group-hover:text-white/75">+52 123 456 7890</span>
+              </a>
+            </li>
+            <li class="flex items-start justify-center gap-1.5 sm:justify-start">
+              <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5 text-white shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"/>
+                <path stroke-linecap="round" stroke-linejoin="round" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"/>
+              </svg>
+              <address class="-mt-0.5 not-italic text-white">
+                CDMX, México
+              </address>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </div>
+    <div class="pt-6 mt-12 border-t border-gray-800">
+      <div class="text-center sm:flex sm:justify-between sm:text-left">
+        <p class="text-sm text-gray-400">
+          <span class="block sm:inline">Todos los derechos reservados.</span>
+          <a class="inline-block underline transition hover:text-orange-300" style="color: #c2983f;" href="#">Términos y Condiciones</a>
+          <span>&middot;</span>
+          <a class="inline-block underline transition hover:text-orange-300" style="color: #c2983f;" href="#">Política de Privacidad</a>
+        </p>
+        <p class="mt-4 text-sm text-gray-500 sm:order-first sm:mt-0">
+          &copy; 2025 CRESCERE PST
+        </p>
+      </div>
+    </div>
+  </div>
+</footer>
+
+  <script>
+    // Navbar Scroll Effect
+    const navbar = document.querySelector(".navbar");
+    const toggler = document.querySelector(".menu");
+
+    function updateNavbar(scrollTop) {
+      if (scrollTop > 50) {
+        navbar.classList.add("scrolled");
+      } else {
+        navbar.classList.remove("scrolled");
+      }
+    }
+
+    window.addEventListener("scroll", () => {
+      updateNavbar(window.pageYOffset || document.documentElement.scrollTop);
+    });
+
+    // Mobile Menu Toggle
+    function openMobileMenu() {
+      navbar.querySelector(".right").classList.add("active");
+      toggler.src = "https://arsentech.github.io/source-codes/icons/close.svg";
+      document.body.style.overflow = "hidden";
+    }
+
+    function closeMobileMenu() {
+      navbar.querySelector(".right").classList.remove("active");
+      toggler.src = "https://arsentech.github.io/source-codes/icons/menu.svg";
+      document.body.style.overflow = "";
+    }
+
+    toggler.addEventListener("click", () => {
+      if (navbar.querySelector(".right").classList.contains("active")) {
+        closeMobileMenu();
+      } else {
+        openMobileMenu();
+      }
+    });
+
+    // Close mobile menu when clicking on links
+    const mobileLinks = document.querySelectorAll(".right a");
+    mobileLinks.forEach(link => {
+      link.addEventListener("click", () => {
+        if (window.innerWidth <= 800) {
+          closeMobileMenu();
+        }
+      });
+    });
+
+    // Mobile dropdown toggle for Services and Conocenos
+    if (window.innerWidth <= 800) {
+      const serviciosDropdownParent = document.querySelector('.dropdown:nth-child(2) > a');
+      const serviciosDropdownContent = document.getElementById('serviciosDropdown');
+      const conocenosDropdownParent = document.querySelector('.dropdown:nth-child(3) > a');
+      const conocenosDropdownContent = document.getElementById('conocenosDropdown');
+      
+      if (serviciosDropdownParent && serviciosDropdownContent) {
+        serviciosDropdownParent.addEventListener('click', (e) => {
+          e.preventDefault();
+          serviciosDropdownContent.classList.toggle('active');
+        });
+      }
+      
+      if (conocenosDropdownParent && conocenosDropdownContent) {
+        conocenosDropdownParent.addEventListener('click', (e) => {
+          e.preventDefault();
+          conocenosDropdownContent.classList.toggle('active');
+        });
+      }
+    }
+
+    // Accordion functionality - Switch between main service sections
+    function toggleAccordion(id) {
+      // Hide all service contents
+      const allContents = document.querySelectorAll('.service-content');
+      allContents.forEach(c => {
+        c.classList.remove('active');
+      });
+      
+      // Remove active class from all menu buttons
+      const allButtons = document.querySelectorAll('.service-menu-button');
+      allButtons.forEach(b => {
+        b.classList.remove('active');
+      });
+      
+      // Show selected content
+      const content = document.getElementById(`content-${id}`);
+      content.classList.add('active');
+      
+      // Highlight selected button
+      const button = document.getElementById(`btn-${id}`);
+      button.classList.add('active');
+    }
+
+    // Check URL parameters and activate the corresponding service
+    window.addEventListener('DOMContentLoaded', () => {
+      const urlParams = new URLSearchParams(window.location.search);
+      const servicioParam = urlParams.get('servicio');
+      
+      if (servicioParam && servicioParam.match(/^servicio[1-5]$/)) {
+        toggleAccordion(servicioParam);
+      }
+    });
+
+    // Sub-accordion functionality
+    function toggleSubAccordion(id) {
+      const content = document.getElementById(`content-${id}`);
+      const icon = document.getElementById(`icon-${id}`);
+      
+      // Toggle current sub-accordion
+      content.classList.toggle('active');
+      icon.classList.toggle('rotate-180');
+    }
+  </script>
+</body>
+</html>
