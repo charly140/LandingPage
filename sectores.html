@@ -1,0 +1,1309 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Sectores - CRESCERE PST</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: "Rubik", sans-serif;
+    }
+
+    html {
+      overflow-x: hidden;
+      max-width: 100vw;
+      scroll-behavior: smooth;
+    }
+
+    body {
+      overflow-x: hidden;
+      width: 100%;
+      max-width: 100vw;
+      position: relative;
+    }
+
+    .navbar {
+      opacity: 0;
+      transform: translateY(-20px);
+      animation: fadeInUp .3s forwards .5s;
+      display: flex;
+      justify-content: space-between;
+      padding: 1.5rem 10px;
+      background: transparent;
+      backdrop-filter: blur(0px);
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      width: 100%;
+      max-width: 100vw;
+      transition: all 0.3s ease;
+      z-index: 50;
+      box-sizing: border-box;
+    }
+
+    .navbar.scrolled {
+      padding: 0.75rem 10px;
+      backdrop-filter: blur(20px);
+      background: rgba(43, 45, 66, 0.9);
+      border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+      box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37),
+        0 0 20px 0 rgba(194, 152, 63, 0.1);
+    }
+
+    .left {
+      display: flex;
+      align-items: center;
+    }
+
+    .left a {
+      font-size: 35px;
+      text-decoration: none;
+      color: #edf2f4;
+      font-weight: 750;
+      transition: 0.3s linear;
+    }
+
+    .left a:hover {
+      color: #c2983f;
+    }
+
+    .right {
+      display: flex;
+      align-items: center;
+      overflow: visible;
+    }
+
+    .right a {
+      margin: 10.5px;
+      font-size: 18px;
+      text-decoration: none;
+      color: rgba(237, 242, 244, 0.9);
+      transition: color 0.3s ease;
+      position: relative;
+      display: inline-block;
+      padding: 0.5rem 0;
+    }
+
+    .right a::after {
+      content: "";
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      width: 0;
+      height: 2px;
+      background: linear-gradient(90deg, #c2983f, #a67c32);
+      transition: width 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+      border-radius: 2px;
+    }
+
+    .right a:hover {
+      color: #ffffff;
+    }
+
+    .right a:hover::after {
+      width: 100%;
+    }
+
+    .right a::before {
+      content: "";
+      position: absolute;
+      bottom: 0;
+      left: 50%;
+      width: 0;
+      height: 2px;
+      background: rgba(194, 152, 63, 0.3);
+      transform: translateX(-50%);
+      transition: width 0.6s cubic-bezier(0.34, 1.56, 0.64, 1);
+      filter: blur(2px);
+      border-radius: 2px;
+    }
+
+    .right a:hover::before {
+      width: 120%;
+    }
+
+    .menu {
+      align-self: center;
+      z-index: 60;
+      cursor: pointer;
+      display: none;
+      position: relative;
+    }
+
+    .navbar.scrolled .menu {
+      filter: invert(1);
+    }
+
+    /* Dropdown Styles */
+    .dropdown {
+      position: relative;
+      display: inline-block;
+    }
+
+    .dropdown-content {
+      display: none;
+      position: absolute;
+      background-color: rgba(43, 45, 66, 0.95);
+      min-width: 200px;
+      box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+      z-index: 100;
+      border-radius: 8px;
+      backdrop-filter: blur(10px);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      top: 100%;
+      left: 0;
+      padding-top: 0.5rem;
+      margin-top: -0.5rem;
+    }
+
+    .dropdown-content a {
+      color: rgba(237, 242, 244, 0.9);
+      padding: 12px 16px;
+      text-decoration: none;
+      display: block;
+      transition: background 0.3s ease, color 0.3s ease;
+      font-size: 16px;
+      margin: 0;
+    }
+
+    .dropdown-content a:first-child {
+      border-radius: 8px 8px 0 0;
+      margin-top: 0.5rem;
+    }
+
+    .dropdown-content a:last-child {
+      border-radius: 0 0 8px 8px;
+    }
+
+    .dropdown-content a:hover {
+      background-color: rgba(194, 152, 63, 0.2);
+      color: #ffffff;
+    }
+
+    .dropdown-content a::after,
+    .dropdown-content a::before {
+      display: none;
+    }
+
+    .dropdown:hover .dropdown-content {
+      display: block;
+    }
+
+    @media screen and (max-width: 800px) {
+      .menu {
+        display: block;
+        z-index: 60;
+      }
+
+      .right {
+        display: flex;
+        position: fixed;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        top: 0;
+        left: 0;
+        right: 0;
+        width: 100%;
+        max-width: 100vw;
+        height: 100vh;
+        background: rgba(43, 53, 66, 0.98);
+        backdrop-filter: blur(20px);
+        opacity: 0;
+        visibility: hidden;
+        pointer-events: none;
+        transition: opacity 0.3s ease, visibility 0.3s ease;
+        z-index: 55;
+        overflow-y: auto;
+        overflow-x: hidden;
+      }
+
+      .right a {
+        font-size: 30px;
+        margin: 15px 0;
+        opacity: 0;
+        transform: translateY(20px);
+        transition: opacity 0.3s ease, transform 0.3s ease;
+      }
+
+      .right a::after,
+      .right a::before {
+        display: none;
+      }
+
+      .right.active {
+        opacity: 1;
+        visibility: visible;
+        pointer-events: auto;
+      }
+
+      .right.active a {
+        opacity: 1;
+        transform: translateY(0);
+      }
+
+      .right.active a:nth-child(1) {
+        transition-delay: 0.05s;
+      }
+
+      .right.active a:nth-child(2) {
+        transition-delay: 0.1s;
+      }
+
+      .right.active a:nth-child(3) {
+        transition-delay: 0.15s;
+      }
+
+      .right.active a:nth-child(4) {
+        transition-delay: 0.2s;
+      }
+
+      .right.active a:nth-child(5) {
+        transition-delay: 0.25s;
+      }
+
+      .dropdown {
+        width: 100%;
+        text-align: center;
+      }
+
+      .dropdown-content {
+        position: static;
+        display: none;
+        width: 100%;
+        box-shadow: none;
+        background-color: rgba(43, 45, 66, 0.5);
+        margin-top: 0;
+        border-radius: 0;
+      }
+
+      .dropdown-content.active {
+        display: block;
+      }
+
+      .dropdown-content a {
+        font-size: 24px;
+        padding: 10px 16px;
+      }
+
+      .navbar.scrolled .right {
+        background: rgba(43, 45, 66, 0.98);
+      }
+    }
+
+    @keyframes fadeInUp {
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    /* Section animations */
+    .fade-in {
+      opacity: 0;
+      transform: translateY(30px);
+      transition: opacity 0.8s ease, transform 0.8s ease;
+    }
+
+    .fade-in.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    /* Icon item animations */
+    .icon-item {
+      opacity: 0;
+      transform: translateX(-30px);
+    }
+
+    .icon-item.animate {
+      animation: slideInLeft 0.6s ease-out forwards;
+    }
+
+    .icon-item.animate:nth-child(1) { animation-delay: 0.1s; }
+    .icon-item.animate:nth-child(2) { animation-delay: 0.2s; }
+    .icon-item.animate:nth-child(3) { animation-delay: 0.3s; }
+    .icon-item.animate:nth-child(4) { animation-delay: 0.4s; }
+    .icon-item.animate:nth-child(5) { animation-delay: 0.5s; }
+
+    @keyframes slideInLeft {
+      from {
+        opacity: 0;
+        transform: translateX(-30px);
+      }
+      to {
+        opacity: 1;
+        transform: translateX(0);
+      }
+    }
+
+    /* Card animations */
+    .benefit-card {
+      opacity: 0;
+      transform: translateY(30px);
+    }
+
+    .benefit-card.animate {
+      animation: fadeInUp 0.6s ease-out forwards;
+    }
+
+    .benefit-card.animate:nth-child(1) { animation-delay: 0.1s; }
+    .benefit-card.animate:nth-child(2) { animation-delay: 0.2s; }
+    .benefit-card.animate:nth-child(3) { animation-delay: 0.3s; }
+    .benefit-card.animate:nth-child(4) { animation-delay: 0.4s; }
+
+    @keyframes fadeInUp {
+      from {
+        opacity: 0;
+        transform: translateY(30px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+  </style>
+</head>
+<body class="bg-gray-900 text-white">
+
+  <nav class="navbar">
+    <div class="left">
+      <a href="index.html" class="flex items-center gap-3">
+        <img src="Recursos/Recurso 6.png" alt="CRESCERE PST logo" class="h-12 w-auto" />
+        <span class="inline-block font-bold text-xl text-white">CRESCERE PST</span>
+      </a>
+    </div>
+    <img src="https://arsentech.github.io/source-codes/icons/menu.svg" alt="menu" class="menu" width="48" height="48">
+    <div class="right">
+      <a href="index.html">Inicio</a>
+      <div class="dropdown">
+        <a href="servicios.html">Servicios</a>
+        <div class="dropdown-content" id="serviciosDropdown">
+          <a href="servicios.html?servicio=consultoria">Consultoría Estratégica</a>
+          <a href="servicios.html?servicio=diseno">Diseño de Proyectos</a>
+          <a href="servicios.html?servicio=implementacion">Implementación Participativa</a>
+          <a href="servicios.html?servicio=capacitacion">Capacitación y Formación</a>
+        </div>
+      </div>
+      <div class="dropdown">
+        <a href="sectores.html">Sectores</a>
+        <div class="dropdown-content" id="sectoresDropdown">
+          <a href="sectores.html?sector=empresas">Sector Empresas</a>
+          <a href="sectores.html?sector=publico">Sector Público</a>
+          <a href="sectores.html?sector=social">Sector Social</a>
+        </div>
+      </div>
+      <div class="dropdown">
+        <a href="conocenos.html">Conócenos</a>
+        <div class="dropdown-content" id="conocenosDropdown">
+          <a href="conocenos.html#equipo">Equipo</a>
+          <a href="conocenos.html#mision">Misión y Visión</a>
+        </div>
+      </div>
+      <a href="#contact" style="background: #c2983f; color: white;" class="hover:opacity-90 px-3 py-2 rounded-lg text-lg font-semibold transition">
+        Contáctanos
+      </a>
+    </div>
+  </nav>
+
+  <!-- Hero Section -->
+  <section class="relative min-h-[50vh] flex items-center justify-center text-center pt-20" id="hero-section">
+    <div class="absolute inset-0">
+      <img id="hero-image" src="https://cdn.pixabay.com/photo/2015/01/08/18/27/startup-593341_1280.jpg" 
+           alt="Sector" 
+           class="w-full h-full object-cover" />
+      <div class="absolute inset-0 bg-black bg-opacity-60"></div>
+    </div>
+
+    <div class="relative z-10 max-w-4xl px-4">
+      <div class="hero-content">
+        <h1 id="hero-title" class="text-4xl md:text-6xl font-bold mb-4">
+          Sector Empresarial
+        </h1>
+        <p id="hero-subtitle" class="text-lg md:text-xl mb-6">
+          Transformamos empresas en agentes de cambio social
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <!-- Sector Empresarial Content -->
+  <div id="sector-empresas" class="sector-content">
+  <!-- Enfoque Estratégico Section -->
+  <section class="bg-gray-900 py-20 fade-in" id="enfoque-section">
+    <div class="max-w-6xl mx-auto px-4">
+      <h2 class="text-3xl md:text-4xl font-bold mb-8 text-center" style="color: #c2983f;">
+        Enfoque Estratégico para el Sector Empresarial
+      </h2>
+      <p class="text-gray-300 text-center text-lg mb-12 max-w-4xl mx-auto">
+        Nuestra propuesta integra los principios de Responsabilidad Social Empresarial (RSE), Inversión de Impacto y Sostenibilidad Corporativa, con metodologías participativas que fortalecen tanto a las empresas como a las comunidades donde operan.
+      </p>
+
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-8 mt-12" id="valores-list">
+        <!-- Valor Compartido -->
+        <div class="flex items-start gap-4 icon-item">
+          <div class="flex-shrink-0 w-16 h-16 rounded-lg flex items-center justify-center" style="background: linear-gradient(135deg, #c2983f, #a67c32);">
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+            </svg>
+          </div>
+          <div>
+            <h3 class="text-xl font-bold mb-2" style="color: #c2983f;">Valor compartido</h3>
+            <p class="text-gray-300">Integración de objetivos empresariales y metas.</p>
+          </div>
+        </div>
+
+        <!-- Gestión de Riesgos -->
+        <div class="flex items-start gap-4 icon-item">
+          <div class="flex-shrink-0 w-16 h-16 rounded-lg flex items-center justify-center" style="background: linear-gradient(135deg, #c2983f, #a67c32);">
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" />
+            </svg>
+          </div>
+          <div>
+            <h3 class="text-xl font-bold mb-2" style="color: #c2983f;">Gestión de Riesgos</h3>
+            <p class="text-gray-300">Empresariales: Crédito, Liquidez, Operativos y Reputacionales</p>
+          </div>
+        </div>
+
+        <!-- Alianzas Estratégicas -->
+        <div class="flex items-start gap-4 icon-item">
+          <div class="flex-shrink-0 w-16 h-16 rounded-lg flex items-center justify-center" style="background: linear-gradient(135deg, #c2983f, #a67c32);">
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z" />
+            </svg>
+          </div>
+          <div>
+            <h3 class="text-xl font-bold mb-2" style="color: #c2983f;">Alianzas estratégicas</h3>
+            <p class="text-gray-300">Con actores multisectoriales Privado, Público y Social para potenciar el mercado y recursos.</p>
+          </div>
+        </div>
+
+        <!-- Innovación Social -->
+        <div class="flex items-start gap-4 icon-item">
+          <div class="flex-shrink-0 w-16 h-16 rounded-lg flex items-center justify-center" style="background: linear-gradient(135deg, #c2983f, #a67c32);">
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z" />
+            </svg>
+          </div>
+          <div>
+            <h3 class="text-xl font-bold mb-2" style="color: #c2983f;">Innovación Social Empresarial</h3>
+            <p class="text-gray-300">Modelos que mejoran productividad y propósito de marca.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Beneficios Section -->
+  <section class="bg-gray-800 py-20 fade-in" id="beneficios-section">
+    <div class="max-w-6xl mx-auto px-4">
+      <h2 class="text-3xl md:text-4xl font-bold mb-12 text-center" style="color: #c2983f;">
+        Beneficios para las Empresas Aliadas
+      </h2>
+
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-8" id="benefits-grid">
+        <!-- Reputación y marca -->
+        <div class="bg-gray-900 rounded-xl shadow-lg p-8 benefit-card">
+          <h3 class="text-2xl font-bold mb-4" style="color: #c2983f;">Reputación y marca</h3>
+          <div class="mb-4">
+            <p class="text-gray-400 text-sm mb-2">Beneficio Directo</p>
+            <p class="text-gray-300">Proyección pública como empresa comprometida con los ODS.</p>
+          </div>
+          <div>
+            <p class="text-gray-400 text-sm mb-2">Valor Agregado</p>
+            <p class="text-gray-300">Fortalece la confianza de inversionistas y consumidores.</p>
+          </div>
+        </div>
+
+        <!-- Gestión y eficiencia -->
+        <div class="bg-gray-900 rounded-xl shadow-lg p-8 benefit-card">
+          <h3 class="text-2xl font-bold mb-4" style="color: #c2983f;">Gestión y eficiencia</h3>
+          <div class="mb-4">
+            <p class="text-gray-400 text-sm mb-2">Beneficio Directo</p>
+            <p class="text-gray-300">Optimización de recursos mediante metodologías trazables.</p>
+          </div>
+          <div>
+            <p class="text-gray-400 text-sm mb-2">Valor Agregado</p>
+            <p class="text-gray-300">Mejora la rendición de cuentas y reportes ESG.</p>
+          </div>
+        </div>
+
+        <!-- Retorno social y financiero -->
+        <div class="bg-gray-900 rounded-xl shadow-lg p-8 benefit-card">
+          <h3 class="text-2xl font-bold mb-4" style="color: #c2983f;">Retorno social y financiero</h3>
+          <div class="mb-4">
+            <p class="text-gray-400 text-sm mb-2">Beneficio Directo</p>
+            <p class="text-gray-300">Modelos de coinversión y valor compartido.</p>
+          </div>
+          <div>
+            <p class="text-gray-400 text-sm mb-2">Valor Agregado</p>
+            <p class="text-gray-300">Incrementa sostenibilidad económica y reputacional.</p>
+          </div>
+        </div>
+
+        <!-- Riesgos Empresarial -->
+        <div class="bg-gray-900 rounded-xl shadow-lg p-8 benefit-card">
+          <h3 class="text-2xl font-bold mb-4" style="color: #c2983f;">Riesgos Empresarial</h3>
+          <div class="mb-4">
+            <p class="text-gray-400 text-sm mb-2">Beneficio Directo</p>
+            <p class="text-gray-300">Identificación de Matriz de Riesgos.</p>
+          </div>
+          <div>
+            <p class="text-gray-400 text-sm mb-2">Valor Agregado</p>
+            <p class="text-gray-300">Probabilidad y cuantificación monetaria de los riesgos empresarial, plan para mitigar, o no mitigar con base en transferir, administrar o cubrir el riesgo.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Nuestra Práctica Section -->
+  <section class="relative bg-gray-900 py-20 fade-in overflow-hidden" id="practica-section">
+    <!-- Background Image -->
+    <div class="absolute left-0 top-0 bottom-0 w-1/3 opacity-10">
+      <img src="https://cdn.pixabay.com/photo/2017/08/30/01/05/milky-way-2695569_1280.jpg" 
+           alt="Escaleras al éxito" 
+           class="w-full h-full object-cover" />
+    </div>
+    
+    <div class="max-w-6xl mx-auto px-4 relative z-10">
+      <h2 class="text-3xl md:text-4xl font-bold mb-12 text-center" style="color: #c2983f;">
+        NUESTRA PRÁCTICA
+      </h2>
+
+      <div class="space-y-8" id="practica-list">
+        <!-- Finanzas sostenibles -->
+        <div class="flex items-start gap-4 icon-item ml-0 md:ml-0">
+          <div class="flex-shrink-0 w-16 h-16 rounded-lg flex items-center justify-center" style="background: linear-gradient(135deg, #c2983f, #a67c32);">
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+            </svg>
+          </div>
+          <div>
+            <h3 class="text-xl font-bold mb-2" style="color: #c2983f;">Finanzas sostenibles y riesgos financieros</h3>
+            <p class="text-gray-300">Modelos de negocio inclusivos y herramientas estadísticas de riesgos financieros.</p>
+          </div>
+        </div>
+
+        <!-- Subsidios -->
+        <div class="flex items-start gap-4 icon-item ml-0 md:ml-16">
+          <div class="flex-shrink-0 w-16 h-16 rounded-lg flex items-center justify-center" style="background: linear-gradient(135deg, #c2983f, #a67c32);">
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4" />
+            </svg>
+          </div>
+          <div>
+            <h3 class="text-xl font-bold mb-2" style="color: #c2983f;">Operación de subsidios federales, estatales y municipales</h3>
+            <p class="text-gray-300">Operación de subsidios federales, estatales y municipales</p>
+          </div>
+        </div>
+
+        <!-- Reconstrucción -->
+        <div class="flex items-start gap-4 icon-item ml-0 md:ml-32">
+          <div class="flex-shrink-0 w-16 h-16 rounded-lg flex items-center justify-center" style="background: linear-gradient(135deg, #c2983f, #a67c32);">
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6" />
+            </svg>
+          </div>
+          <div>
+            <h3 class="text-xl font-bold mb-2" style="color: #c2983f;">Proyectos para la etapa de reconstrucción</h3>
+            <p class="text-gray-300">Para familias afectadas por los sismos 2017, inundaciones y graves afectaciones ambientales con la construcción de más de 1,500 viviendas</p>
+          </div>
+        </div>
+
+        <!-- Metodologías ASH -->
+        <div class="flex items-start gap-4 icon-item ml-0 md:ml-48">
+          <div class="flex-shrink-0 w-16 h-16 rounded-lg flex items-center justify-center" style="background: linear-gradient(135deg, #c2983f, #a67c32);">
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+            </svg>
+          </div>
+          <div>
+            <h3 class="text-xl font-bold mb-2" style="color: #c2983f;">Metodologías ASH</h3>
+            <p class="text-gray-300">Aplicación de CLTS y CLUES para prácticas sostenibles de saneamiento e higiene. Proyecto en Chiapas con un impacto de 60,000 personas</p>
+          </div>
+        </div>
+
+        <!-- Capacitación técnica -->
+        <div class="flex items-start gap-4 icon-item ml-0 md:ml-64">
+          <div class="flex-shrink-0 w-16 h-16 rounded-lg flex items-center justify-center" style="background: linear-gradient(135deg, #c2983f, #a67c32);">
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253" />
+            </svg>
+          </div>
+          <div>
+            <h3 class="text-xl font-bold mb-2" style="color: #c2983f;">Capacitación técnica</h3>
+            <p class="text-gray-300">Formación en autoconstrucción y tecnologías sostenibles.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+  </div>
+  <!-- End Sector Empresarial -->
+
+  <!-- Sector Público Content -->
+  <div id="sector-publico" class="sector-content" style="display: none;">
+  <!-- Enfoque Estratégico Section -->
+  <section class="bg-gray-900 py-20 fade-in" id="enfoque-section-publico">
+    <div class="max-w-6xl mx-auto px-4">
+      <h2 class="text-3xl md:text-4xl font-bold mb-8 text-center" style="color: #c2983f;">
+        Enfoque Estratégico para el Sector Público
+      </h2>
+      <p class="text-gray-300 text-center text-lg mb-12 max-w-4xl mx-auto">
+        Fortalecemos instituciones gubernamentales mediante diseño de políticas públicas, gestión eficiente de recursos, transparencia y gobernanza participativa que genera impacto territorial sostenible.
+      </p>
+
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-8 mt-12">
+        <!-- Políticas Públicas -->
+        <div class="flex items-start gap-4 icon-item">
+          <div class="flex-shrink-0 w-16 h-16 rounded-lg flex items-center justify-center" style="background: linear-gradient(135deg, #c2983f, #a67c32);">
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+            </svg>
+          </div>
+          <div>
+            <h3 class="text-xl font-bold mb-2" style="color: #c2983f;">Diseño de Políticas Públicas</h3>
+            <p class="text-gray-300">Formulación basada en evidencia con enfoque en ODS y derechos humanos.</p>
+          </div>
+        </div>
+
+        <!-- Gobernanza -->
+        <div class="flex items-start gap-4 icon-item">
+          <div class="flex-shrink-0 w-16 h-16 rounded-lg flex items-center justify-center" style="background: linear-gradient(135deg, #c2983f, #a67c32);">
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z" />
+            </svg>
+          </div>
+          <div>
+            <h3 class="text-xl font-bold mb-2" style="color: #c2983f;">Gobernanza Participativa</h3>
+            <p class="text-gray-300">Fortalecimiento institucional y participación ciudadana efectiva.</p>
+          </div>
+        </div>
+
+        <!-- Transparencia -->
+        <div class="flex items-start gap-4 icon-item">
+          <div class="flex-shrink-0 w-16 h-16 rounded-lg flex items-center justify-center" style="background: linear-gradient(135deg, #c2983f, #a67c32);">
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" />
+            </svg>
+          </div>
+          <div>
+            <h3 class="text-xl font-bold mb-2" style="color: #c2983f;">Transparencia y Rendición de Cuentas</h3>
+            <p class="text-gray-300">Sistemas de monitoreo y evaluación con datos abiertos.</p>
+          </div>
+        </div>
+
+        <!-- Eficiencia -->
+        <div class="flex items-start gap-4 icon-item">
+          <div class="flex-shrink-0 w-16 h-16 rounded-lg flex items-center justify-center" style="background: linear-gradient(135deg, #c2983f, #a67c32);">
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z" />
+            </svg>
+          </div>
+          <div>
+            <h3 class="text-xl font-bold mb-2" style="color: #c2983f;">Eficiencia en Recursos Públicos</h3>
+            <p class="text-gray-300">Optimización presupuestaria y gestión por resultados.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Beneficios Section -->
+  <section class="bg-gray-800 py-20 fade-in" id="beneficios-section-publico">
+    <div class="max-w-6xl mx-auto px-4">
+      <h2 class="text-3xl md:text-4xl font-bold mb-12 text-center" style="color: #c2983f;">
+        Beneficios para Instituciones Públicas
+      </h2>
+
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+        <!-- Legitimidad -->
+        <div class="bg-gray-900 rounded-xl shadow-lg p-8 benefit-card">
+          <h3 class="text-2xl font-bold mb-4" style="color: #c2983f;">Legitimidad Institucional</h3>
+          <div class="mb-4">
+            <p class="text-gray-400 text-sm mb-2">Beneficio Directo</p>
+            <p class="text-gray-300">Fortalecimiento de confianza ciudadana mediante resultados medibles.</p>
+          </div>
+          <div>
+            <p class="text-gray-400 text-sm mb-2">Valor Agregado</p>
+            <p class="text-gray-300">Mejora en indicadores de gobernanza y participación.</p>
+          </div>
+        </div>
+
+        <!-- Eficiencia -->
+        <div class="bg-gray-900 rounded-xl shadow-lg p-8 benefit-card">
+          <h3 class="text-2xl font-bold mb-4" style="color: #c2983f;">Eficiencia Presupuestaria</h3>
+          <div class="mb-4">
+            <p class="text-gray-400 text-sm mb-2">Beneficio Directo</p>
+            <p class="text-gray-300">Optimización en el uso de recursos públicos con metodologías probadas.</p>
+          </div>
+          <div>
+            <p class="text-gray-400 text-sm mb-2">Valor Agregado</p>
+            <p class="text-gray-300">Cumplimiento de metas institucionales y reducción de desperdicios.</p>
+          </div>
+        </div>
+
+        <!-- Impacto -->
+        <div class="bg-gray-900 rounded-xl shadow-lg p-8 benefit-card">
+          <h3 class="text-2xl font-bold mb-4" style="color: #c2983f;">Impacto Social Territorial</h3>
+          <div class="mb-4">
+            <p class="text-gray-400 text-sm mb-2">Beneficio Directo</p>
+            <p class="text-gray-300">Proyectos con resultados tangibles en comunidades.</p>
+          </div>
+          <div>
+            <p class="text-gray-400 text-sm mb-2">Valor Agregado</p>
+            <p class="text-gray-300">Alineación con ODS y agendas internacionales.</p>
+          </div>
+        </div>
+
+        <!-- Alianzas -->
+        <div class="bg-gray-900 rounded-xl shadow-lg p-8 benefit-card">
+          <h3 class="text-2xl font-bold mb-4" style="color: #c2983f;">Alianzas Multisectoriales</h3>
+          <div class="mb-4">
+            <p class="text-gray-400 text-sm mb-2">Beneficio Directo</p>
+            <p class="text-gray-300">Coordinación efectiva con sector privado y social.</p>
+          </div>
+          <div>
+            <p class="text-gray-400 text-sm mb-2">Valor Agregado</p>
+            <p class="text-gray-300">Apalancamiento de recursos y expertise complementario.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Nuestra Práctica Section -->
+  <section class="relative bg-gray-900 py-20 fade-in overflow-hidden" id="practica-section-publico">
+    <div class="absolute left-0 top-0 bottom-0 w-1/3 opacity-10">
+      <img src="https://cdn.pixabay.com/photo/2016/11/29/03/53/architecture-1867187_960_720.jpg" 
+           alt="Gobernanza" 
+           class="w-full h-full object-cover" />
+    </div>
+    
+    <div class="max-w-6xl mx-auto px-4 relative z-10">
+      <h2 class="text-3xl md:text-4xl font-bold mb-12 text-center" style="color: #c2983f;">
+        NUESTRA PRÁCTICA EN SECTOR PÚBLICO
+      </h2>
+
+      <div class="space-y-8">
+        <div class="flex items-start gap-4 icon-item ml-0 md:ml-0">
+          <div class="flex-shrink-0 w-16 h-16 rounded-lg flex items-center justify-center" style="background: linear-gradient(135deg, #c2983f, #a67c32);">
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4" />
+            </svg>
+          </div>
+          <div>
+            <h3 class="text-xl font-bold mb-2" style="color: #c2983f;">Programas Federales y Estatales</h3>
+            <p class="text-gray-300">Diseño e implementación de programas de desarrollo social y territorial.</p>
+          </div>
+        </div>
+
+        <div class="flex items-start gap-4 icon-item ml-0 md:ml-16">
+          <div class="flex-shrink-0 w-16 h-16 rounded-lg flex items-center justify-center" style="background: linear-gradient(135deg, #c2983f, #a67c32);">
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-3 7h3m-3 4h3m-6-4h.01M9 16h.01" />
+            </svg>
+          </div>
+          <div>
+            <h3 class="text-xl font-bold mb-2" style="color: #c2983f;">Sistemas de Monitoreo y Evaluación</h3>
+            <p class="text-gray-300">MEAL (Monitoring, Evaluation, Accountability, Learning) para políticas públicas.</p>
+          </div>
+        </div>
+
+        <div class="flex items-start gap-4 icon-item ml-0 md:ml-32">
+          <div class="flex-shrink-0 w-16 h-16 rounded-lg flex items-center justify-center" style="background: linear-gradient(135deg, #c2983f, #a67c32);">
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z" />
+            </svg>
+          </div>
+          <div>
+            <h3 class="text-xl font-bold mb-2" style="color: #c2983f;">Participación Ciudadana</h3>
+            <p class="text-gray-300">Metodologías participativas para consulta pública y toma de decisiones.</p>
+          </div>
+        </div>
+
+        <div class="flex items-start gap-4 icon-item ml-0 md:ml-48">
+          <div class="flex-shrink-0 w-16 h-16 rounded-lg flex items-center justify-center" style="background: linear-gradient(135deg, #c2983f, #a67c32);">
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z" />
+            </svg>
+          </div>
+          <div>
+            <h3 class="text-xl font-bold mb-2" style="color: #c2983f;">Gestión de Riesgos Institucionales</h3>
+            <p class="text-gray-300">Identificación y mitigación de riesgos operativos y reputacionales.</p>
+          </div>
+        </div>
+
+        <div class="flex items-start gap-4 icon-item ml-0 md:ml-64">
+          <div class="flex-shrink-0 w-16 h-16 rounded-lg flex items-center justify-center" style="background: linear-gradient(135deg, #c2983f, #a67c32);">
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253" />
+            </svg>
+          </div>
+          <div>
+            <h3 class="text-xl font-bold mb-2" style="color: #c2983f;">Capacitación de Servidores Públicos</h3>
+            <p class="text-gray-300">Formación en gestión de proyectos sociales y herramientas de evaluación.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+  </div>
+  <!-- End Sector Público -->
+
+  <!-- Sector Social Content -->
+  <div id="sector-social" class="sector-content" style="display: none;">
+  <!-- Enfoque Estratégico Section -->
+  <section class="bg-gray-900 py-20 fade-in" id="enfoque-section-social">
+    <div class="max-w-6xl mx-auto px-4">
+      <h2 class="text-3xl md:text-4xl font-bold mb-8 text-center" style="color: #c2983f;">
+        Enfoque Estratégico para el Sector Social
+      </h2>
+      <p class="text-gray-300 text-center text-lg mb-12 max-w-4xl mx-auto">
+        Fortalecemos organizaciones de la sociedad civil (OSC) con estrategias de sostenibilidad financiera, gestión de proyectos, alianzas estratégicas y medición de impacto social que asegura permanencia y escalabilidad.
+      </p>
+
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-8 mt-12">
+        <!-- Sostenibilidad -->
+        <div class="flex items-start gap-4 icon-item">
+          <div class="flex-shrink-0 w-16 h-16 rounded-lg flex items-center justify-center" style="background: linear-gradient(135deg, #c2983f, #a67c32);">
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+            </svg>
+          </div>
+          <div>
+            <h3 class="text-xl font-bold mb-2" style="color: #c2983f;">Sostenibilidad Financiera</h3>
+            <p class="text-gray-300">Diversificación de fuentes de financiamiento y modelos de negocio social.</p>
+          </div>
+        </div>
+
+        <!-- Gestión de Proyectos -->
+        <div class="flex items-start gap-4 icon-item">
+          <div class="flex-shrink-0 w-16 h-16 rounded-lg flex items-center justify-center" style="background: linear-gradient(135deg, #c2983f, #a67c32);">
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-6 9l2 2 4-4" />
+            </svg>
+          </div>
+          <div>
+            <h3 class="text-xl font-bold mb-2" style="color: #c2983f;">Gestión Profesional de Proyectos</h3>
+            <p class="text-gray-300">Herramientas MEAL y gestión basada en resultados.</p>
+          </div>
+        </div>
+
+        <!-- Fundraising -->
+        <div class="flex items-start gap-4 icon-item">
+          <div class="flex-shrink-0 w-16 h-16 rounded-lg flex items-center justify-center" style="background: linear-gradient(135deg, #c2983f, #a67c32);">
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 13.255A23.931 23.931 0 0112 15c-3.183 0-6.22-.62-9-1.745M16 6V4a2 2 0 00-2-2h-4a2 2 0 00-2 2v2m4 6h.01M5 20h14a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
+            </svg>
+          </div>
+          <div>
+            <h3 class="text-xl font-bold mb-2" style="color: #c2983f;">Fundraising Estratégico</h3>
+            <p class="text-gray-300">Alianzas con fundaciones, empresas y organismos internacionales.</p>
+          </div>
+        </div>
+
+        <!-- Impacto -->
+        <div class="flex items-start gap-4 icon-item">
+          <div class="flex-shrink-0 w-16 h-16 rounded-lg flex items-center justify-center" style="background: linear-gradient(135deg, #c2983f, #a67c32);">
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z" />
+            </svg>
+          </div>
+          <div>
+            <h3 class="text-xl font-bold mb-2" style="color: #c2983f;">Medición de Impacto Social</h3>
+            <p class="text-gray-300">Sistemas de evaluación alineados a ODS y estándares IRIS+.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Beneficios Section -->
+  <section class="bg-gray-800 py-20 fade-in" id="beneficios-section-social">
+    <div class="max-w-6xl mx-auto px-4">
+      <h2 class="text-3xl md:text-4xl font-bold mb-12 text-center" style="color: #c2983f;">
+        Beneficios para Organizaciones de la Sociedad Civil
+      </h2>
+
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+        <!-- Sostenibilidad -->
+        <div class="bg-gray-900 rounded-xl shadow-lg p-8 benefit-card">
+          <h3 class="text-2xl font-bold mb-4" style="color: #c2983f;">Sostenibilidad Organizacional</h3>
+          <div class="mb-4">
+            <p class="text-gray-400 text-sm mb-2">Beneficio Directo</p>
+            <p class="text-gray-300">Modelos financieros diversificados para permanencia a largo plazo.</p>
+          </div>
+          <div>
+            <p class="text-gray-400 text-sm mb-2">Valor Agregado</p>
+            <p class="text-gray-300">Reducción de dependencia de una sola fuente de financiamiento.</p>
+          </div>
+        </div>
+
+        <!-- Credibilidad -->
+        <div class="bg-gray-900 rounded-xl shadow-lg p-8 benefit-card">
+          <h3 class="text-2xl font-bold mb-4" style="color: #c2983f;">Credibilidad y Transparencia</h3>
+          <div class="mb-4">
+            <p class="text-gray-400 text-sm mb-2">Beneficio Directo</p>
+            <p class="text-gray-300">Sistemas de rendición de cuentas que fortalecen confianza de donantes.</p>
+          </div>
+          <div>
+            <p class="text-gray-400 text-sm mb-2">Valor Agregado</p>
+            <p class="text-gray-300">Certificaciones y reconocimientos institucionales.</p>
+          </div>
+        </div>
+
+        <!-- Escala -->
+        <div class="bg-gray-900 rounded-xl shadow-lg p-8 benefit-card">
+          <h3 class="text-2xl font-bold mb-4" style="color: #c2983f;">Escalabilidad de Impacto</h3>
+          <div class="mb-4">
+            <p class="text-gray-400 text-sm mb-2">Beneficio Directo</p>
+            <p class="text-gray-300">Metodologías replicables que amplían cobertura territorial.</p>
+          </div>
+          <div>
+            <p class="text-gray-400 text-sm mb-2">Valor Agregado</p>
+            <p class="text-gray-300">Evidencia documentada para atracción de nuevos financiadores.</p>
+          </div>
+        </div>
+
+        <!-- Redes -->
+        <div class="bg-gray-900 rounded-xl shadow-lg p-8 benefit-card">
+          <h3 class="text-2xl font-bold mb-4" style="color: #c2983f;">Redes y Alianzas</h3>
+          <div class="mb-4">
+            <p class="text-gray-400 text-sm mb-2">Beneficio Directo</p>
+            <p class="text-gray-300">Conexión con ecosistema de actores sociales y empresariales.</p>
+          </div>
+          <div>
+            <p class="text-gray-400 text-sm mb-2">Valor Agregado</p>
+            <p class="text-gray-300">Oportunidades de colaboración y aprendizaje compartido.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Nuestra Práctica Section -->
+  <section class="relative bg-gray-900 py-20 fade-in overflow-hidden" id="practica-section-social">
+    <div class="absolute left-0 top-0 bottom-0 w-1/3 opacity-10">
+      <img src="https://cdn.pixabay.com/photo/2015/03/26/09/47/sky-690293_1280.jpg" 
+           alt="Impacto Social" 
+           class="w-full h-full object-cover" />
+    </div>
+    
+    <div class="max-w-6xl mx-auto px-4 relative z-10">
+      <h2 class="text-3xl md:text-4xl font-bold mb-12 text-center" style="color: #c2983f;">
+        NUESTRA PRÁCTICA EN SECTOR SOCIAL
+      </h2>
+
+      <div class="space-y-8">
+        <div class="flex items-start gap-4 icon-item ml-0 md:ml-0">
+          <div class="flex-shrink-0 w-16 h-16 rounded-lg flex items-center justify-center" style="background: linear-gradient(135deg, #c2983f, #a67c32);">
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z" />
+            </svg>
+          </div>
+          <div>
+            <h3 class="text-xl font-bold mb-2" style="color: #c2983f;">Fortalecimiento Institucional de OSC</h3>
+            <p class="text-gray-300">Desarrollo organizacional, gobernanza y sistemas de gestión.</p>
+          </div>
+        </div>
+
+        <div class="flex items-start gap-4 icon-item ml-0 md:ml-16">
+          <div class="flex-shrink-0 w-16 h-16 rounded-lg flex items-center justify-center" style="background: linear-gradient(135deg, #c2983f, #a67c32);">
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+            </svg>
+          </div>
+          <div>
+            <h3 class="text-xl font-bold mb-2" style="color: #c2983f;">Diseño de Proyectos Sociales</h3>
+            <p class="text-gray-300">Formulación con Marco Lógico y Teoría de Cambio para fondos nacionales e internacionales.</p>
+          </div>
+        </div>
+
+        <div class="flex items-start gap-4 icon-item ml-0 md:ml-32">
+          <div class="flex-shrink-0 w-16 h-16 rounded-lg flex items-center justify-center" style="background: linear-gradient(135deg, #c2983f, #a67c32);">
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+            </svg>
+          </div>
+          <div>
+            <h3 class="text-xl font-bold mb-2" style="color: #c2983f;">Estrategias de Recaudación de Fondos</h3>
+            <p class="text-gray-300">Fundraising desde empresas, fundaciones y cooperación internacional.</p>
+          </div>
+        </div>
+
+        <div class="flex items-start gap-4 icon-item ml-0 md:ml-48">
+          <div class="flex-shrink-0 w-16 h-16 rounded-lg flex items-center justify-center" style="background: linear-gradient(135deg, #c2983f, #a67c32);">
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z" />
+            </svg>
+          </div>
+          <div>
+            <h3 class="text-xl font-bold mb-2" style="color: #c2983f;">Sistemas de Monitoreo y Evaluación MEAL</h3>
+            <p class="text-gray-300">Implementación de indicadores ODS y metodologías de impacto social.</p>
+          </div>
+        </div>
+
+        <div class="flex items-start gap-4 icon-item ml-0 md:ml-64">
+          <div class="flex-shrink-0 w-16 h-16 rounded-lg flex items-center justify-center" style="background: linear-gradient(135deg, #c2983f, #a67c32);">
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253" />
+            </svg>
+          </div>
+          <div>
+            <h3 class="text-xl font-bold mb-2" style="color: #c2983f;">Capacitación para OSC</h3>
+            <p class="text-gray-300">Formación en gestión de proyectos, fundraising y herramientas digitales.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+  </div>
+  <!-- End Sector Social -->
+
+  <!-- Contact Section (Shared) -->
+  <section id="contact" class="bg-gray-800 py-20">
+    <div class="max-w-4xl mx-auto px-4 text-center">
+      <h2 id="contact-title" class="text-3xl md:text-4xl font-bold mb-6" style="color: #c2983f;">¿Listo para transformar tu empresa?</h2>
+      <p id="contact-text" class="text-gray-300 mb-8 text-lg">
+        Contáctanos para desarrollar una estrategia personalizada que genere valor compartido para tu empresa y la sociedad.
+      </p>
+      <a href="mailto:info@consultorespst.com" 
+         style="background: #c2983f; color: white;" class="hover:opacity-90 px-8 py-4 rounded-lg text-lg font-semibold transition inline-block" onmouseover="this.style.backgroundColor='#a67c32'" onmouseout="this.style.backgroundColor='#c2983f'">
+        Contáctanos
+      </a>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer class="bg-gray-900">
+    <div class="max-w-6xl mx-auto px-4 py-12">
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-8 mb-8">
+        <div>
+          <h3 class="text-xl font-bold mb-4" style="color: #c2983f;">CRESCERE PST</h3>
+          <p class="text-gray-400">
+            Planeación, Sustentabilidad y Transformación
+          </p>
+        </div>
+        <div>
+          <h4 class="text-lg font-semibold mb-4">Enlaces</h4>
+          <ul class="space-y-2">
+            <li><a href="index.html" class="text-gray-400 hover:text-white transition">Inicio</a></li>
+            <li><a href="servicios.html" class="text-gray-400 hover:text-white transition">Servicios</a></li>
+            <li><a href="sectores.html" class="text-gray-400 hover:text-white transition">Sectores</a></li>
+            <li><a href="conocenos.html" class="text-gray-400 hover:text-white transition">Conócenos</a></li>
+          </ul>
+        </div>
+        <div>
+          <h4 class="text-lg font-semibold mb-4">Contacto</h4>
+          <ul class="space-y-2">
+            <li>
+              <a class="flex items-center justify-center sm:justify-start gap-1.5 group" href="mailto:info@consultorespst.com">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-white" viewBox="0 0 20 20" fill="currentColor">
+                  <path d="M2.003 5.884L10 9.882l7.997-3.998A2 2 0 0016 4H4a2 2 0 00-1.997 1.884z" />
+                  <path d="M18 8.118l-8 4-8-4V14a2 2 0 002 2h12a2 2 0 002-2V8.118z" />
+                </svg>
+                <span class="text-white transition group-hover:text-white/75">info@consultorespst.com</span>
+              </a>
+            </li>
+          </ul>
+        </div>
+      </div>
+      <div class="border-t border-gray-700 pt-6">
+        <p class="text-center text-gray-400">
+          &copy; 2025 CRESCERE PST
+        </p>
+      </div>
+    </div>
+  </footer>
+
+  <script>
+    const navbar = document.querySelector(".navbar");
+    const toggler = document.querySelector(".menu");
+    const rightMenu = document.querySelector(".right");
+
+    function updateNavbar(scrollTop) {
+      if (scrollTop > 50) {
+        navbar.classList.add("scrolled");
+      } else {
+        navbar.classList.remove("scrolled");
+      }
+    }
+
+    window.addEventListener("scroll", () => {
+      updateNavbar(window.scrollY);
+    });
+
+    function openMobileMenu() {
+      rightMenu.classList.add("active");
+      document.body.style.overflow = "hidden";
+    }
+
+    function closeMobileMenu() {
+      rightMenu.classList.remove("active");
+      document.body.style.overflow = "";
+      toggler.src = "https://arsentech.github.io/source-codes/icons/menu.svg";
+    }
+
+    toggler.addEventListener("click", () => {
+      if (rightMenu.classList.contains("active")) {
+        closeMobileMenu();
+      } else {
+        openMobileMenu();
+        toggler.src = "https://arsentech.github.io/source-codes/icons/close.svg";
+      }
+    });
+
+    const mobileLinks = document.querySelectorAll(".right a");
+    mobileLinks.forEach(link => {
+      link.addEventListener("click", (e) => {
+        if (!link.parentElement.classList.contains('dropdown')) {
+          closeMobileMenu();
+        }
+      });
+    });
+
+    // Mobile dropdown toggle
+    if (window.innerWidth <= 800) {
+      const serviciosDropdownParent = document.querySelector('.dropdown:nth-child(2) > a');
+      const serviciosDropdownContent = document.getElementById('serviciosDropdown');
+      const sectoresDropdownParent = document.querySelector('.dropdown:nth-child(3) > a');
+      const sectoresDropdownContent = document.getElementById('sectoresDropdown');
+      const conocenosDropdownParent = document.querySelector('.dropdown:nth-child(4) > a');
+      const conocenosDropdownContent = document.getElementById('conocenosDropdown');
+      
+      if (serviciosDropdownParent && serviciosDropdownContent) {
+        serviciosDropdownParent.addEventListener('click', (e) => {
+          e.preventDefault();
+          serviciosDropdownContent.classList.toggle('active');
+        });
+      }
+      
+      if (sectoresDropdownParent && sectoresDropdownContent) {
+        sectoresDropdownParent.addEventListener('click', (e) => {
+          e.preventDefault();
+          sectoresDropdownContent.classList.toggle('active');
+        });
+      }
+      
+      if (conocenosDropdownParent && conocenosDropdownContent) {
+        conocenosDropdownParent.addEventListener('click', (e) => {
+          e.preventDefault();
+          conocenosDropdownContent.classList.toggle('active');
+        });
+      }
+    }
+
+    // Scroll animations
+    function animateOnScroll(sectionId, itemsSelector = null) {
+      const section = document.getElementById(sectionId);
+      if (!section) return;
+      
+      let animated = false;
+
+      function onScroll() {
+        const rect = section.getBoundingClientRect();
+        if (!animated && rect.top < window.innerHeight - 100) {
+          animated = true;
+          section.classList.add('visible');
+          
+          if (itemsSelector) {
+            const items = section.querySelectorAll(itemsSelector);
+            items.forEach((item) => {
+              item.classList.add('animate');
+            });
+          }
+          
+          window.removeEventListener('scroll', onScroll);
+        }
+      }
+      
+      window.addEventListener('scroll', onScroll);
+      onScroll(); // Check on load
+    }
+
+    document.addEventListener('DOMContentLoaded', () => {
+      animateOnScroll('enfoque-section', '.icon-item');
+      animateOnScroll('beneficios-section', '.benefit-card');
+      animateOnScroll('practica-section', '.icon-item');
+    });
+
+    // Sector switching logic
+    function switchSector(sector) {
+      // Hide all sectors
+      document.querySelectorAll('.sector-content').forEach(content => {
+        content.style.display = 'none';
+      });
+      
+      // Show selected sector
+      const sectorContent = document.getElementById(`sector-${sector}`);
+      if (sectorContent) {
+        sectorContent.style.display = 'block';
+      }
+      
+      // Update hero section
+      const heroTitle = document.getElementById('hero-title');
+      const heroSubtitle = document.getElementById('hero-subtitle');
+      const heroImage = document.getElementById('hero-image');
+      const contactTitle = document.getElementById('contact-title');
+      const contactText = document.getElementById('contact-text');
+      
+      if (sector === 'empresas') {
+        heroTitle.textContent = 'Sector Empresarial';
+        heroSubtitle.textContent = 'Transformamos desafíos empresariales en oportunidades estratégicas';
+        heroImage.src = 'https://images.pexels.com/photos/3184291/pexels-photo-3184291.jpeg?auto=compress&cs=tinysrgb&w=1920';
+        contactTitle.textContent = 'Impulsa el Crecimiento de tu Empresa';
+        contactText.textContent = 'Descubre cómo nuestras soluciones de consultoría pueden transformar tu negocio y alcanzar tus objetivos estratégicos.';
+        
+        // Setup scroll animations for empresas
+        setTimeout(() => {
+          animateOnScroll('enfoque-section', '.icon-item');
+          animateOnScroll('beneficios-section', '.benefit-card');
+          animateOnScroll('practica-section', '.icon-item');
+        }, 100);
+      } else if (sector === 'publico') {
+        heroTitle.textContent = 'Sector Público';
+        heroSubtitle.textContent = 'Fortalecemos instituciones gubernamentales para un impacto social efectivo';
+        heroImage.src = 'https://images.pexels.com/photos/8112176/pexels-photo-8112176.jpeg?auto=compress&cs=tinysrgb&w=1920';
+        contactTitle.textContent = 'Fortalece tu Institución Pública';
+        contactText.textContent = 'Conoce cómo podemos ayudarte a mejorar la gestión pública, la transparencia y el impacto de tus políticas.';
+        
+        // Setup scroll animations for publico
+        setTimeout(() => {
+          animateOnScroll('enfoque-section-publico', '.icon-item');
+          animateOnScroll('beneficios-section-publico', '.benefit-card');
+          animateOnScroll('practica-section-publico', '.icon-item');
+        }, 100);
+      } else if (sector === 'social') {
+        heroTitle.textContent = 'Sector Social';
+        heroSubtitle.textContent = 'Acompañamos organizaciones de la sociedad civil hacia la sostenibilidad';
+        heroImage.src = 'https://images.pexels.com/photos/6646917/pexels-photo-6646917.jpeg?auto=compress&cs=tinysrgb&w=1920';
+        contactTitle.textContent = 'Fortalece tu Organización Social';
+        contactText.textContent = 'Descubre cómo podemos ayudarte a fortalecer tu OSC, mejorar tu gestión y amplificar tu impacto social.';
+        
+        // Setup scroll animations for social
+        setTimeout(() => {
+          animateOnScroll('enfoque-section-social', '.icon-item');
+          animateOnScroll('beneficios-section-social', '.benefit-card');
+          animateOnScroll('practica-section-social', '.icon-item');
+        }, 100);
+      }
+    }
+    
+    // Check URL parameter on page load
+    document.addEventListener('DOMContentLoaded', () => {
+      const urlParams = new URLSearchParams(window.location.search);
+      const sector = urlParams.get('sector') || 'empresas';
+      switchSector(sector);
+    });
+  </script>
+</body>
+</html>

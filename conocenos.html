@@ -310,6 +310,14 @@
         </div>
       </div>
       <div class="dropdown">
+        <a href="sectores.html">Sectores ▾</a>
+        <div class="dropdown-content" id="sectoresDropdown">
+          <a href="sectores.html?sector=empresas">Sector Empresas</a>
+          <a href="sectores.html?sector=publico">Sector Público</a>
+          <a href="sectores.html?sector=social">Sector Social</a>
+        </div>
+      </div>
+      <div class="dropdown">
         <a href="conocenos.html">Conócenos ▾</a>
         <div class="dropdown-content" id="conocenosDropdown">
           <a href="conocenos.html#quienes-somos">Quiénes Somos</a>
@@ -1002,17 +1010,26 @@
       });
     });
 
-    // Mobile dropdown toggle for Services and Conocenos
+    // Mobile dropdown toggle for Services, Sectores and Conocenos
     if (window.innerWidth <= 800) {
       const serviciosDropdownParent = document.querySelector('.dropdown:nth-child(2) > a');
       const serviciosDropdownContent = document.getElementById('serviciosDropdown');
-      const conocenosDropdownParent = document.querySelector('.dropdown:nth-child(3) > a');
+      const sectoresDropdownParent = document.querySelector('.dropdown:nth-child(3) > a');
+      const sectoresDropdownContent = document.getElementById('sectoresDropdown');
+      const conocenosDropdownParent = document.querySelector('.dropdown:nth-child(4) > a');
       const conocenosDropdownContent = document.getElementById('conocenosDropdown');
       
       if (serviciosDropdownParent && serviciosDropdownContent) {
         serviciosDropdownParent.addEventListener('click', (e) => {
           e.preventDefault();
           serviciosDropdownContent.classList.toggle('active');
+        });
+      }
+      
+      if (sectoresDropdownParent && sectoresDropdownContent) {
+        sectoresDropdownParent.addEventListener('click', (e) => {
+          e.preventDefault();
+          sectoresDropdownContent.classList.toggle('active');
         });
       }
       

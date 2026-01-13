@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
@@ -524,6 +524,14 @@ body {
           <a href="servicios.html?servicio=servicio3">Alianzas Multisectoriales</a>
           <a href="servicios.html?servicio=servicio4">Estrategia Financiera y Análisis de Riesgos</a>
           <a href="servicios.html?servicio=servicio5">Fortalecimiento de Capacidades</a>
+        </div>
+      </div>
+      <div class="dropdown">
+        <a href="sectores.html">Sectores ▾</a>
+        <div class="dropdown-content" id="sectoresDropdown">
+          <a href="sectores.html?sector=empresas">Sector Empresas</a>
+          <a href="sectores.html?sector=publico">Sector Público</a>
+          <a href="sectores.html?sector=social">Sector Social</a>
         </div>
       </div>
       <div class="dropdown">
@@ -1470,17 +1478,26 @@ function animateServiciosSection() {
     // In case already in view on load
     onScroll();
   }
-// Mobile dropdown toggle for Services and Conocenos
+// Mobile dropdown toggle for Services, Sectores and Conocenos
 if (window.innerWidth <= 800) {
   const serviciosDropdownParent = document.querySelector('.dropdown:nth-child(2) > a');
   const serviciosDropdownContent = document.getElementById('serviciosDropdown');
-  const conocenosDropdownParent = document.querySelector('.dropdown:nth-child(3) > a');
+  const sectoresDropdownParent = document.querySelector('.dropdown:nth-child(3) > a');
+  const sectoresDropdownContent = document.getElementById('sectoresDropdown');
+  const conocenosDropdownParent = document.querySelector('.dropdown:nth-child(4) > a');
   const conocenosDropdownContent = document.getElementById('conocenosDropdown');
   
   if (serviciosDropdownParent && serviciosDropdownContent) {
     serviciosDropdownParent.addEventListener('click', (e) => {
       e.preventDefault();
       serviciosDropdownContent.classList.toggle('active');
+    });
+  }
+  
+  if (sectoresDropdownParent && sectoresDropdownContent) {
+    sectoresDropdownParent.addEventListener('click', (e) => {
+      e.preventDefault();
+      sectoresDropdownContent.classList.toggle('active');
     });
   }
   
