@@ -1,0 +1,593 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Recursos - CRESCERE PST</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: "Rubik", sans-serif;
+    }
+
+    html {
+      overflow-x: hidden;
+      max-width: 100vw;
+      scroll-behavior: smooth;
+    }
+
+    body {
+      overflow-x: hidden;
+      width: 100%;
+      max-width: 100vw;
+      position: relative;
+    }
+
+    .navbar {
+      opacity: 0;
+      transform: translateY(-20px);
+      animation: fadeInUp .3s forwards .5s;
+      display: flex;
+      justify-content: space-between;
+      padding: 1.5rem 10px;
+      background: transparent;
+      backdrop-filter: blur(0px);
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      width: 100%;
+      max-width: 100vw;
+      transition: all 0.3s ease;
+      z-index: 50;
+      box-sizing: border-box;
+    }
+
+    .navbar.scrolled {
+      padding: 0.75rem 10px;
+      backdrop-filter: blur(20px);
+      background: rgba(43, 45, 66, 0.95);
+    }
+
+    .navbar .left {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      padding-left: 10px;
+    }
+
+    .navbar .left a {
+      font-size: 1.25rem;
+      color: white;
+      text-decoration: none;
+    }
+
+    .navbar .right {
+      display: flex;
+      gap: 1.5rem;
+      align-items: center;
+      padding-right: 20px;
+    }
+
+    .navbar .right a {
+      color: white;
+      text-decoration: none;
+      font-size: 1.125rem;
+      transition: all 0.2s;
+      padding: 0.5rem 0.75rem;
+      border-radius: 0.375rem;
+      position: relative;
+    }
+
+    .navbar .right a:hover {
+      color: #ba9a5d;
+      background: rgba(194, 152, 63, 0.1);
+    }
+
+    .dropdown {
+      position: relative;
+      display: inline-block;
+    }
+
+    .dropdown-content {
+      display: none;
+      position: absolute;
+      top: 100%;
+      left: 0;
+      min-width: 250px;
+      background: rgba(43, 45, 66, 0.98);
+      backdrop-filter: blur(20px);
+      border-radius: 0.5rem;
+      box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+      padding: 0.5rem 0;
+      z-index: 100;
+      margin-top: 0.5rem;
+    }
+
+    .dropdown-content a {
+      display: block;
+      padding: 0.75rem 1.25rem;
+      color: white;
+      text-decoration: none;
+      font-size: 1rem;
+      transition: all 0.2s;
+    }
+
+    .dropdown-content a:hover {
+      background: rgba(194, 152, 63, 0.2);
+      color: #ba9a5d;
+    }
+
+    .dropdown:hover .dropdown-content {
+      display: block;
+    }
+
+    .menu {
+      display: none;
+      flex-direction: column;
+      gap: 5px;
+      cursor: pointer;
+      padding: 8px;
+      border-radius: 5px;
+      transition: background 0.2s;
+    }
+
+    .menu:hover {
+      background: rgba(194, 152, 63, 0.2);
+    }
+
+    .menu span {
+      width: 25px;
+      height: 3px;
+      background: white;
+      transition: all 0.3s;
+    }
+
+    @keyframes fadeInUp {
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    .btn-shine {
+      position: relative;
+      overflow: hidden;
+    }
+
+    .btn-shine::before {
+      content: '';
+      position: absolute;
+      top: -50%;
+      left: -100%;
+      width: 40%;
+      height: 200%;
+      background: linear-gradient(
+        90deg,
+        transparent,
+        rgba(255, 255, 255, 0.4),
+        transparent
+      );
+      transform: skewX(-25deg);
+      transition: none;
+    }
+
+    .btn-shine:hover::before {
+      animation: shine 1.56s ease-in-out;
+    }
+
+    @keyframes shine {
+      0% {
+        left: -100%;
+      }
+      100% {
+        left: 200%;
+      }
+    }
+
+    /* Video Card Styles */
+    .video-card {
+      background: linear-gradient(135deg, rgba(55, 65, 81, 0.9), rgba(31, 41, 55, 0.9));
+      backdrop-filter: blur(10px);
+      border: 1px solid rgba(186, 154, 93, 0.2);
+      transition: all 0.3s ease;
+      cursor: pointer;
+      overflow: hidden;
+    }
+
+    .video-card:hover {
+      transform: translateY(-5px);
+      border-color: rgba(186, 154, 93, 0.5);
+      box-shadow: 0 10px 30px rgba(186, 154, 93, 0.2);
+    }
+
+    .video-thumbnail {
+      position: relative;
+      padding-top: 56.25%; /* 16:9 Aspect Ratio */
+      overflow: hidden;
+      background: #000;
+    }
+
+    .video-thumbnail img {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      transition: transform 0.3s ease;
+    }
+
+    .video-card:hover .video-thumbnail img {
+      transform: scale(1.05);
+    }
+
+    .play-button {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      width: 70px;
+      height: 70px;
+      background: rgba(186, 154, 93, 0.9);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: all 0.3s ease;
+      z-index: 2;
+    }
+
+    .video-card:hover .play-button {
+      background: #ba9a5d;
+      transform: translate(-50%, -50%) scale(1.1);
+    }
+
+    .play-button::after {
+      content: '';
+      width: 0;
+      height: 0;
+      border-left: 20px solid white;
+      border-top: 12px solid transparent;
+      border-bottom: 12px solid transparent;
+      margin-left: 5px;
+    }
+
+    /* Modal Styles */
+    .modal {
+      display: none;
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0, 0, 0, 0.9);
+      z-index: 1000;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+    }
+
+    .modal.active {
+      display: flex;
+    }
+
+    .modal-content {
+      position: relative;
+      width: 100%;
+      max-width: 1200px;
+      aspect-ratio: 16/9;
+      background: #000;
+    }
+
+    .modal-close {
+      position: absolute;
+      top: -40px;
+      right: 0;
+      color: white;
+      font-size: 36px;
+      cursor: pointer;
+      width: 40px;
+      height: 40px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: all 0.3s ease;
+    }
+
+    .modal-close:hover {
+      color: #ba9a5d;
+      transform: rotate(90deg);
+    }
+
+    .modal iframe {
+      width: 100%;
+      height: 100%;
+    }
+
+    @media (max-width: 800px) {
+      .navbar .right {
+        position: fixed;
+        top: 0;
+        right: -100%;
+        height: 100vh;
+        width: 100%;
+        max-width: 100vw;
+        background: rgba(43, 45, 66, 0.98);
+        backdrop-filter: blur(20px);
+        flex-direction: column;
+        justify-content: flex-start;
+        padding-top: 80px;
+        padding-right: 0;
+        gap: 0;
+        transition: right 0.3s ease;
+        overflow-y: auto;
+      }
+
+      .navbar .right.active {
+        right: 0;
+      }
+
+      .navbar .right a {
+        width: 100%;
+        padding: 1rem 2rem;
+        border-radius: 0;
+        font-size: 1.25rem;
+        border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+      }
+
+      .menu {
+        display: flex;
+        z-index: 100;
+      }
+
+      .dropdown-content {
+        position: static;
+        display: none;
+        background: rgba(31, 41, 55, 0.95);
+        box-shadow: none;
+        margin-top: 0;
+        border-radius: 0;
+      }
+
+      .dropdown.active .dropdown-content {
+        display: block;
+      }
+
+      .dropdown > a::after {
+        content: '';
+        display: inline-block;
+        margin-left: 8px;
+        width: 8px;
+        height: 8px;
+        border-right: 2px solid white;
+        border-bottom: 2px solid white;
+        transform: rotate(45deg);
+        transition: transform 0.3s;
+      }
+
+      .dropdown.active > a::after {
+        transform: rotate(-135deg);
+      }
+    }
+  </style>
+</head>
+<body class="bg-gray-900 text-white">
+
+  <nav class="navbar">
+    <div class="left">
+      <a href="index.html" class="flex items-center gap-3">
+        <img src="Recursos/Recurso 6.png" alt="CRESCERE PST logo" class="h-12 w-auto" />
+        <span class="inline-block font-bold text-xl text-white">CRESCERE PST</span>
+      </a>
+    </div>
+    <div class="menu" onclick="toggleMenu()">
+      <span></span>
+      <span></span>
+      <span></span>
+    </div>
+    <div class="right" id="mobileMenu">
+      <a href="index.html">Inicio</a>
+      <div class="dropdown">
+        <a href="servicios.html">Servicios ▾</a>
+        <div class="dropdown-content" id="serviciosDropdown">
+          <a href="servicios.html?servicio=servicio1">Liderazgo Estratégico y Gobernanza</a>
+          <a href="servicios.html?servicio=servicio2">Gestión Integral de Proyectos</a>
+          <a href="servicios.html?servicio=servicio3">Alianzas Multisectoriales</a>
+          <a href="servicios.html?servicio=servicio4">Estrategia Financiera y Análisis de Riesgos</a>
+          <a href="servicios.html?servicio=servicio5">Fortalecimiento de Capacidades</a>
+        </div>
+      </div>
+      <div class="dropdown">
+        <a href="sectores.html">Sectores ▾</a>
+        <div class="dropdown-content" id="sectoresDropdown">
+          <a href="sectores.html?sector=empresas">Sector Empresas</a>
+          <a href="sectores.html?sector=publico">Sector Público</a>
+          <a href="sectores.html?sector=social">Sector Social</a>
+        </div>
+      </div>
+      <div class="dropdown">
+        <a href="conocenos.html">Conócenos ▾</a>
+        <div class="dropdown-content" id="conocenosDropdown">
+          <a href="conocenos.html#quienes-somos">Quiénes Somos</a>
+          <a href="conocenos.html#mision">Misión / Visión</a>
+          <a href="conocenos.html#trayectoria">Trayectoria</a>
+          <a href="conocenos.html#equipo">Equipo</a>
+          <a href="conocenos.html#enfoque-estrategico">Enfoque Estratégico</a>
+          <a href="conocenos.html#enfoque-pilares">Enfoque Pilares</a>
+        </div>
+      </div>
+      <a href="recursos.html">Recursos</a>
+      <a href="index.html#contact" style="background: #ba9a5d; color: white;" class="btn-shine hover:opacity-90 px-3 py-2 rounded-lg text-lg font-semibold transition">
+        Contáctanos
+      </a>
+    </div>
+  </nav>
+
+  <!-- Hero Section -->
+  <section class="relative min-h-[40vh] flex items-center justify-center text-center pt-32 pb-20" style="background: linear-gradient(135deg, #1f2937 0%, #111827 100%);">
+    <div class="relative z-10 max-w-4xl mx-auto px-4">
+      <h1 class="text-4xl md:text-6xl font-bold mb-6" style="color: #ba9a5d;">
+        Recursos
+      </h1>
+      <p class="text-xl text-gray-300 max-w-2xl mx-auto">
+        Explora nuestras publicaciones, videos y materiales para conocer más sobre nuestro trabajo y enfoque en transformación social.
+      </p>
+    </div>
+  </section>
+
+  <!-- Videos Section -->
+  <section class="py-20 bg-gray-900">
+    <div class="max-w-6xl mx-auto px-4">
+      
+      <div class="space-y-12">
+        <!-- Video 1 -->
+        <article class="video-card rounded-xl overflow-hidden" onclick="openVideo('PXov96IERVY')">
+          <div class="grid md:grid-cols-2 gap-0">
+            <div class="p-6 md:p-8 flex flex-col justify-start order-2 md:order-1">
+              <h3 class="text-2xl font-semibold mb-4" style="color: #ba9a5d;">
+                Liderazgo y Habilidades Gerenciales en IAP
+              </h3>
+              <p class="text-gray-300 leading-relaxed">
+                Descubre cómo implementamos modelos de negocio inclusivos que generan valor compartido para empresas y comunidades, transformando la manera de hacer negocios con propósito.
+              </p>
+            </div>
+            <div class="video-thumbnail order-1 md:order-2" style="padding-top: 56.25%;">
+              <img src="https://img.youtube.com/vi/PXov96IERVY/maxresdefault.jpg" alt="Video 1">
+              <div class="play-button"></div>
+            </div>
+          </div>
+        </article>
+
+        <!-- Video 2 -->
+        <article class="video-card rounded-xl overflow-hidden" onclick="openVideo('Rc4M2D5R_1A')">
+          <div class="grid md:grid-cols-2 gap-0">
+            <div class="video-thumbnail order-1" style="padding-top: 56.25%;">
+              <img src="https://img.youtube.com/vi/Rc4M2D5R_1A/maxresdefault.jpg" alt="Video 2">
+              <div class="play-button"></div>
+            </div>
+            <div class="p-6 md:p-8 flex flex-col justify-start order-2">
+              <h3 class="text-2xl font-semibold mb-4" style="color: #ba9a5d;">
+                Alianzas Estratégicas para IAP
+              </h3>
+              <p class="text-gray-300 leading-relaxed">
+                Conoce cómo facilitamos la colaboración entre sectores público, privado y social para crear proyectos de alto impacto que generen transformación territorial sostenible.
+              </p>
+            </div>
+          </div>
+        </article>
+
+        <!-- Video 3 -->
+        <article class="video-card rounded-xl overflow-hidden" onclick="openVideo('XtRAAi1xXWc')">
+          <div class="grid md:grid-cols-2 gap-0">
+            <div class="p-6 md:p-8 flex flex-col justify-start order-2 md:order-1">
+              <h3 class="text-2xl font-semibold mb-4" style="color: #ba9a5d;">
+                Gestión de Riesgos Institucionales
+              </h3>
+              <p class="text-gray-300 leading-relaxed">
+                Explora nuestro enfoque integral para el diseño, implementación y evaluación de proyectos que fortalecen capacidades locales y generan desarrollo sostenible en comunidades.
+              </p>
+            </div>
+            <div class="video-thumbnail order-1 md:order-2" style="padding-top: 56.25%;">
+              <img src="https://img.youtube.com/vi/XtRAAi1xXWc/maxresdefault.jpg" alt="Video 3">
+              <div class="play-button"></div>
+            </div>
+          </div>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <!-- Video Modal -->
+  <div class="modal" id="videoModal" onclick="closeVideo(event)">
+    <div class="modal-content">
+      <span class="modal-close" onclick="closeVideo(event)">&times;</span>
+      <iframe id="videoFrame" src="" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
+      <div id="videoError" style="display: none; position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); text-align: center; z-index: 10; background: rgba(0,0,0,0.9); padding: 40px; border-radius: 10px; border: 2px solid #ba9a5d;">
+        <p style="color: white; font-size: 18px; margin-bottom: 20px;">Este video no permite reproducción embebida</p>
+        <a id="youtubeLink" href="" target="_blank" style="display: inline-block; background: #ba9a5d; color: white; padding: 12px 30px; border-radius: 8px; text-decoration: none; font-weight: bold; transition: all 0.3s;" onmouseover="this.style.backgroundColor='#9a7d4a'" onmouseout="this.style.backgroundColor='#ba9a5d'">
+          Ver en YouTube
+        </a>
+      </div>
+    </div>
+  </div>
+
+  <!-- Footer -->
+  <footer class="bg-gray-800 text-gray-300 py-12">
+    <div class="max-w-7xl mx-auto px-4">
+      <div class="grid md:grid-cols-3 gap-8 mb-8">
+        <div>
+          <h3 class="text-xl font-bold mb-4" style="color: #ba9a5d;">CRESCERE PST</h3>
+          <p class="mb-4">Planeación, Sustentabilidad y Transformación</p>
+          <p>Consultores especializados en desarrollo social y territorial sostenible.</p>
+        </div>
+        <div>
+          <h4 class="font-semibold mb-4" style="color: #ba9a5d;">Enlaces Rápidos</h4>
+          <ul class="space-y-2">
+            <li><a href="index.html" class="hover:text-white transition">Inicio</a></li>
+            <li><a href="servicios.html" class="hover:text-white transition">Servicios</a></li>
+            <li><a href="conocenos.html" class="hover:text-white transition">Conócenos</a></li>
+            <li><a href="recursos.html" class="hover:text-white transition">Recursos</a></li>
+          </ul>
+        </div>
+        <div>
+          <h4 class="font-semibold mb-4" style="color: #ba9a5d;">Contacto</h4>
+          <p class="mb-2">Email: <a href="mailto:info@consultorespst.com" class="hover:text-white transition">info@consultorespst.com</a></p>
+          <p>Síguenos en nuestras redes sociales</p>
+        </div>
+      </div>
+      <div class="border-t border-gray-700 pt-8 text-center">
+        <p>&copy; 2026 CRESCERE PST. Todos los derechos reservados.</p>
+      </div>
+    </div>
+  </footer>
+
+  <script>
+    // Navbar scroll effect
+    function updateNavbar(scrollTop) {
+      const navbar = document.querySelector('.navbar');
+      if (scrollTop > 50) {
+        navbar.classList.add('scrolled');
+      } else {
+        navbar.classList.remove('scrolled');
+      }
+    }
+
+    window.addEventListener('scroll', function() {
+      updateNavbar(window.pageYOffset);
+    });
+
+    updateNavbar(window.pageYOffset);
+
+    // Mobile menu toggle
+    function toggleMenu() {
+      const mobileMenu = document.getElementById('mobileMenu');
+      mobileMenu.classList.toggle('active');
+    }
+
+    // Mobile dropdown toggle
+    document.querySelectorAll('.dropdown > a').forEach(item => {
+      item.addEventListener('click', function(e) {
+        if (window.innerWidth <= 800) {
+          e.preventDefault();
+          const dropdown = this.parentElement;
+          dropdown.classList.toggle('active');
+        }
+      });
+    });
+
+    // Video modal functions
+    function openVideo(videoId) {
+      // Abrir video directamente en YouTube en nueva pestaña
+      window.open(`https://www.youtube.com/watch?v=${videoId}`, '_blank');
+    }
+
+
+
+  </script>
+
+</body>
+</html>
