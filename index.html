@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
@@ -6,6 +6,21 @@
   <title>Consultores PST - Sample Page</title>
   <script src="https://cdn.tailwindcss.com"></script>
   <style>
+                    /* Overlay adicional para hover en carousel-card */
+                    .carousel-card .carousel-hover-overlay {
+                      position: absolute;
+                      inset: 0;
+                      width: 100%;
+                      height: 100%;
+                      border-radius: 1rem;
+                      background: rgba(0,0,0,0);
+                      pointer-events: none;
+                      transition: background 0.3s;
+                      z-index: 2;
+                    }
+                    .carousel-card:hover .carousel-hover-overlay {
+                      background: rgba(0,0,0,0.15);
+                    }
                 /* Reforzar imágenes de fondo para tarjetas de Servicios Destacados */
                 #servicio-card-1:before {
                   background-image: url('Recursos/Inicio/Servicios Destacados/Consultoría Estratégica.png') !important;
@@ -129,7 +144,7 @@
                   transition-duration: 0s;
                 }
               }
-            /* Fade-in animación para tarjetas de Servicios Destacados */
+            /* Fade-in animación para tarjetas de Servicios Destacados al cargar/enfocar */
             .fade-in-up {
               opacity: 0;
               transform: translateY(40px);
@@ -376,6 +391,9 @@ body {
       position: relative;
       width: 100%;
       max-width: 100%;
+      min-height: 410px;
+      display: flex;
+      align-items: center;
     }
     
     .robotCarousel::before,
@@ -438,14 +456,14 @@ body {
     }
     
     .carousel-item:hover .carousel-card {
-      transform: translateY(-5px) scale(1.05) rotateY(0deg);
+      transform: translateY(-5px) scale(1.07) rotateY(0deg);
     }
 
     .hero-content img {
       opacity: 0;
       transform: translateY(+20px);
       animation: fadeInUp 1.6s forwards 0.2s;
-      filter: drop-shadow(0 4px 6px rgba(0, 0, 0, 0.5));
+      filter: drop-shadow(0 9px 6px rgba(0, 0, 0, 0.8));
     }
 
     .hero-content h1 {
@@ -657,7 +675,7 @@ body {
     bottom: 0;
     background: 
           linear-gradient(to bottom, rgba(0,0,0,0.2) 0%, rgba(0,0,0,0.2) 100%),
-          url('Recursos/Inicio/Sobre Nosostros/Sobre_Nosotros.png') center center / cover no-repeat !important;
+          url('Recursos/Inicio/Sobre Nosostros/Hands_Center.png') center center / cover no-repeat !important;
     
     z-index: 0;
   }
@@ -701,7 +719,7 @@ body {
       left: 30%;
       background: 
           linear-gradient(to left, rgba(0,0,0,0.2) 0%, rgba(0,0,0,0.2) 100%),
-          url('Recursos/Inicio/Sobre Nosostros/Sobre_Nosotros.png') center center / cover no-repeat !important;
+          url('Recursos/Inicio/Sobre Nosostros/Hands_Center.png') center center / cover no-repeat !important;
       -webkit-mask-image: linear-gradient(to right, transparent 0px, black 60px, black 100%);
       mask-image: linear-gradient(to right, transparent 0px, black 60px, black 100%);
     }
@@ -852,12 +870,20 @@ body {
 
  
 </style>
+<style>
+@media (max-width: 800px) {
+  #about .relative.z-10.p-8.max-w-xl {
+    backdrop-filter: blur(2px) !important;
+    -webkit-backdrop-filter: blur(2px) !important;
+  }
+}
+</style>
 </head>
 <body class="bg-gray-900 text-white">
 
   <nav class="navbar">
     <div class="left">
-      <a href="#" class="flex items-center gap-3">
+      <a href="#" class="flex items-center gap-6">
         <!-- replace src with your logo path or URL -->
         <img src="Recursos/Recurso 6.png" alt="CRESCERE PST logo" class="h-12 w-auto" />
         <!-- optional text shown on larger screens -->
@@ -892,12 +918,11 @@ body {
           <a href="conocenos.html#mision">Misión / Visión</a>
           <a href="conocenos.html#trayectoria">Trayectoria</a>
           <a href="conocenos.html#equipo">Equipo</a>
-          <a href="conocenos.html#enfoque-estrategico">Enfoque Estratégico</a>
           <a href="conocenos.html#enfoque-pilares">Enfoque Pilares</a>
         </div>
       </div>
       <a href="recursos.html">Recursos</a>
-      <a href="index.html#contact" style="background: #ba9a5d; color: white;" class="btn-shine hover:opacity-90 px-3 py-2 rounded-lg text-lg font-semibold transition">
+      <a href="contacto.html" style="background: #ba9a5d; color: white;" class="btn-shine hover:opacity-90 px-3 py-2 rounded-lg text-lg font-semibold transition">
         Contáctanos
       </a>
     </div>
@@ -931,7 +956,7 @@ body {
         </p>
         <br>
         <p class="text-3xl font-semibold" style="color: #ba9a5d; font-size: 3rem !important;">
-          CONSULTORES
+          <span class="tracking-widest" style="letter-spacing:0.1em; color: #ba9a5d; font-size: 3rem !important; display:inline-block; width:100%; text-align:center;">CONSULTORES</span>
         </p>
       </div>
       
@@ -941,7 +966,10 @@ body {
     <!-- Waves Effect -->
     <div class="waves"></div>
     <div class="waves2"></div>
+
   </section>
+
+  <!-- Sobre Nosotros 2 Section -->
 
   <script>
     // Animación secuencial real para tarjetas de Áreas de Especialización 2
@@ -1065,24 +1093,47 @@ body {
   <section id="about" class="py-20 relative overflow-hidden" style="background-color: #1f2937;">
     <div class="max-w-6xl mx-auto px-4 grid md:grid-cols-2 gap-0 items-stretch relative" style="transform: translateX(-10%);">
       <!-- Left side: Text content -->
-      <div class="relative overflow-hidden min-h-[400px] flex items-start justify-end md:rounded-r-lg">
-        <div class="relative z-10 p-8 max-w-xl" style="border: 3px solid rgba(17, 24, 39, 0.); border-radius: 12px; background-color: rgba(17, 24, 39, 0.5); backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px);">
-          <h2 class="text-4xl md:text-5xl font-bold mb-6" style="color: #ba9a5d; text-shadow: 2px 2px 8px rgba(0,0,0,0.7);">Sobre Nosotros</h2>
-          <p class="text-gray-100 text-lg leading-relaxed mb-4" style="text-shadow: 1px 1px 4px rgba(0,0,0,0.6);">
-            CRESCERE PST es un equipo multidisciplinario que diseña e implementa soluciones estratégicas para generar impacto social y territorial sostenible.
-          </p>
-          <p class="text-gray-100 text-lg leading-relaxed mb-6" style="text-shadow: 1px 1px 4px rgba(0,0,0,0.6);">
-            Te acompañamos desde la estrategia hasta la ejecución, promoviendo el desarrollo sostenible y la transformación comunitaria.
-          </p>
-          <a href="conocenos.html" class="inline-flex items-center text-lg font-semibold transition-colors" style="color: #ba9a5d; text-shadow: 1px 1px 4px rgba(0,0,0,0.6);" onmouseover="this.style.color='#9a7d4a'" onmouseout="this.style.color='#ba9a5d'">
-            Conócenos <span class="ml-2">→</span>
-          </a>
+      <a href="conocenos.html" style="text-decoration:none;display:block;" tabindex="0">
+        <div class="sobre-nosotros-card fade-in-up visible relative overflow-hidden min-h-[400px] flex items-start justify-end md:rounded-r-lg transition-all duration-300" style="border-radius: 12px; background-color: rgba(17, 24, 39, 0.5); box-shadow:0 4px 24px rgba(0,0,0,0.25); cursor:pointer; transform:scale(1); transition:transform 0.3s, background 0.3s; height:100%; min-height:400px;" onmouseover="this.style.transform='scale(1.10)';this.style.backgroundColor='rgba(17,24,39,0.85)';" onmouseout="this.style.transform='scale(1)';this.style.backgroundColor=window.innerWidth<=800?'rgba(17,24,39,0.25)':'rgba(17,24,39,0.5)';">
+          <div class="relative z-10 p-8 max-w-xl sobre-nosotros-content">
+            <h2 class="text-4xl md:text-5xl font-bold mb-6" style="color: #ba9a5d; text-shadow: 2px 2px 8px rgba(0,0,0,0.7);">Sobre Nosotros</h2>
+            <p class="text-gray-100 text-lg leading-relaxed mb-4" style="text-shadow: 1px 1px 4px rgba(0,0,0,0.6);">
+              CRESCERE PST es un equipo multidisciplinario que diseña e implementa soluciones estratégicas para generar impacto social y territorial sostenible.
+            </p>
+            <p class="text-gray-100 text-lg leading-relaxed mb-6" style="text-shadow: 1px 1px 4px rgba(0,0,0,0.6);">
+              Te acompañamos desde la estrategia hasta la ejecución, promoviendo el desarrollo sostenible y la transformación comunitaria.
+            </p>
+            <span class="inline-flex items-center text-lg font-semibold transition-colors" style="color: #ba9a5d; text-shadow: 1px 1px 4px rgba(0,0,0,0.6);">Conócenos <span class="ml-2">→</span></span>
+          </div>
         </div>
-      </div>
-      
-      <!-- Right side: Empty for background image -->
-      <div class="relative overflow-hidden min-h-[400px] md:rounded-l-lg" style="background-image: url('data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD...'); background-size: cover; background-position: center; background-repeat: no-repeat; min-height: 400px; height: 100%; width: 100%;"></div>
+      </a>
     </div>
+      <style>
+        /* Ajuste visual para la tarjeta Sobre Nosotros en mobile */
+        @media (max-width: 800px) {
+          .sobre-nosotros-card {
+            background-color: rgba(17,24,39,0.45) !important;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.10);
+            min-height: 320px;
+            height: 100%;
+          }
+          .sobre-nosotros-card:before,
+          .sobre-nosotros-card:after {
+            display: none !important;
+          }
+          .sobre-nosotros-content {
+            padding-bottom: 4rem !important;
+          }
+        }
+
+        /* Blur solo en desktop (pantalla horizontal) para la tarjeta Sobre Nosotros */
+        @media (min-width: 801px) {
+          .sobre-nosotros-card {
+            backdrop-filter: blur(8px);
+            -webkit-backdrop-filter: blur(8px);
+          }
+        }
+      </style>
   </section>
 
   <!-- Experiencia -->
@@ -1234,7 +1285,14 @@ body {
 </section>
 
 <!-- Soluciones Técnicas con Enfoque Social -->
-<section class="bg-gray-900 py-20 fade-in-right" id="soluciones-tecnicas">
+<section class="bg-gray-800 py-20 fade-in-right" id="soluciones-tecnicas" style="background-image: linear-gradient(to bottom,
+  hsla(0,0%,0%,0) 0%,
+  hsla(0,0%,0%,0.12) 22.1%,
+  hsla(0,0%,0%,0.24) 39.4%,
+  hsla(0,0%,0%,0.36) 53.1%,
+  hsla(0,0%,0%,0.54) 74.1%,
+  hsla(0,0%,0%,0.75) 100%
+);">
   <div class="max-w-6xl mx-auto px-4 grid md:grid-cols-2 gap-12 items-center">
     <!-- Text area (left) -->
     <div>
@@ -1265,68 +1323,63 @@ body {
 </section>
 
 <!-- New Services Section: 2x2 Grid with Card Style -->
-<section id="services" class="bg-gray-800 py-20" style="background-image: linear-gradient(to bottom, rgba(0,0,0,0.20) 0%, rgba(0,0,0,0.80) 40%, rgba(31, 41, 55, 1) 100%);">
+<section id="services" class="bg-gray-800 py-20" style="background-image: linear-gradient(to bottom,
+  hsla(0,0%,0%,0.75) 0%,
+  hsla(0,0%,0%,0.54) 25.9%,
+  hsla(0,0%,0%,0.36) 46.9%,
+  hsla(0,0%,0%,0.24) 60.6%,
+  hsla(0,0%,0%,0.12) 77.9%,
+  hsla(0,0%,0%,0) 100%
+);">
   <div class="max-w-6xl mx-auto px-4" style="padding-top: 30px;">
     <div style="display: flex; justify-content: center; width: 100%;">
       <h2 id="servicios-title" class="text-4xl md:text-5xl font-bold mb-12 fade-in-up" style="color: #111827; background-color: #ba9a5d; padding: 12px 20px; border-radius: 8px; display: inline-block;">Servicios Destacados</h2>
     </div>
     <div class="grid grid-cols-1 md:grid-cols-2 gap-10">
       <!-- Card 1 -->
-      <div id="servicio-card-1" class="bg-gray-900 rounded-xl shadow-lg p-8 flex flex-col justify-between service-card fade-in-up group" style="background-color: rgba(17, 24, 39, 0.75); backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px); transition: all 0.3s ease;" onmouseover="this.style.backgroundColor='rgba(17, 24, 39, 1.0)'" onmouseout="this.style.backgroundColor='rgba(17, 24, 39, 0.75)'">
-        <div class="content">
-          <h3 class="title text-2xl md:text-3xl font-bold mb-4" style="color: #fff;">Consultoría Estratégica</h3>
-          <p class="copy text-lg md:text-xl text-gray-100">
-            Asesoría especializada en proyectos sociales, urbanos y sostenibles con enfoque en ODS, género e inclusión.
-          </p>
-          <div class="opacity-0 group-hover:opacity-100 transition-opacity duration-300 mt-4">
-            <a href="#" class="btn text-orange-500 hover:underline inline-flex items-center">
-              Saber más <span class="ml-1">→</span>
-            </a>
+      <a href="servicios.html?servicio=consultoria" style="text-decoration:none;display:block;" tabindex="0">
+        <div id="servicio-card-1" class="bg-gray-900 rounded-xl shadow-lg p-8 flex flex-col justify-between service-card fade-in-up group" style="background-color: rgba(17, 24, 39, 0.75); backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px); transition: all 0.3s ease;" onmouseover="this.style.backgroundColor='rgba(17, 24, 39, 1.0)'" onmouseout="this.style.backgroundColor='rgba(17, 24, 39, 0.75)'">
+          <div class="content">
+            <h3 class="title text-2xl md:text-3xl font-bold mb-4" style="color: #fff;">Consultoría Estratégica</h3>
+            <p class="copy text-lg md:text-xl text-gray-100">
+              Asesoría especializada en proyectos sociales, urbanos y sostenibles con enfoque en ODS, género e inclusión.
+            </p>
           </div>
         </div>
-      </div>
+      </a>
       <!-- Card 2 -->
-      <div id="servicio-card-2" class="bg-gray-900 rounded-xl shadow-lg p-8 flex flex-col justify-between service-card fade-in-up group" style="background-color: rgba(17, 24, 39, 0.75); backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px); transition: all 0.3s ease;" onmouseover="this.style.backgroundColor='rgba(17, 24, 39, 1.0)'" onmouseout="this.style.backgroundColor='rgba(17, 24, 39, 0.75)'">
-        <div class="content">
-          <h3 class="title text-2xl md:text-3xl font-bold mb-4" style="color: #fff;">Diseño de Proyectos</h3>
-          <p class="copy text-lg md:text-xl text-gray-100">
-            Desarrollamos planes y estrategias con metodologías participativas y financiamiento innovador para garantizar viabilidad.
-          </p>
-          <div class="opacity-0 group-hover:opacity-100 transition-opacity duration-300 mt-4">
-            <a href="#" class="btn text-orange-500 hover:underline inline-flex items-center">
-              Saber más <span class="ml-1">→</span>
-            </a>
+      <a href="servicios.html?servicio=diseno" style="text-decoration:none;display:block;" tabindex="0">
+        <div id="servicio-card-2" class="bg-gray-900 rounded-xl shadow-lg p-8 flex flex-col justify-between service-card fade-in-up group" style="background-color: rgba(17, 24, 39, 0.75); backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px); transition: all 0.3s ease;" onmouseover="this.style.backgroundColor='rgba(17, 24, 39, 1.0)'" onmouseout="this.style.backgroundColor='rgba(17, 24, 39, 0.75)'">
+          <div class="content">
+            <h3 class="title text-2xl md:text-3xl font-bold mb-4" style="color: #fff;">Diseño de Proyectos</h3>
+            <p class="copy text-lg md:text-xl text-gray-100">
+              Desarrollamos planes y estrategias con metodologías participativas y financiamiento innovador para garantizar viabilidad.
+            </p>
           </div>
         </div>
-      </div>
+      </a>
       <!-- Card 3 -->
-      <div id="servicio-card-3" class="bg-gray-900 rounded-xl shadow-lg p-8 flex flex-col justify-between service-card fade-in-up group" style="background-color: rgba(17, 24, 39, 0.75); backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px); transition: all 0.3s ease;" onmouseover="this.style.backgroundColor='rgba(17, 24, 39, 1.0)'" onmouseout="this.style.backgroundColor='rgba(17, 24, 39, 0.75)'">
-        <div class="content">
-          <h3 class="title text-2xl md:text-3xl font-bold mb-4" style="color: #fff;">Implementación Participativa</h3>
-          <p class="copy text-lg md:text-xl text-gray-100">
-            Ejecutamos proyectos con brigadas comunitarias y sistemas de monitoreo (MEAL) para maximizar impacto social.
-          </p>
-          <div class="opacity-0 group-hover:opacity-100 transition-opacity duration-300 mt-4">
-            <a href="#" class="btn text-orange-500 hover:underline inline-flex items-center">
-              Saber más <span class="ml-1">→</span>
-            </a>
+      <a href="servicios.html?servicio=implementacion" style="text-decoration:none;display:block;" tabindex="0">
+        <div id="servicio-card-3" class="bg-gray-900 rounded-xl shadow-lg p-8 flex flex-col justify-between service-card fade-in-up group" style="background-color: rgba(17, 24, 39, 0.75); backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px); transition: all 0.3s ease;" onmouseover="this.style.backgroundColor='rgba(17, 24, 39, 1.0)'" onmouseout="this.style.backgroundColor='rgba(17, 24, 39, 0.75)'">
+          <div class="content">
+            <h3 class="title text-2xl md:text-3xl font-bold mb-4" style="color: #fff;">Implementación Participativa</h3>
+            <p class="copy text-lg md:text-xl text-gray-100">
+              Ejecutamos proyectos con brigadas comunitarias y sistemas de monitoreo (MEAL) para maximizar impacto social.
+            </p>
           </div>
         </div>
-      </div>
+      </a>
       <!-- Card 4 -->
-      <div id="servicio-card-4" class="bg-gray-900 rounded-xl shadow-lg p-8 flex flex-col justify-between service-card fade-in-up group" style="background-color: rgba(17, 24, 39, 0.75); backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px); transition: all 0.3s ease;" onmouseover="this.style.backgroundColor='rgba(17, 24, 39, 1.0)'" onmouseout="this.style.backgroundColor='rgba(17, 24, 39, 0.75)'">
-        <div class="content">
-          <h3 class="title text-2xl md:text-3xl font-bold mb-4" style="color: #fff;">Capacitación y Formación</h3>
-          <p class="copy text-lg md:text-xl text-gray-100">
-            Fortalecimiento de capacidades técnicas y organizacionales para líderes, equipos y comunidades con enfoque sostenible.
-          </p>
-          <div class="opacity-0 group-hover:opacity-100 transition-opacity duration-300 mt-4">
-            <a href="#" class="btn text-orange-500 hover:underline inline-flex items-center">
-              Saber más <span class="ml-1">→</span>
-            </a>
+      <a href="servicios.html?servicio=capacitacion" style="text-decoration:none;display:block;" tabindex="0">
+        <div id="servicio-card-4" class="bg-gray-900 rounded-xl shadow-lg p-8 flex flex-col justify-between service-card fade-in-up group" style="background-color: rgba(17, 24, 39, 0.75); backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px); transition: all 0.3s ease;" onmouseover="this.style.backgroundColor='rgba(17, 24, 39, 1.0)'" onmouseout="this.style.backgroundColor='rgba(17, 24, 39, 0.75)'">
+          <div class="content">
+            <h3 class="title text-2xl md:text-3xl font-bold mb-4" style="color: #fff;">Capacitación y Formación</h3>
+            <p class="copy text-lg md:text-xl text-gray-100">
+              Fortalecimiento de capacidades técnicas y organizacionales para líderes, equipos y comunidades con enfoque sostenible.
+            </p>
           </div>
         </div>
-      
+      </a>
       </div>
     </div>
   </div>
@@ -1355,7 +1408,7 @@ body {
         Acompañamos a nuestros aliados desde la estrategia hasta la ejecución. Generemos juntos impacto social y territorial sostenible.
       </p>
       <div class="flex flex-col sm:flex-row gap-4 justify-center items-center">
-        <a href="mailto:info@consultorespst.com" 
+        <a href="contacto.html" 
            class="btn-shine text-white px-8 py-4 rounded-lg text-lg font-semibold transition transform hover:scale-105 inline-flex items-center shadow-lg" style="background-color: #9a7d4a;" onmouseover="this.style.backgroundColor='#ba9a5d'" onmouseout="this.style.backgroundColor='#9a7d4a'">
           Contáctanos
           <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 ml-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -1430,9 +1483,10 @@ body {
           <nav class="mt-8">
             <ul class="space-y-4 text-sm">
               <li><a class="text-white transition hover:text-white/75" href="conocenos.html#quienes-somos">Quiénes Somos</a></li>
+              <li><a class="text-white transition hover:text-white/75" href="conocenos.html#mision">Misión / Visión</a></li>
               <li><a class="text-white transition hover:text-white/75" href="conocenos.html#trayectoria">Trayectoria</a></li>
               <li><a class="text-white transition hover:text-white/75" href="conocenos.html#equipo">Equipo</a></li>
-              <li><a class="text-white transition hover:text-white/75" href="conocenos.html#mision">Misión / Visión</a></li>
+              <li><a class="text-white transition hover:text-white/75" href="conocenos.html#enfoque-pilares">Enfoque Pilares</a></li>
             </ul>
           </nav>
         </div>
@@ -1461,11 +1515,11 @@ body {
           <p class="text-lg font-medium text-white" style="text-decoration: underline;">Contacto</p>
           <ul class="mt-8 space-y-4 text-sm">
             <li>
-              <a class="flex items-center justify-center sm:justify-start gap-1.5 group" href="mailto:info@consultorespst.com">
+                <a class="flex items-center justify-center sm:justify-start gap-1.5 group" href="contacto.html">
                 <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5 text-white shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
                   <path stroke-linecap="round" stroke-linejoin="round" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/>
                 </svg>
-                <span class="text-white transition group-hover:text-white/75">info@consultorespst.com</span>
+                  <span class="text-white transition group-hover:text-white/75">Contáctanos</span>
               </a>
             </li>
             <li>
@@ -1509,93 +1563,96 @@ body {
     document.addEventListener('DOMContentLoaded', function() {
       const track = document.getElementById('carouselTrack');
       const container = document.getElementById('carouselContainer');
+        // Prevenir drag nativo del navegador
+        container.addEventListener('dragstart', e => e.preventDefault());
       
       // Card data
       const cards = [
         {
-          title: "Liderazgo organizacional",
-          desc: "Impartimos cursos de Liderazgo Organizacional inclusivo y participativo a empresas que garanticen que todos los esfuerzos están alineados con los objetivos de desarrollo social y ambiental a largo plazo.",
-          img: "https://cdn.pixabay.com/photo/2016/11/29/09/32/adult-1867483_960_720.jpg"
+          title: "1. Liderazgo Estratégico y Gobernanza",
+          desc: "Impartimos cursos de liderazgo organizacional inclusivo y participativo, alineados con los objetivos de desarrollo social y ambiental a largo plazo.",
+          img: "Recursos/Inicio/Portafolio/Liderasgo y Gobernanza.jpg"
         },
         {
-          title: "Diseño de Programas y Proyectos Innovadores para Comunidades",
-          desc: "Diseñamos programas integrales en la Comunidad, que no solo se refieren a su Hábitat, sino que también incorporan espacios productivos dentro de los hogares, fomentando la autosuficiencia y mejorando los ingresos familiares.",
-          img: "https://cdn.pixabay.com/photo/2017/01/10/19/05/meeting-1979261_960_720.jpg"
+          title: "2. Gestión Integral de Proyectos y Desarrollo de Recursos",
+          desc: "Diseñamos programas integrales para comunidades, incorporando espacios productivos y fomentando la autosuficiencia y mejora de ingresos familiares.",
+          img: "Recursos/Inicio/Portafolio/Diseño de Programas y Proyectos Innovadores.png"
         },
         {
-          title: "Brigadas Corporativas para Empresas en Proyectos Sociales",
-          desc: "Brindamos la logística e implementación de brigadas corporativas en comunidades en proyectos de impacto social, que generan vínculos sostenibles y de largo plazo en los integrantes que refuerza el trabajo en equipo y la visión social de las empresas.",
-          img: "https://cdn.pixabay.com/photo/2016/11/08/05/31/adult-1807505_960_720.jpg"
+          title: "3. Alianzas Multisectoriales",
+          desc: "Brindamos logística e implementación de brigadas corporativas en proyectos sociales, generando vínculos sostenibles y reforzando el trabajo en equipo y la visión social de las empresas.",
+          img: "Recursos/Inicio/Portafolio/Brigadas Corporativas para Empresas.png"
         },
         {
-          title: "Modelos y Planes de Negocio Inclusivos y riesgos financieros para ONG e IAP o Comunidades",
-          desc: "Capacitamos a comunidades y familias para desarrollar modelos de negocio inclusivos para proyectos sociales, asegurando que los recursos se utilicen de manera eficiente, beneficiando a las comunidades más necesitadas y fomentando oportunidades económicas sostenibles.",
-          img: "https://cdn.pixabay.com/photo/2016/10/28/22/25/business-1783766_960_720.jpg"
+          title: "4. Estrategia Financiera y Análisis de Riesgos",
+          desc: "Capacitamos comunidades y familias para desarrollar modelos de negocio inclusivos, asegurando el uso eficiente de recursos y fomentando oportunidades económicas sostenibles.",
+          img: "Recursos/Inicio/Portafolio/Estrategia Financiera y Analisis de Riesgos.png"
         },
         {
-          title: "Capacitación a IAP, ONG u Comunidades para alianzas con Empresas",
-          desc: "Fortalecemos capacidades para el desarrollo de Alianzas, Riesgos Financieros y Liderazgo.",
-          img: "https://cdn.pixabay.com/photo/2016/11/29/03/53/adult-1867481_960_720.jpg"
+          title: "5. Fortalecimiento de Capacidades y Formación",
+          desc: "Fortalecemos capacidades para el desarrollo de alianzas, riesgos financieros y liderazgo en IAP, ONG y comunidades.",
+          img: "Recursos/Inicio/Portafolio/Fortalecimiento de Capacidades y Formacion.jpg"
         },
         {
-          title: "Monitoreo, Evaluación y Mejora Continua para alianzas con ONG, IAP o Comunidades de proyectos sociales",
-          desc: "Impartimos talleres para que los proyectos sociales se aplique monitoreo participativo para evaluar la efectividad de las intervenciones, como en proyectos de agua y saneamiento, donde la evaluación continua permitió ajustes en tiempo real para optimizar el impacto y garantizar la sostenibilidad.",
-          img: "https://cdn.pixabay.com/photo/2017/01/10/19/05/meeting-1979261_960_720.jpg"
+          title: "6. Monitoreo, Evaluación y Mejora Continua (MEAL)",
+          desc: "Impartimos talleres para aplicar monitoreo participativo en proyectos sociales, permitiendo ajustes en tiempo real para optimizar el impacto y garantizar la sostenibilidad.",
+          img: "Recursos/Inicio/Portafolio/Monitoreo, Evaluación y Mejora Continua.png"
         },
         {
-          title: "Organización Comunitaria y Participación Social",
-          desc: "Brindamos cursos o talleres para fortalecer la Organización Comunitaria que genera en la comunidad Comités Locales que incluyan reglamentos y liderazgo comunitarios para empoderar a las comunidades, asegurando que asuman roles de responsabilidad en la gestión de recursos y la implementación de proyectos sostenibles.",
-          img: "https://cdn.pixabay.com/photo/2016/11/08/05/31/adult-1807505_960_720.jpg"
+          title: "7. Organización Comunitaria y Participación Social",
+          desc: "Brindamos cursos y talleres para fortalecer la organización comunitaria, generando comités locales y liderazgo comunitario para empoderar a las comunidades.",
+          img: "Recursos/Inicio/Portafolio/Organizacion Comunitaria y Participacion Social.jpg"
         },
         {
-          title: "Capacitación en Ahorro y Educación Financiera",
-          desc: "Ofrecemos cursos y talleres en programa de Ahorro y Educación Financiera, capacitamos a las comunidades en la gestión de recursos, permitiéndoles financiar los emprendimientos de familias y comunidades, mejora de sus viviendas, especialmente en sectores vulnerables, asegurando la sostenibilidad económica de los proyectos.",
-          img: "https://cdn.pixabay.com/photo/2016/10/28/22/25/business-1783766_960_720.jpg"
+          title: "8. Capacitación en Ahorro y Educación Financiera",
+          desc: "Ofrecemos cursos y talleres en ahorro y educación financiera, capacitando a comunidades en la gestión de recursos para financiar emprendimientos y mejorar viviendas.",
+          img: "Recursos/Inicio/Portafolio/Capacitación en Educación Financiera.png"
         },
         {
-          title: "Fortalecimiento del Liderazgo Local y Planeación Estratégica de Proyectos Sociales",
-          desc: "Brindamos cursos al fortalecimiento de liderazgos comunitarios en proyectos de impacto social, capacitando a líderes locales para tomar decisiones clave sobre sus hábitat. Implementamos procesos de planificación estratégica que aseguran la sostenibilidad y escalabilidad de los proyectos sociales.",
-          img: "https://cdn.pixabay.com/photo/2016/11/29/03/53/adult-1867481_960_720.jpg"
+          title: "9. Fortalecimiento del Liderazgo Local y Planeación Estratégica",
+          desc: "Brindamos cursos para fortalecer liderazgos comunitarios y procesos de planificación estratégica que aseguran la sostenibilidad y escalabilidad de los proyectos sociales.",
+          img: "Recursos/Inicio/Portafolio/Fortalecimiento del Liderasgo Local y Planeacion Estrategica.png"
         },
         {
-          title: "Procesos Participativos y Metodologías de agua y saneamiento",
-          desc: "Ofrecemos cursos en proyectos de agua, saneamiento e higiene (ASH), implementamos metodologías participativas (CLTS - CLUES) que permitieron a las comunidades ser protagonistas del diseño y ejecución de las soluciones garantizando su apropiación y durabilidad.",
-          img: "https://cdn.pixabay.com/photo/2017/01/10/19/05/meeting-1979261_960_720.jpg"
+          title: "10. Procesos Participativos y Metodologías de Agua y Saneamiento",
+          desc: "Ofrecemos cursos en proyectos de agua, saneamiento e higiene (ASH), implementando metodologías participativas (CLTS - CLUES) para garantizar apropiación y durabilidad.",
+          img: "Recursos/Inicio/Portafolio/Procesos Participativos en Agua y Saneamiento.png"
+        },
+        // Los demás servicios se mantienen igual, sin numeración especial
+        {
+          title: "11. Formación de Formadores y Asistencia Técnica",
+          desc: "Capacitamos a 'Formadores de Formadores' para replicar aprendizajes en proyectos sociales, asegurando soluciones duraderas y de calidad.",
+          img: "Recursos/Inicio/Portafolio/Formacion de Formadores y Asistencia Tecnica.png"
         },
         {
-          title: "Formación de Formadores y Asistencia Técnica",
-          desc: "Capacitamos a 'Formadores de Formadores' personas en la comunidad que replicaran los aprendizajes significativos en proyectos sociales, por ejemplo, en técnicas de autoconstrucción y el uso y mantenimiento de sistemas de construcción y de ASH apropiados, lo que permitirá a las comunidades replicar el conocimiento adquirido y asegurar soluciones duraderas y de calidad.",
-          img: "https://cdn.pixabay.com/photo/2016/11/08/05/31/adult-1807505_960_720.jpg"
+          title: "12. Desarrollo Territorial y Resiliencia Comunitaria",
+          desc: "Capacitamos comunidades para implementar planes de desarrollo territorial y estrategias de adaptación climática y resiliencia comunitaria.",
+          img: "Recursos/Inicio/Portafolio/Desarrollo Territorial y Resilencia Comunitaria.png"
         },
         {
-          title: "Desarrollo Territorial y Resiliencia Comunitaria",
-          desc: "Capacitamos a comunidades para implementar planes de desarrollo territorial en zonas vulnerables, integrados estrategias de adaptación climática y resiliencia comunitaria para que las comunidades no solo mejoraran su infraestructura, sino que también estuvieran mejor preparadas para enfrentar eventos climáticos extremos.",
-          img: "https://cdn.pixabay.com/photo/2016/10/28/22/25/business-1783766_960_720.jpg"
+          title: "13. Asesoría Técnica en Construcción y Autoconstrucción",
+          desc: "Brindamos asesoría técnica especializada en autoconstrucción de viviendas y mejoramientos, así como supervisión externa para modelos 'llave en mano'.",
+          img: "Recursos/Inicio/Portafolio/Asesoría Técnica y Supervisión en Construcción (2).png"
         },
         {
-          title: "Asesoría Técnica en Construcción y Autoconstrucción",
-          desc: "Brindamos asesoría técnica especializada en autoconstrucción de viviendas y mejoramientos, así como supervisión externa para modelos 'llave en mano' para ofrecer soluciones integrales desde el diseño hasta la supervisión final, mejorando la calidad de vida de las familias beneficiarias.",
-          img: "https://cdn.pixabay.com/photo/2016/11/29/03/53/adult-1867481_960_720.jpg"
+          title: "14. Vivienda Saludable y Vivienda Productiva",
+          desc: "Capacitamos en programas de vivienda saludable y productiva, integrando espacios de trabajo para impulsar autosuficiencia y resiliencia familiar.",
+          img: "Recursos/Inicio/Portafolio/Vivienda Saludable y Vivienda Productiva.png"
         },
         {
-          title: "Vivienda Saludable y Vivienda Productiva",
-          desc: "Capacitamos a comunidades y familias en programas de Vivienda Saludable y Productiva que no solo mejoran las condiciones habitacionales, sino que integran espacios de trabajo dentro de la vivienda, impulsando la autosuficiencia y resiliencia de las familias.",
-          img: "https://cdn.pixabay.com/photo/2017/01/10/19/05/meeting-1979261_960_720.jpg"
+          title: "15. Gestión de Riesgos y Respuesta ante Desastres",
+          desc: "Implementamos la metodología PASSA y diseñamos programas integrales de gestión de riesgos y respuesta ante desastres para garantizar resiliencia comunitaria.",
+          img: "Recursos/Inicio/Portafolio/Gestión de Riesgos y Resiliencia Comunitaria.png"
         },
         {
-          title: "Gestión de Riesgos y Respuesta ante Desastres",
-          desc: "Implementamos la metodología PASSA y diseñamos programas integrales de gestión de riesgos y respuesta ante desastres para garantizar la resiliencia de las comunidades frente a eventos climáticos extremos, con un enfoque en la reducción de riesgos y adaptación al cambio.",
-          img: "https://cdn.pixabay.com/photo/2016/11/08/05/31/adult-1807505_960_720.jpg"
+          title: "16. Mapeo y Análisis de Actores y Negociación de Acuerdos",
+          desc: "Capacitamos en mapeo de actores clave y negociación de acuerdos para consolidar relaciones y optimizar la implementación de proyectos.",
+          img: "Recursos/Inicio/Portafolio/Mapeo y Analisis de Actores y Negociacion de Acuerdos.png"
         },
         {
-          title: "Mapeo y Análisis de Actores y Negociación de Acuerdos",
-          desc: "Capacitamos a comunidades para realizar mapeos de actores clave en proyectos de vivienda y desarrollo territorial, facilitando la identificación de oportunidades de colaboración. La negociación de memorandos de entendimiento y convenios permitió consolidar relaciones a largo plazo, optimizando la implementación de los proyectos.",
-          img: "https://cdn.pixabay.com/photo/2016/10/28/22/25/business-1783766_960_720.jpg"
-        },
-        {
-          title: "Evaluación Financiera de Proyectos e Identificación de Riesgos Financieros a ONG, IAP y Cooperativas de Ahorro y Crédito",
-          desc: "Realizamos evaluaciones financieras detalladas para asegurar la viabilidad de proyectos de vivienda social, identificando y gestionando riesgos financieros, operativos y de mercado. Esto incluye la medición de riesgos de liquidez, crédito y mercado, garantizando que los proyectos sean sostenibles y rentables a largo plazo.",
-          img: "https://cdn.pixabay.com/photo/2016/11/29/03/53/adult-1867481_960_720.jpg"
+          title: "17. Evaluación Financiera de Proyectos e Identificación de Riesgos Financieros",
+          desc: "Realizamos evaluaciones financieras para asegurar la viabilidad de proyectos sociales, identificando y gestionando riesgos financieros, operativos y de mercado.",
+          img: "Recursos/Inicio/Portafolio/Evaluación Financiera y Análisis de Riesgos Financieros.png"
         }
       ];
 
@@ -1624,18 +1681,21 @@ body {
         item.className = 'carousel-item';
         item.dataset.index = index;
 
+        let bgStyle = card.img ? `background-image: url('${card.img}'); background-size: calc(100% + 6px) auto; background-position: center center; background-repeat: no-repeat; border-radius: 1rem;` : '';
+        // Ajuste: imagen de fondo cubre toda la tarjeta
+        let bgFullStyle = card.img ? `background-image: url('${card.img}'); background-size: cover; background-position: center; background-repeat: no-repeat; border-radius: 1rem; width:100%; height:100%; min-height:340px;` : '';
         item.innerHTML = `
-          <div class="carousel-card">
-            <div class="bg-gray-700 rounded-xl shadow-md overflow-hidden h-full transform transition-all duration-300 flex flex-col items-start justify-between">
-              <div class="p-4 flex flex-col items-start text-left">
-                <h3 class="text-xl font-semibold mb-2">${card.title}</h3>
-                <p class="text-gray-300 mb-4">${card.desc}</p>
-               
+          <div class="carousel-card" style="position:relative;overflow:visible;${bgFullStyle}">
+            ${card.img ? '<div style="position:absolute;inset:0;width:100%;height:100%;background:rgba(30,30,30,0.55);border-radius:1rem;z-index:1;"></div>' : ''}
+            ${card.img ? '<div class="carousel-hover-overlay"></div>' : ''}
+            <div class="relative z-10 bg-transparent rounded-xl h-full transform transition-all duration-300 flex flex-col items-start justify-between" style="box-shadow: 0 8px 32px 0 rgba(0,0,0,0.7);">
+              <div class="p-4 pt-10 pb-10 flex flex-col items-start text-left" style="user-select: none; -webkit-user-select: none;">
+                <h3 class="text-xl font-semibold mb-2 text-white drop-shadow">${card.title}</h3>
+                <p class="text-gray-100 mb-4 drop-shadow">${card.desc}</p>
               </div>
-              
+            </div>
           </div>
         `;
-        
         return item;
       }
 
@@ -1644,6 +1704,7 @@ body {
       let position = 0;
       const autoScrollSpeed = .5; // pixels per frame
       let isHovering = false;
+        let allowAutoScroll = true;
       let manualScrollVelocity = 0;
       const friction = 0.93;
       const maxSpeed = 15;
@@ -1655,11 +1716,11 @@ body {
       const maxRotation = 15; // degrees
       
       function animate(timestamp) {
-        // Auto-scroll when not hovering
-        if (!isHovering) {
+        // Auto-scroll only if allowed
+        if (allowAutoScroll && !isHovering) {
           position -= autoScrollSpeed;
-        } else if (manualScrollVelocity !== 0) {
-          // Apply manual scroll with momentum
+        } else if (manualScrollVelocity !== 0 && !isDragging && !isTouching) {
+          // Apply manual scroll with momentum only if not dragging/touching
           position += manualScrollVelocity;
           manualScrollVelocity *= friction;
           if (Math.abs(manualScrollVelocity) < 0.5) manualScrollVelocity = 0;
@@ -1681,6 +1742,7 @@ body {
 
       // Handle mouse drag events for manual scrolling
       let isDragging = false;
+        let autoScrollTimeout = null;
       let dragStartX = 0;
       let dragStartPosition = 0;
 
@@ -1689,6 +1751,9 @@ body {
         dragStartX = e.clientX;
         dragStartPosition = position;
         container.style.cursor = 'grabbing';
+        isHovering = true;
+        allowAutoScroll = false;
+        if (autoScrollTimeout) clearTimeout(autoScrollTimeout);
       });
 
       window.addEventListener('mousemove', (e) => {
@@ -1702,6 +1767,7 @@ body {
         if (isDragging) {
           isDragging = false;
           container.style.cursor = 'grab';
+          autoScrollTimeout = setTimeout(() => { isHovering = false; allowAutoScroll = true; }, 25000);
         }
       });
 
@@ -1715,6 +1781,8 @@ body {
         touchStartX = e.touches[0].clientX;
         touchStartPosition = position;
         isHovering = true; // Pause auto-scroll on touch
+        allowAutoScroll = false;
+        if (autoScrollTimeout) clearTimeout(autoScrollTimeout);
       }, { passive: true });
 
       container.addEventListener('touchmove', (e) => {
@@ -1732,7 +1800,7 @@ body {
 
       container.addEventListener('touchend', () => {
         isTouching = false;
-        isHovering = false; // Resume auto-scroll
+        autoScrollTimeout = setTimeout(() => { isHovering = false; allowAutoScroll = true; }, 25000);
       }, { passive: true });
 
       // Optional: change cursor on hover
@@ -2000,5 +2068,3 @@ if (window.innerWidth <= 800) {
   </script>
 </body>
 </html>
-
-
