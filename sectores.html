@@ -52,16 +52,31 @@
       z-index: 50;
       box-sizing: border-box;
     }
+
     .navbar.scrolled {
       padding: 0.75rem 10px;
       backdrop-filter: blur(20px);
-      background: rgba(12, 15, 26, 0.9);
+      background: rgba(43, 45, 66, 0.7);
       border-bottom: 1px solid rgba(255, 255, 255, 0.1);
       box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37),
-        0 0 20px 0 rgba(255, 136, 0, 0.1);
+        0 0 20px 0 rgba(194, 152, 63, 0.1);
     }
+
+    .left {
+      display: flex;
+      align-items: center;
+    }
+
+    .left a {
+      font-size: 35px;
+      text-decoration: none;
+      color: #edf2f4;
+      font-weight: 750;
+      transition: 0.3s linear;
+    }
+
     .left a:hover {
-      color: #ba9a5d;
+      color: #22b455;
     }
 
     .right {
@@ -88,7 +103,7 @@
       left: 0;
       width: 0;
       height: 2px;
-      background: linear-gradient(90deg, #ba9a5d, #9a7d4a);
+      background: linear-gradient(90deg, #ba9a5d, #92e5a1);
       transition: width 0.4s cubic-bezier(0.4, 0, 0.2, 1);
       border-radius: 2px;
     }
@@ -101,24 +116,6 @@
       width: 100%;
     }
 
-    .right a::before {
-      content: "";
-      position: absolute;
-      bottom: 0;
-      left: 50%;
-      width: 0;
-      height: 2px;
-      background: rgba(194, 152, 63, 0.3);
-      transform: translateX(-50%);
-      transition: width 0.6s cubic-bezier(0.34, 1.56, 0.64, 1);
-      filter: blur(2px);
-      border-radius: 2px;
-    }
-
-    .right a:hover::before {
-      width: 120%;
-    }
-
     .menu {
       align-self: center;
       z-index: 60;
@@ -127,71 +124,11 @@
       position: relative;
     }
 
-    .navbar.scrolled .menu {
-      filter: invert(1);
-    }
-
-    /* Dropdown Styles */
-    .dropdown {
-      position: relative;
-      display: inline-block;
-    }
-
-    .dropdown-content {
-      display: none;
-      position: absolute;
-      background-color: rgba(43, 45, 66, 0.95);
-      min-width: 200px;
-      box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
-      z-index: 100;
-      border-radius: 8px;
-      backdrop-filter: blur(10px);
-      border: 1px solid rgba(255, 255, 255, 0.1);
-      top: 100%;
-      left: 0;
-      padding-top: 0.5rem;
-      margin-top: -0.5rem;
-    }
-
-    .dropdown-content a {
-      color: rgba(237, 242, 244, 0.9);
-      padding: 12px 16px;
-      text-decoration: none;
-      display: block;
-      transition: background 0.3s ease, color 0.3s ease;
-      font-size: 16px;
-      margin: 0;
-    }
-
-    .dropdown-content a:first-child {
-      border-radius: 8px 8px 0 0;
-      margin-top: 0.5rem;
-    }
-
-    .dropdown-content a:last-child {
-      border-radius: 0 0 8px 8px;
-    }
-
-    .dropdown-content a:hover {
-      background-color: rgba(194, 152, 63, 0.2);
-      color: #ffffff;
-    }
-
-    .dropdown-content a::after,
-    .dropdown-content a::before {
-      display: none;
-    }
-
-    .dropdown:hover .dropdown-content {
-      display: block;
-    }
-
     @media screen and (max-width: 800px) {
       .menu {
         display: block;
         z-index: 60;
       }
-
       .right {
         display: flex;
         position: fixed;
@@ -214,7 +151,6 @@
         overflow-y: auto;
         overflow-x: hidden;
       }
-
       .right a {
         font-size: 30px;
         margin: 15px 0;
@@ -222,69 +158,14 @@
         transform: translateY(20px);
         transition: opacity 0.3s ease, transform 0.3s ease;
       }
-
-      .right a::after,
-      .right a::before {
-        display: none;
-      }
-
       .right.active {
         opacity: 1;
         visibility: visible;
         pointer-events: auto;
       }
-
       .right.active a {
         opacity: 1;
         transform: translateY(0);
-      }
-
-      .right.active a:nth-child(1) {
-        transition-delay: 0.05s;
-      }
-
-      .right.active a:nth-child(2) {
-        transition-delay: 0.1s;
-      }
-
-      .right.active a:nth-child(3) {
-        transition-delay: 0.15s;
-      }
-
-      .right.active a:nth-child(4) {
-        transition-delay: 0.2s;
-      }
-
-      .right.active a:nth-child(5) {
-        transition-delay: 0.25s;
-      }
-
-      .dropdown {
-        width: 100%;
-        text-align: center;
-      }
-
-      .dropdown-content {
-        position: static;
-        display: none;
-        width: 100%;
-        box-shadow: none;
-        background-color: rgba(43, 45, 66, 0.5);
-        margin-top: 0;
-        border-radius: 0;
-      }
-
-      .dropdown-content.active {
-        display: block;
-      }
-
-      .dropdown-content a {
-        font-size: 24px;
-        padding: 10px 16px;
-      }
-
-      .navbar.scrolled .right {
-        background: rgba(43, 45, 66, 0.98);
       }
     }
 
@@ -295,10 +176,61 @@
       }
     }
 
+    /* Dropdown Styles */
+    .dropdown {
+      position: relative;
+      display: inline-block;
+      overflow: visible;
+    }
+
+    .dropdown-content {
+      display: none;
+      position: absolute;
+      left: 0;
+      background-color: #2b2d4288;
+      min-width: 200px;
+      box-shadow: 0 8px 24px rgba(180, 74, 74, 0.15);
+      z-index: 100;
+      border-radius: 0.5rem;
+      overflow: visible;
+      transition: background-color 0.3s ease;
+    }
+
+    .navbar.scrolled .dropdown-content {
+      background-color: rgba(43, 45, 66, 0.9);
+    }
+
+    .dropdown-content a {
+      color: #edf2f4;
+      padding: 12px 16px;
+      text-decoration: none;
+      display: block;
+      font-size: 16px;
+      transition: background 0.2s;
+      white-space: nowrap;
+    }
+
+    .dropdown-content a:hover {
+      color: #fff;
+    }
+
+    .dropdown:hover .dropdown-content {
+      display: block;
+    }
+
+    @media (max-width: 800px) {
+      .dropdown-content {
+        position: static;
+        box-shadow: none;
+        min-width: 100%;
+      }
+    }
+    /* ...existing code... */
+
     /* Section animations */
     .fade-in {
-      opacity: 0;
-      transform: translateY(30px);
+      opacity: 1;
+      transform: translateY(0);
       transition: opacity 0.8s ease, transform 0.8s ease;
     }
 
@@ -309,8 +241,8 @@
 
     /* Icon item animations */
     .icon-item {
-      opacity: 0;
-      transform: translateX(-30px);
+      opacity: 1;
+      transform: translateX(0);
     }
 
     .icon-item.animate {
@@ -336,8 +268,8 @@
 
     /* Card animations */
     .benefit-card {
-      opacity: 0;
-      transform: translateY(30px);
+      opacity: 1;
+      transform: translateY(0);
     }
 
     .benefit-card.animate {
@@ -363,6 +295,7 @@
 </head>
 <body class="bg-gray-900 text-white">
 
+  <!-- Navbar -->
   <nav class="navbar">
     <div class="left">
       <a href="index.html" class="flex items-center gap-3">
@@ -386,9 +319,9 @@
       <div class="dropdown">
         <a href="sectores.html">Sectores ▾</a>
         <div class="dropdown-content" id="sectoresDropdown">
-          <a href="sectores.html?sector=empresas">Sector Empresas</a>
-          <a href="sectores.html?sector=publico">Sector Público</a>
-          <a href="sectores.html?sector=social">Sector Social</a>
+          <a href="sectores.html#sector-empresarial">Sector Empresarial</a>
+          <a href="sectores.html#sector-publico">Sector Público</a>
+          <a href="sectores.html#sector-social">Sector Social</a>
         </div>
       </div>
       <div class="dropdown">
@@ -398,18 +331,19 @@
           <a href="conocenos.html#mision">Misión / Visión</a>
           <a href="conocenos.html#trayectoria">Trayectoria</a>
           <a href="conocenos.html#equipo">Equipo</a>
-          <a href="conocenos.html#enfoque-estrategico">Enfoque Estratégico</a>
-          <a href="conocenos.html#enfoque-pilares">Enfoque Pilares</a>
+          <a href="conocenos.html#enfoque-pilares">Pilares</a>
         </div>
       </div>
       <a href="recursos.html">Recursos</a>
-      <a href="index.html#contact" style="background: #ba9a5d; color: white;" class="btn-shine hover:opacity-90 px-3 py-2 rounded-lg text-lg font-semibold transition">Contáctanos</a>
+      <a href="contacto.html" style="background: #ba9a5d; color: white;" class="btn-shine hover:opacity-90 px-3 py-2 rounded-lg text-lg font-semibold transition">
+        Contáctanos
+      </a>
     </div>
   </nav>
 
 
   <!-- Hero Section -->
-  <section class="relative min-h-[50vh] flex items-center justify-center text-center pt-20" id="hero-section" style="padding-top: 100px;">
+  <section class="relative min-h-[50vh] flex items-center justify-center text-center pt-20" id="sector-empresarial" style="padding-top: 100px;">
     <div class="absolute inset-0">
       <div id="empresarial-carousel" class="w-full h-full">
         <img src="Recursos/Sectores/Empresarial_Bridge.jpg" alt="Sector Empresarial 1" class="carousel-img w-full h-full object-cover absolute inset-0 opacity-100 transition-opacity duration-1000" style="z-index:1;" />
@@ -421,9 +355,8 @@
     </div>
     <div class="relative z-10 max-w-3xl px-4 py-16 md:py-32">
       <div class="hero-content">
-        <h1 id="hero-title" class="text-4xl md:text-6xl font-bold mb-4">
-          <span class="carousel-title-shadow">Sector Empresarial</span>
-        </h1>
+        <h1 id="hero-title-empresarial" class="text-4xl md:text-6xl font-bold mb-2 carousel-title-shadow">Sector Empresarial</h1>
+        <div id="underline-empresarial" style="height: 4px; width: 0; background: linear-gradient(90deg, #ba9a5d, #92e5a1); border-radius: 2px; margin: 0 auto 1.5rem auto; position: relative; z-index: 100; transition: width 1.5s ease-out 0.3s;"></div>
         <p class="text-lg md:text-xl mb-6 text-gray-100">
           <span class="carousel-desc-shadow">Transformamos desafíos empresariales en oportunidades estratégicas</span>
         </p>
@@ -431,38 +364,84 @@
     </div>
   </section>
   <script>
-    // Carrusel fade-in/fade-out para los tres sectores
-    document.addEventListener('DOMContentLoaded', function() {
-      // Empresarial
-      var imgs = document.querySelectorAll('#empresarial-carousel .carousel-img');
-      var idx = 0;
-      setInterval(function() {
-        imgs.forEach(function(img, i) {
-          img.style.opacity = (i === idx) ? '1' : '0';
-        });
-        idx = (idx + 1) % imgs.length;
-      }, 12000);
 
-      // Público
-      var imgsPublico = document.querySelectorAll('#publico-carousel .carousel-img-publico');
-      var idxPublico = 0;
-      setInterval(function() {
-        imgsPublico.forEach(function(img, i) {
-          img.style.opacity = (i === idxPublico) ? '1' : '0';
-        });
-        idxPublico = (idxPublico + 1) % imgsPublico.length;
-      }, 12000);
+    // Navbar Scroll Effect
+    const navbar = document.querySelector('.navbar');
+    const toggler = document.querySelector('.menu');
+    const mobileLinks = document.querySelectorAll('.right a');
 
-      // Social
-      var imgsSocial = document.querySelectorAll('#social-carousel .carousel-img-social');
-      var idxSocial = 0;
-      setInterval(function() {
-        imgsSocial.forEach(function(img, i) {
-          img.style.opacity = (i === idxSocial) ? '1' : '0';
-        });
-        idxSocial = (idxSocial + 1) % imgsSocial.length;
-      }, 12000);
+    function updateNavbar(scrollTop) {
+      if (scrollTop > 50) {
+        navbar.classList.add('scrolled');
+      } else {
+        navbar.classList.remove('scrolled');
+      }
+    }
+
+    window.addEventListener('scroll', () => {
+      updateNavbar(window.pageYOffset || document.documentElement.scrollTop);
     });
+
+    // Mobile Menu Toggle
+    function openMobileMenu() {
+      navbar.querySelector('.right').classList.add('active');
+      toggler.src = 'https://arsentech.github.io/source-codes/icons/close.svg';
+      document.body.style.overflow = 'hidden';
+    }
+
+    function closeMobileMenu() {
+      navbar.querySelector('.right').classList.remove('active');
+      toggler.src = 'https://arsentech.github.io/source-codes/icons/menu.svg';
+      document.body.style.overflow = '';
+    }
+
+    toggler.addEventListener('click', () => {
+      if (navbar.querySelector('.right').classList.contains('active')) {
+        closeMobileMenu();
+      } else {
+        openMobileMenu();
+      }
+    });
+
+    // Close mobile menu when clicking on links
+    mobileLinks.forEach(link => {
+      link.addEventListener('click', () => {
+        if (window.innerWidth <= 800) {
+          closeMobileMenu();
+        }
+      });
+    });
+
+    // Mobile dropdown toggle for Services and Conocenos
+    if (window.innerWidth <= 800) {
+      const serviciosDropdownParent = document.querySelector('.dropdown:nth-child(2) > a');
+      const serviciosDropdownContent = document.getElementById('serviciosDropdown');
+      const sectoresDropdownParent = document.querySelector('.dropdown:nth-child(3) > a');
+      const sectoresDropdownContent = document.getElementById('sectoresDropdown');
+      const conocenosDropdownParent = document.querySelector('.dropdown:nth-child(4) > a');
+      const conocenosDropdownContent = document.getElementById('conocenosDropdown');
+      
+      if (serviciosDropdownParent && serviciosDropdownContent) {
+        serviciosDropdownParent.addEventListener('click', (e) => {
+          e.preventDefault();
+          serviciosDropdownContent.classList.toggle('active');
+        });
+      }
+      
+      if (sectoresDropdownParent && sectoresDropdownContent) {
+        sectoresDropdownParent.addEventListener('click', (e) => {
+          e.preventDefault();
+          sectoresDropdownContent.classList.toggle('active');
+        });
+      }
+      
+      if (conocenosDropdownParent && conocenosDropdownContent) {
+        conocenosDropdownParent.addEventListener('click', (e) => {
+          e.preventDefault();
+          conocenosDropdownContent.classList.toggle('active');
+        });
+      }
+    }
   </script>
 
   <!-- Enfoque Estratégico Section EMPRESARIAL -->
@@ -589,11 +568,6 @@
   </section>
   <!-- NUESTRA PRÁCTICA (Escaleras al éxito) -->
   <section class="relative bg-gray-900 py-20 fade-in overflow-hidden" id="practica-section">
-    <div class="absolute left-0 top-0 bottom-0 w-1/3 opacity-10">
-      <img src="https://cdn.pixabay.com/photo/2017/08/30/01/05/milky-way-2695569_1280.jpg" 
-           alt="Escaleras al éxito" 
-           class="w-full h-full object-cover" />
-    </div>
     <div class="max-w-6xl mx-auto px-4 relative z-10">
       <h2 class="text-3xl md:text-4xl font-bold mb-12 text-center" style="color: #ba9a5d;">
         NUESTRA PRÁCTICA
@@ -666,7 +640,7 @@
   <!-- End Sector Empresarial -->
 
   <!-- Hero Sector Público -->
-  <section class="relative min-h-[50vh] flex items-center justify-center text-center pt-20" id="hero-publico">
+  <section class="relative min-h-[50vh] flex items-center justify-center text-center pt-20" id="sector-publico">
     <div class="absolute inset-0">
       <div id="publico-carousel" class="w-full h-full">
         <img src="Recursos/Sectores/Publico_Calle.jpg" alt="Sector Público 1" class="carousel-img-publico w-full h-full object-cover absolute inset-0 opacity-100 transition-opacity duration-1000" style="z-index:1;" />
@@ -678,7 +652,8 @@
     </div>
     <div class="relative z-10 max-w-4xl px-4">
       <div class="hero-content">
-        <h1 class="text-4xl md:text-6xl font-bold mb-4 carousel-title-shadow">Sector Público</h1>
+        <h1 id="hero-title-publico" class="text-4xl md:text-6xl font-bold mb-2 carousel-title-shadow">Sector Público</h1>
+        <div id="underline-publico" style="height: 4px; width: 0; background: linear-gradient(90deg, #ba9a5d, #92e5a1); border-radius: 2px; margin: 0 auto 1.5rem auto; position: relative; z-index: 100; transition: width 1.5s ease-out 0.6s;"></div>
         <p class="text-lg md:text-xl mb-6 carousel-desc-shadow">Fortalecemos instituciones gubernamentales para un impacto social efectivo</p>
       </div>
     </div>
@@ -817,12 +792,6 @@
 
   <!-- Nuestra Práctica Section -->
   <section class="relative bg-gray-900 py-20 fade-in overflow-hidden" id="practica-section-publico">
-    <div class="absolute left-0 top-0 bottom-0 w-1/3 opacity-10">
-      <img src="https://cdn.pixabay.com/photo/2016/11/29/03/53/architecture-1867187_960_720.jpg" 
-           alt="Gobernanza" 
-           class="w-full h-full object-cover" />
-    </div>
-    
     <div class="max-w-6xl mx-auto px-4 relative z-10">
       <h2 class="text-3xl md:text-4xl font-bold mb-12 text-center" style="color: #ba9a5d;">
         NUESTRA PRÁCTICA EN SECTOR PÚBLICO
@@ -895,7 +864,7 @@
   <!-- End Sector Público -->
 
   <!-- Hero Sector Social -->
-  <section class="relative min-h-[50vh] flex items-center justify-center text-center pt-20" id="hero-social">
+  <section class="relative min-h-[50vh] flex items-center justify-center text-center pt-20" id="sector-social">
     <div class="absolute inset-0">
       <div id="social-carousel" class="w-full h-full">
         <img src="Recursos/Sectores/Social.jpg" alt="Sector Social 1" class="carousel-img-social w-full h-full object-cover absolute inset-0 opacity-100 transition-opacity duration-1000" style="z-index:1;" />
@@ -907,7 +876,8 @@
     </div>
     <div class="relative z-10 max-w-4xl px-4">
       <div class="hero-content">
-        <h1 class="text-4xl md:text-6xl font-bold mb-4 carousel-title-shadow">Sector Social</h1>
+        <h1 id="hero-title-social" class="text-4xl md:text-6xl font-bold mb-2 carousel-title-shadow">Sector Social</h1>
+        <div id="underline-social" style="height: 4px; width: 0; background: linear-gradient(90deg, #ba9a5d, #92e5a1); border-radius: 2px; margin: 0 auto 1.5rem auto; position: relative; z-index: 100; transition: width 1.5s ease-out 0.9s;"></div>
         <p class="text-lg md:text-xl mb-6 carousel-desc-shadow">Acompañamos organizaciones de la sociedad civil hacia la sostenibilidad</p>
       </div>
     </div>
@@ -1045,12 +1015,6 @@
 
   <!-- Nuestra Práctica Section -->
   <section class="relative bg-gray-900 py-20 fade-in overflow-hidden" id="practica-section-social">
-    <div class="absolute left-0 top-0 bottom-0 w-1/3 opacity-10">
-      <img src="https://cdn.pixabay.com/photo/2015/03/26/09/47/sky-690293_1280.jpg" 
-           alt="Impacto Social" 
-           class="w-full h-full object-cover" />
-    </div>
-    
     <div class="max-w-6xl mx-auto px-4 relative z-10">
       <h2 class="text-3xl md:text-4xl font-bold mb-12 text-center" style="color: #ba9a5d;">
         NUESTRA PRÁCTICA EN SECTOR SOCIAL
@@ -1122,17 +1086,31 @@
   </div>
   <!-- End Sector Social -->
 
-  <!-- Contact Section (Shared) -->
-  <section id="contact" class="bg-gray-800 py-20">
+  <!-- Call to Action Section -->
+  <section class="py-20 bg-gradient-to-b from-gray-800 to-gray-900">
     <div class="max-w-4xl mx-auto px-4 text-center">
-      <h2 id="contact-title" class="text-3xl md:text-4xl font-bold mb-6" style="color: #ba9a5d;">¿Listo para transformar tu empresa?</h2>
-      <p id="contact-text" class="text-gray-300 mb-8 text-lg">
-        Contáctanos para desarrollar una estrategia personalizada que genere valor compartido para tu empresa y la sociedad.
+      <h2 class="text-4xl md:text-5xl font-bold mb-6" style="color: #ba9a5d;">
+        ¿Listo para Transformar tu Proyecto?
+      </h2>
+      <p class="text-xl text-gray-300 mb-8 max-w-2xl mx-auto">
+        Acompañamos a nuestros aliados desde la estrategia hasta la ejecución. Generemos juntos impacto social y territorial sostenible.
       </p>
-      <a href="mailto:info@consultorespst.com" 
-         style="background: #ba9a5d; color: white;" class="hover:opacity-90 px-8 py-4 rounded-lg text-lg font-semibold transition inline-block" onmouseover="this.style.backgroundColor='#9a7d4a'" onmouseout="this.style.backgroundColor='#ba9a5d'">
-        Contáctanos
-      </a>
+      <div class="flex flex-col sm:flex-row gap-4 justify-center items-center">
+        <a href="contacto.html" 
+           class="btn-shine text-white px-8 py-4 rounded-lg text-lg font-semibold transition transform hover:scale-105 inline-flex items-center shadow-lg" style="background-color: #9a7d4a;" onmouseover="this.style.backgroundColor='#ba9a5d'" onmouseout="this.style.backgroundColor='#9a7d4a'">
+          Contáctanos
+          <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 ml-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
+          </svg>
+        </a>
+        <a href="servicios.html" 
+           class="border-2 px-8 py-4 rounded-lg text-lg font-semibold transition transform hover:scale-105 inline-flex items-center" style="border-color: #ba9a5d; color: #ba9a5d;" onmouseover="this.style.backgroundColor='#ba9a5d'; this.style.color='white'" onmouseout="this.style.backgroundColor='transparent'; this.style.color='#ba9a5d'">
+          Ver Servicios
+          <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 ml-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3" />
+          </svg>
+        </a>
+      </div>
     </div>
   </section>
 
@@ -1165,41 +1143,50 @@
             </li>
           </ul>
         </div>
-        <div class="grid grid-cols-1 gap-8 sm:grid-cols-2 lg:col-span-2 md:grid-cols-4">
+        <div class="grid grid-cols-1 gap-8 sm:grid-cols-2 lg:col-span-2 md:grid-cols-5">
           <div class="text-center sm:text-left">
-            <p class="text-lg font-medium text-white" style="text-decoration: underline;">Sobre Nosotros</p>
-            <nav class="mt-8">
-              <ul class="space-y-4 text-sm">
-                <li><a class="text-white transition hover:text-white/75" href="conocenos.html#quienes-somos">Quiénes Somos</a></li>
-                <li><a class="text-white transition hover:text-white/75" href="conocenos.html#trayectoria">Trayectoria</a></li>
-                <li><a class="text-white transition hover:text-white/75" href="conocenos.html#equipo">Equipo</a></li>
-                <li><a class="text-white transition hover:text-white/75" href="conocenos.html#mision">Misión / Visión</a></li>
-              </ul>
-            </nav>
-          </div>
-          <div class="text-center sm:text-left">
-            <p class="text-lg font-medium text-white" style="text-decoration: underline;">Servicios</p>
+            <p class="text-lg font-medium text-white" style="text-decoration: underline;"><a href="servicios.html" class="hover:text-white/75">Servicios</a></p>
             <nav class="mt-8">
               <ul class="space-y-4 text-sm">
                 <li><a class="text-white transition hover:text-white/75" href="servicios.html?servicio=servicio1">Liderazgo Estratégico</a></li>
                 <li><a class="text-white transition hover:text-white/75" href="servicios.html?servicio=servicio2">Gestión de Proyectos</a></li>
                 <li><a class="text-white transition hover:text-white/75" href="servicios.html?servicio=servicio3">Alianzas Multisectoriales</a></li>
                 <li><a class="text-white transition hover:text-white/75" href="servicios.html?servicio=servicio4">Estrategia Financiera</a></li>
+                <li><a class="text-white transition hover:text-white/75" href="servicios.html?servicio=servicio5">Fortalecimiento de Capacidades</a></li>
               </ul>
             </nav>
           </div>
           <div class="text-center sm:text-left">
-            <p class="text-lg font-medium text-white" style="text-decoration: underline;">Recursos</p>
+            <p class="text-lg font-medium text-white" style="text-decoration: underline;"><a href="sectores.html" class="hover:text-white/75">Sectores</a></p>
             <nav class="mt-8">
               <ul class="space-y-4 text-sm">
-                <li><a class="text-white transition hover:text-white/75" href="index.html#features">Portafolio</a></li>
-                <li><a class="text-white transition hover:text-white/75" href="#">Blog</a></li>
-                <li><a class="text-white transition hover:text-white/75" href="#">Preguntas Frecuentes</a></li>
+                <li><a class="text-white transition hover:text-white/75" href="sectores.html#sector-empresarial">Sector Empresarial</a></li>
+                <li><a class="text-white transition hover:text-white/75" href="sectores.html#sector-publico">Sector Público</a></li>
+                <li><a class="text-white transition hover:text-white/75" href="sectores.html#sector-social">Sector Social</a></li>
               </ul>
             </nav>
           </div>
           <div class="text-center sm:text-left">
-            <p class="text-lg font-medium text-white" style="text-decoration: underline;">Contacto</p>
+            <p class="text-lg font-medium text-white" style="text-decoration: underline;"><a href="conocenos.html" class="hover:text-white/75">Sobre Nosotros</a></p>
+            <nav class="mt-8">
+              <ul class="space-y-4 text-sm">
+                <li><a class="text-white transition hover:text-white/75" href="conocenos.html#quienes-somos">Quiénes Somos</a></li>
+                <li><a class="text-white transition hover:text-white/75" href="conocenos.html#mision">Misión / Visión</a></li>
+                <li><a class="text-white transition hover:text-white/75" href="conocenos.html#trayectoria">Trayectoria</a></li>
+                <li><a class="text-white transition hover:text-white/75" href="conocenos.html#equipo">Equipo</a></li>
+              </ul>
+            </nav>
+          </div>
+          <div class="text-center sm:text-left">
+            <p class="text-lg font-medium text-white" style="text-decoration: underline;"><a href="recursos.html" class="hover:text-white/75">Recursos</a></p>
+            <nav class="mt-8">
+              <ul class="space-y-4 text-sm">
+                <li><a class="text-white transition hover:text-white/75" href="recursos.html">Publicaciones Recientes</a></li>
+              </ul>
+            </nav>
+          </div>
+          <div class="text-center sm:text-left">
+            <p class="text-lg font-medium text-white" style="text-decoration: underline;"><a href="contacto.html" class="hover:text-white/75">Contacto</a></p>
             <ul class="mt-8 space-y-4 text-sm">
               <li>
                 <a class="flex items-center justify-center sm:justify-start gap-1.5 group" href="mailto:info@consultorespst.com">
@@ -1209,12 +1196,12 @@
                   <span class="text-white transition group-hover:text-white/75">info@consultorespst.com</span>
                 </a>
               </li>
-              <li>
-                <a class="flex items-center justify-center sm:justify-start gap-1.5 group" href="tel:+521234567890">
-                  <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5 text-white shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-                    <path stroke-linecap="round" stroke-linejoin="round" d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z"/>
+              <li class="flex items-center justify-center sm:justify-start gap-1.5">
+                <a href="https://wa.me/525540853177" target="_blank" rel="noopener" aria-label="WhatsApp" class="flex items-center gap-2 group" style="color:#25D366;">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 32 32" fill="currentColor">
+                    <path d="M16 3C9.373 3 4 8.373 4 15c0 2.385.668 4.607 1.938 6.563L4 29l7.688-1.938A11.93 11.93 0 0016 27c6.627 0 12-5.373 12-12S22.627 3 16 3zm0 22c-1.938 0-3.813-.521-5.438-1.5l-.375-.229-4.563 1.146 1.188-4.438-.25-.396C5.521 17.813 5 16.438 5 15c0-6.065 4.935-11 11-11s11 4.935 11 11-4.935 11-11 11zm6.188-7.406c-.271-.135-1.604-.791-1.854-.885-.25-.094-.438-.135-.625.135-.188.271-.719.885-.885 1.063-.167.177-.323.198-.594.062-.271-.135-1.146-.422-2.184-1.344-.808-.72-1.354-1.604-1.51-1.875-.156-.271-.017-.417.118-.552.122-.122.271-.323.406-.479.135-.156.177-.271.271-.448.094-.177.047-.333-.021-.469-.073-.135-.625-1.51-.854-2.073-.229-.562-.462-.479-.625-.489-.156-.01-.333-.012-.51-.012s-.469.062-.719.271c-.25.208-.948.927-.948 2.26 0 1.333.97 2.624 1.104 2.803.135.177 1.91 2.917 4.625 3.979.646.229 1.15.365 1.542.469.648.167 1.238.146 1.708.089.521-.062 1.604-.656 1.833-1.292.229-.635.229-1.177.156-1.292-.073-.115-.26-.188-.531-.323z"/>
                   </svg>
-                  <span class="text-white transition group-hover:text-white/75">+52 123 456 7890</span>
+                  <span class="text-white transition group-hover:text-white/75">+52 5540853177</span>
                 </a>
               </li>
               <li class="flex items-start justify-center gap-1.5 sm:justify-start">
@@ -1246,145 +1233,101 @@
     </div>
   </footer>
 
+
   <script>
-    const navbar = document.querySelector(".navbar");
-    const toggler = document.querySelector(".menu");
-    const rightMenu = document.querySelector(".right");
-
-    function updateNavbar(scrollTop) {
-      if (scrollTop > 50) {
-        navbar.classList.add("scrolled");
-      } else {
-        navbar.classList.remove("scrolled");
-      }
-    }
-
-    window.addEventListener("scroll", () => {
-      updateNavbar(window.scrollY);
-    });
-
-    function openMobileMenu() {
-      rightMenu.classList.add("active");
-      document.body.style.overflow = "hidden";
-    }
-
-    function closeMobileMenu() {
-      rightMenu.classList.remove("active");
-      document.body.style.overflow = "";
-      toggler.src = "https://arsentech.github.io/source-codes/icons/menu.svg";
-    }
-
-    toggler.addEventListener("click", () => {
-      if (rightMenu.classList.contains("active")) {
-        closeMobileMenu();
-      } else {
-        openMobileMenu();
-        toggler.src = "https://arsentech.github.io/source-codes/icons/close.svg";
-      }
-    });
-
-    const mobileLinks = document.querySelectorAll(".right a");
-    mobileLinks.forEach(link => {
-      link.addEventListener("click", (e) => {
-        if (!link.parentElement.classList.contains('dropdown')) {
-          closeMobileMenu();
-        }
-      });
-    });
-
-    // Mobile menu toggle and dropdown logic (from index.html)
+    console.log('Script iniciado');
+    
+    // Forzar que todos los elementos animados sean visibles al cargar
     document.addEventListener('DOMContentLoaded', function() {
-      const menu = document.querySelector('.menu');
-      const right = document.querySelector('.right');
-      const dropdowns = document.querySelectorAll('.dropdown');
-      // Mobile menu toggle
-      if (menu && right) {
-        menu.addEventListener('click', function() {
-          right.classList.toggle('active');
-          document.body.style.overflow = right.classList.contains('active') ? 'hidden' : '';
-        });
-      }
-      // Mobile dropdowns
-      if (window.innerWidth <= 800) {
-        dropdowns.forEach(function(dropdown) {
-          const trigger = dropdown.querySelector('a');
-          const content = dropdown.querySelector('.dropdown-content');
-          if (trigger && content) {
-            trigger.addEventListener('click', function(e) {
-              e.preventDefault();
-              content.classList.toggle('active');
-            });
-          }
-        });
-      }
+      console.log('DOMContentLoaded ejecutado');
+      document.querySelectorAll('.fade-in').forEach(el => el.classList.add('visible'));
+      document.querySelectorAll('.icon-item').forEach(el => el.classList.add('animate'));
+      document.querySelectorAll('.benefit-card').forEach(el => el.classList.add('animate'));
     });
-
-    // Scroll animations
-    function animateOnScroll(sectionId, itemsSelector = null) {
-      const section = document.getElementById(sectionId);
-      if (!section) return;
+    
+    // Consolidar todo en un solo window.load
+    window.addEventListener('load', function() {
+      console.log('Window load ejecutado');
       
-      let animated = false;
-
-      function onScroll() {
-        const rect = section.getBoundingClientRect();
-        if (!animated && rect.top < window.innerHeight - 100) {
-          animated = true;
-          section.classList.add('visible');
-          
-          if (itemsSelector) {
-            const items = section.querySelectorAll(itemsSelector);
-            items.forEach((item) => {
-              item.classList.add('animate');
-            });
+      // Animación de barras
+      setTimeout(function() {
+        var underlineEmpresarial = document.getElementById('underline-empresarial');
+        if (underlineEmpresarial) {
+          var h1Empresarial = document.getElementById('hero-title-empresarial');
+          if (h1Empresarial) {
+            var width = h1Empresarial.offsetWidth;
+            underlineEmpresarial.style.width = width + 'px';
           }
-          
-          window.removeEventListener('scroll', onScroll);
         }
-      }
+        
+        var underlinePublico = document.getElementById('underline-publico');
+        if (underlinePublico) {
+          var h1Publico = document.getElementById('hero-title-publico');
+          if (h1Publico) {
+            var width = h1Publico.offsetWidth;
+            underlinePublico.style.width = width + 'px';
+          }
+        }
+        
+        var underlineSocial = document.getElementById('underline-social');
+        if (underlineSocial) {
+          var h1Social = document.getElementById('hero-title-social');
+          if (h1Social) {
+            var width = h1Social.offsetWidth;
+            underlineSocial.style.width = width + 'px';
+          }
+        }
+      }, 100);
       
-      window.addEventListener('scroll', onScroll);
-      onScroll(); // Check on load
-    }
+      // Carruseles de imágenes
+      console.log('Iniciando carruseles...');
+      
+      // Sector Empresarial
+      var empresarialImages = document.querySelectorAll('.carousel-img');
+      console.log('Empresarial images encontradas:', empresarialImages.length);
+      var empresarialIndex = 0;
+      
+      if (empresarialImages.length > 1) {
+        console.log('Iniciando intervalo Empresarial');
+        setInterval(function() {
+          empresarialImages[empresarialIndex].style.opacity = '0';
+          empresarialIndex = (empresarialIndex + 1) % empresarialImages.length;
+          empresarialImages[empresarialIndex].style.opacity = '1';
+          console.log('Empresarial rotado a:', empresarialIndex);
+        }, 5000);
+      }
 
-    document.addEventListener('DOMContentLoaded', () => {
-      // Animaciones para todos los sectores
-      animateOnScroll('enfoque-section', '.icon-item');
-      animateOnScroll('beneficios-section', '.benefit-card');
-      animateOnScroll('practica-section', '.icon-item');
-      animateOnScroll('enfoque-section-publico', '.icon-item');
-      animateOnScroll('beneficios-section-publico', '.benefit-card');
-      animateOnScroll('practica-section-publico', '.icon-item');
-      animateOnScroll('enfoque-section-social', '.icon-item');
-      animateOnScroll('beneficios-section-social', '.benefit-card');
-      animateOnScroll('practica-section-social', '.icon-item');
+      // Sector Público
+      var publicoImages = document.querySelectorAll('.carousel-img-publico');
+      console.log('Publico images encontradas:', publicoImages.length);
+      var publicoIndex = 0;
+      
+      if (publicoImages.length > 1) {
+        console.log('Iniciando intervalo Publico');
+        setInterval(function() {
+          publicoImages[publicoIndex].style.opacity = '0';
+          publicoIndex = (publicoIndex + 1) % publicoImages.length;
+          publicoImages[publicoIndex].style.opacity = '1';
+          console.log('Publico rotado a:', publicoIndex);
+        }, 5000);
+      }
+
+      // Sector Social
+      var socialImages = document.querySelectorAll('.carousel-img-social');
+      console.log('Social images encontradas:', socialImages.length);
+      var socialIndex = 0;
+      
+      if (socialImages.length > 1) {
+        console.log('Iniciando intervalo Social');
+        setInterval(function() {
+          socialImages[socialIndex].style.opacity = '0';
+          socialIndex = (socialIndex + 1) % socialImages.length;
+          socialImages[socialIndex].style.opacity = '1';
+          console.log('Social rotado a:', socialIndex);
+        }, 5000);
+      }
     });
-
-    // Eliminar lógica de ocultar/mostrar sectores. Todos los sectores estarán visibles en vertical.
   </script>
+
 </body>
 </html>
-<script>
-  document.addEventListener('DOMContentLoaded', function() {
-    // Force all fade-in, icon-item, and benefit-card elements to be visible
-    document.querySelectorAll('.fade-in').forEach(el => el.classList.add('visible'));
-    document.querySelectorAll('.icon-item').forEach(el => el.classList.add('animate'));
-    document.querySelectorAll('.benefit-card').forEach(el => el.classList.add('animate'));
-  });
-  <script>
-    function updateNavbar(scrollTop) {
-      const navbar = document.querySelector('.navbar');
-      if (!navbar) return;
-      if (scrollTop > 50) {
-        navbar.classList.add('scrolled');
-      } else {
-        navbar.classList.remove('scrolled');
-      }
-    }
-    window.addEventListener('scroll', () => {
-      updateNavbar(window.scrollY);
-    });
-    document.addEventListener('DOMContentLoaded', () => {
-      updateNavbar(window.scrollY);
-    });
-  </script>
