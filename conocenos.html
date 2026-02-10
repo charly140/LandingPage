@@ -3,7 +3,12 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Conócenos - CRESCERE PST</title>
+  <title>Conócenos - Quiénes Somos | Crescere PST</title>
+  <meta name="description" content="Conoce al equipo de consultores profesionales de Crescere PST. Nuestra misión, visión y trayectoria en consultoría empresarial y capacitación en México.">
+  <link rel="icon" href="/favicon.png" type="image/png">
+  <link rel="icon" sizes="48x48" href="/favicon.png">
+  <link rel="icon" sizes="192x192" href="/favicon.png">
+  <link rel="apple-touch-icon" href="/favicon.png">
   <script src="https://cdn.tailwindcss.com"></script>
   <style>
     * {
@@ -217,6 +222,35 @@
       100% {
         left: 200%;
       }
+    }
+
+    .tooltip {
+      position: relative;
+      cursor: pointer;
+      display: inline-block;
+    }
+
+    .tooltiptext {
+      visibility: hidden;
+      width: 260px;
+      background-color: #2b2d42;
+      color: #fff;
+      text-align: left;
+      border-radius: 8px;
+      padding: 10px;
+      position: absolute;
+      z-index: 100;
+      bottom: 125%;
+      left: 50%;
+      transform: translateX(-50%);
+      opacity: 0;
+      transition: opacity 0.3s;
+      font-size: 1rem;
+    }
+
+    .tooltip:hover .tooltiptext {
+      visibility: visible;
+      opacity: 1;
     }
 
     /* Fade-in para la capa superior del mapa */
@@ -586,7 +620,11 @@
             CRESCERE PST ha desarrollado e implementado modelos de coinversión y sostenibilidad que pueden ser replicados en diferentes contextos, garantizando la viabilidad a largo plazo de los proyectos y el empoderamiento genuino de las comunidades.
           </p>
           <p class="text-gray-300 text-lg">
-            Nuestra experiencia abarca desde el diseño estratégico hasta la implementación en campo, integrando metodologías participativas como CLTS y CLUES, gestión de riesgos financieros, y fortalecimiento de capacidades técnicas y organizacionales.
+            Nuestra experiencia abarca desde el diseño estratégico hasta la implementación en campo, integrando metodologías participativas como <span class="tooltip">CLTS
+              <span class="tooltiptext"><strong>Community-Led Total Sanitation</strong>: Metodología participativa que empodera a comunidades para eliminar la defecación al aire libre mediante talleres vivenciales, sin subsidios materiales.</span>
+            </span> y <span class="tooltip">CLUES
+              <span class="tooltiptext"><strong>Community-Led Urban Environmental Sanitation</strong>: Adaptación del CLTS para zonas urbanas, integrando gestión de residuos, drenaje y participación ciudadana en diseño de infraestructura.</span>
+            </span>, gestión de riesgos financieros, y fortalecimiento de capacidades técnicas y organizacionales.
           </p>
         </div>
       </div>

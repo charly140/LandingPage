@@ -3,9 +3,59 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Servicios - CRESCERE PST</title>
+  <title>Servicios de Consultoría y Capacitación | Crescere PST</title>
+  <meta name="description" content="Descubre nuestros servicios especializados: consultoría empresarial, capacitación profesional, desarrollo organizacional, procesos de calidad y formación continua para tu empresa.">
+  <link rel="icon" href="/favicon.png" type="image/png">
+  <link rel="icon" sizes="48x48" href="/favicon.png">
+  <link rel="icon" sizes="192x192" href="/favicon.png">
+  <link rel="apple-touch-icon" href="/favicon.png">
   <script src="https://cdn.tailwindcss.com"></script>
   <style>
+        /* Fondo de partículas doradas solo en la columna izquierda */
+        #serviciosEspecialidades {
+          position: relative;
+          overflow: hidden;
+          scroll-margin-top: 160px;
+        }
+        
+        #light {
+          position: absolute;
+          top: 0;
+          left: 0;
+          width: 35%;
+          height: 4500px;
+          z-index: 1;
+          pointer-events: none;
+        }
+        #light canvas {
+          background: transparent !important;
+          width: 100% !important;
+          height: 100% !important;
+        }
+        
+        /* Asegurar que el contenido esté por encima */
+        #serviciosEspecialidades .max-w-7xl {
+          position: relative;
+          z-index: 10;
+        }
+        
+        /* Pantalla de transición */
+        #page-transition {
+          position: fixed;
+          top: 0;
+          left: 0;
+          width: 100%;
+          height: 100%;
+          background: #1a2332;
+          z-index: 9999;
+          opacity: 1;
+          transition: opacity 0.4s ease-out;
+          pointer-events: none;
+        }
+        
+        #page-transition.fade-out {
+          opacity: 0;
+        }
     * {
       margin: 0;
       padding: 0;
@@ -17,6 +67,7 @@
       overflow-x: hidden;
       max-width: 100vw;
       scroll-behavior: smooth;
+      scroll-padding-top: 160px;
     }
 
     body {
@@ -180,13 +231,121 @@
     }
 
     .service-menu-button.active {
-      background: linear-gradient(135deg, rgba(194, 152, 63, 0.2), rgba(194, 152, 63, 0.1));
+      background: linear-gradient(135deg, rgba(186, 154, 93, 0.2), rgba(186, 154, 93, 0.1)) !important;
       border-left-color: #ba9a5d !important;
       border-left-width: 4px;
     }
 
     .service-menu-button:hover {
-      transform: translateX(5px);
+      transform: scale(1.05);
+    }
+
+    /* Barra de Especialidades Horizontal */
+    .especialidades-navbar {
+      position: sticky;
+      top: 85px;
+      z-index: 40;
+      background: rgba(31, 41, 55, 0.95);
+      backdrop-filter: blur(10px);
+      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
+      opacity: 0;
+      visibility: hidden;
+      transform: translateY(-10px);
+      transition: opacity 0.3s ease, visibility 0.3s ease, transform 0.3s ease;
+    }
+    
+    .especialidades-navbar.visible {
+      opacity: 1;
+      visibility: visible;
+      transform: translateY(0);
+    }
+    
+    /* Dropdown mobile */
+    .especialidades-dropdown {
+      display: none;
+      width: 100%;
+      padding: 0.75rem 1rem;
+      background: rgba(17, 24, 39, 0.95);
+      color: #edf2f4;
+      border: 2px solid #ba9a5d;
+      border-radius: 8px;
+      font-size: 1rem;
+      font-weight: 600;
+      cursor: pointer;
+      outline: none;
+    }
+    
+    .especialidades-dropdown option {
+      background: #1f2937;
+      color: #edf2f4;
+      padding: 0.5rem;
+    }
+    
+    /* Botones horizontales - desktop */
+    .especialidades-nav-buttons {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-evenly;
+      align-items: stretch;
+      width: 100%;
+      gap: 0;
+    }
+    
+    .especialidades-nav-button {
+      flex: 1;
+      padding: 1.5rem 0;
+      color: #edf2f4;
+      font-weight: 600;
+      font-size: 1.05rem;
+      white-space: nowrap;
+      cursor: pointer;
+      background: none;
+      border: none;
+      text-align: center;
+      position: relative;
+      transition: color 0.3s ease;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    
+    .especialidades-nav-button::after {
+      content: '';
+      position: absolute;
+      bottom: 0;
+      left: 50%;
+      transform: translateX(-50%) scaleX(0);
+      width: 100%;
+      height: 3px;
+      background: #ba9a5d;
+      transition: transform 0.3s ease;
+      transform-origin: center;
+    }
+    
+    .especialidades-nav-button:hover {
+      color: #ba9a5d;
+    }
+    
+    .especialidades-nav-button:hover::after {
+      transform: translateX(-50%) scaleX(1);
+    }
+    
+    .especialidades-nav-button.active {
+      color: #ba9a5d;
+    }
+    
+    .especialidades-nav-button.active::after {
+      transform: translateX(-50%) scaleX(1);
+    }
+    
+    /* Responsive: Mostrar dropdown en móvil, botones en desktop */
+    @media (max-width: 768px) {
+      .especialidades-dropdown {
+        display: block;
+      }
+      .especialidades-nav-buttons {
+        display: none;
+      }
     }
 
     .service-content {
@@ -221,11 +380,20 @@
     .sub-accordion-content {
       max-height: 0;
       overflow: hidden;
-      transition: max-height 0.3s ease;
+      opacity: 0;
+      transition: max-height 0.5s cubic-bezier(0.4, 0, 0.2, 1), 
+                  opacity 0.4s ease,
+                  padding 0.5s cubic-bezier(0.4, 0, 0.2, 1);
     }
 
     .sub-accordion-content.active {
       max-height: 3000px;
+      opacity: 1;
+    }
+    
+    /* Borde dorado en las subtarjetas desplegadas */
+    .sub-accordion-content .border-orange-400 {
+      border-left-color: #ba9a5d !important;
     }
 
     /* Dropdown Styles */
@@ -358,6 +526,16 @@
 
     .carousel-img-wrapper {
       position: relative;
+      width: 100%;
+      height: 250px;
+      overflow: hidden;
+    }
+    
+    .carousel-img-wrapper img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      object-position: center;
     }
 
     .carousel-img-wrapper::after {
@@ -417,6 +595,9 @@
   </style>
 </head>
 <body class="bg-gray-900 text-white">
+  
+  <!-- Pantalla de transición -->
+  <div id="page-transition"></div>
 
   <!-- Navbar -->
   <nav class="navbar">
@@ -465,7 +646,7 @@
   </nav>
 
   <!-- Hero Section -->
-  <section class="relative min-h-[65vh] md:min-h-[75vh] flex items-end justify-start pt-36 pb-12">
+  <section class="relative min-h-[80vh] md:min-h-[90vh] flex items-end justify-start pt-36 pb-12">
         <div class="absolute inset-0" style="background:
           linear-gradient(rgba(20,20,20,0.50), rgba(20,20,20,0.60)),
           url('Recursos/Servicios/HeroSection/consultoria_training.jpg') center center/cover no-repeat;">
@@ -477,6 +658,69 @@
         Soluciones integrales para la transformación institucional y el desarrollo sostenible
       </p>
     </div>
+  <script type="module">
+    // Fondo de partículas doradas fijo en la columna izquierda
+    import { tsParticles } from "https://cdn.jsdelivr.net/npm/@tsparticles/engine@3.0.3/+esm";
+    import { loadAll } from "https://cdn.jsdelivr.net/npm/@tsparticles/all@3.0.3/+esm";
+
+    (async () => {
+      await loadAll(tsParticles);
+
+      await tsParticles.addPreset("lightdark", {
+        fullScreen: {
+          enable: false
+        },
+        particles: {
+          links: {
+            enable: true
+          },
+          move: {
+            enable: true
+          },
+          number: {
+            value: 130
+          },
+          opacity: {
+            value: { min: 0.3, max: 1 }
+          },
+          shape: {
+            type: ["circle", "square", "triangle", "polygon"],
+            options: {
+              polygon: [
+                {
+                  sides: 5
+                },
+                {
+                  sides: 6
+                },
+                {
+                  sides: 8
+                }
+              ]
+            }
+          },
+          size: {
+            value: { min: 1, max: 3 }
+          }
+        }
+      });
+
+      await tsParticles.load({
+        id: "light",
+        options: {
+          preset: "lightdark",
+          particles: {
+            color: {
+              value: "#ba9a5d"
+            },
+            links: {
+              color: "#ba9a5d"
+            }
+          }
+        }
+      });
+    })();
+  </script>
   <script>
     // Animación de subrayado al cargar la página
     window.addEventListener('DOMContentLoaded', function() {
@@ -496,43 +740,103 @@
   </script>
   </section>
 
+  <!-- Barra de Especialidades (Sticky Horizontal Navigation) -->
+  <nav class="especialidades-navbar" id="especialidadesNavbar">
+    <div class="w-full px-4 py-2">
+      <!-- Dropdown para móviles -->
+      <select class="especialidades-dropdown" id="especialidadesDropdown" onchange="handleDropdownChange(this.value)">
+        <option value="servicio1" selected>LIDERAZGO ESTRATÉGICO</option>
+        <option value="servicio2">GESTIÓN INTEGRAL DE PROYECTOS</option>
+        <option value="servicio3">ALIANZAS MULTISECTORIALES</option>
+        <option value="servicio4">ESTRATEGIA FINANCIERA</option>
+        <option value="servicio5">FORTALECIMIENTO DE CAPACIDADES</option>
+      </select>
+      
+      <!-- Botones horizontales para desktop -->
+      <div class="especialidades-nav-buttons" style="overflow-x: auto; scrollbar-width: thin;">
+        <button class="especialidades-nav-button active" onclick="toggleAccordion('servicio1')" id="nav-btn-servicio1">
+          <div class="flex items-center gap-2">
+            <svg class="w-5 h-5" style="color: #ba9a5d;" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z" />
+            </svg>
+            <span>LIDERAZGO ESTRATÉGICO</span>
+          </div>
+        </button>
+        
+        <button class="especialidades-nav-button" onclick="toggleAccordion('servicio2')" id="nav-btn-servicio2">
+          <div class="flex items-center gap-2">
+            <svg class="w-5 h-5" style="color: #ba9a5d;" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-6 9l2 2 4-4" />
+            </svg>
+            <span>GESTIÓN INTEGRAL DE PROYECTOS</span>
+          </div>
+        </button>
+        
+        <button class="especialidades-nav-button" onclick="toggleAccordion('servicio3')" id="nav-btn-servicio3">
+          <div class="flex items-center gap-2">
+            <svg class="w-5 h-5" style="color: #ba9a5d;" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+              <circle cx="12" cy="12" r="3" />
+              <circle cx="19" cy="7" r="2" />
+              <circle cx="5" cy="7" r="2" />
+              <circle cx="5" cy="17" r="2" />
+              <circle cx="19" cy="17" r="2" />
+              <line x1="12" y1="12" x2="19" y2="7" />
+              <line x1="12" y1="12" x2="5" y2="7" />
+              <line x1="12" y1="12" x2="5" y2="17" />
+              <line x1="12" y1="12" x2="19" y2="17" />
+            </svg>
+            <span>ALIANZAS MULTISECTORIALES</span>
+          </div>
+        </button>
+        
+        <button class="especialidades-nav-button" onclick="toggleAccordion('servicio4')" id="nav-btn-servicio4">
+          <div class="flex items-center gap-2">
+            <svg class="w-5 h-5" style="color: #ba9a5d;" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+            </svg>
+            <span>ESTRATEGIA FINANCIERA</span>
+          </div>
+        </button>
+        
+        <button class="especialidades-nav-button" onclick="toggleAccordion('servicio5')" id="nav-btn-servicio5">
+          <div class="flex items-center gap-2">
+            <svg class="w-5 h-5" style="color: #ba9a5d;" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253" />
+            </svg>
+            <span>FORTALECIMIENTO DE CAPACIDADES</span>
+          </div>
+        </button>
+      </div>
+    </div>
+  </nav>
+
   <!-- Services Section -->
-  <section class="bg-gray-900 py-20">
+  <section class="bg-gray-900 py-20" id="serviciosEspecialidades">
+    <!-- Fondo de partículas doradas con altura fija -->
+    <div id="light"></div>
+    
     <div class="max-w-7xl mx-auto px-4">
       
-      <!-- Two Column Layout: Menu Left, Content Right -->
-      <div class="grid grid-cols-1 lg:grid-cols-12 gap-6">
-        
-        <!-- Left Column: Service Menu -->
-        <div class="lg:col-span-4 space-y-3">
-          <button class="service-menu-button active w-full text-left p-5 bg-gray-800 rounded-lg border-l-4 style="border-color: #ba9a5d;" hover:bg-gray-750 transition" onclick="toggleAccordion('servicio1')" id="btn-servicio1">
-            <h2 class="text-lg md:text-xl font-bold text-white">LIDERAZGO ESTRATÉGICO Y GOBERNANZA</h2>
-          </button>
-          
-          <button class="service-menu-button w-full text-left p-5 bg-gray-800 rounded-lg border-l-4 border-transparent hover:style="border-color: #ba9a5d;" hover:bg-gray-750 transition" onclick="toggleAccordion('servicio2')" id="btn-servicio2">
-            <h2 class="text-lg md:text-xl font-bold text-white">GESTIÓN INTEGRAL DE PROYECTOS Y DESARROLLO DE RECURSOS</h2>
-          </button>
-          
-          <button class="service-menu-button w-full text-left p-5 bg-gray-800 rounded-lg border-l-4 border-transparent hover:style="border-color: #ba9a5d;" hover:bg-gray-750 transition" onclick="toggleAccordion('servicio3')" id="btn-servicio3">
-            <h2 class="text-lg md:text-xl font-bold text-white">ALIANZAS MULTISECTORIALES</h2>
-          </button>
-          
-          <button class="service-menu-button w-full text-left p-5 bg-gray-800 rounded-lg border-l-4 border-transparent hover:style="border-color: #ba9a5d;" hover:bg-gray-750 transition" onclick="toggleAccordion('servicio4')" id="btn-servicio4">
-            <h2 class="text-lg md:text-xl font-bold text-white">ESTRATEGIA FINANCIERA Y ANÁLISIS DE RIESGOS</h2>
-          </button>
-          
-          <button class="service-menu-button w-full text-left p-5 bg-gray-800 rounded-lg border-l-4 border-transparent hover:style="border-color: #ba9a5d;" hover:bg-gray-750 transition" onclick="toggleAccordion('servicio5')" id="btn-servicio5">
-            <h2 class="text-lg md:text-xl font-bold text-white">FORTALECIMIENTO DE CAPACIDADES Y FORMACIÓN</h2>
-          </button>
-        </div>
-        
-        <!-- Right Column: Service Content -->
-        <div class="lg:col-span-8">
+      <!-- Content Full Width (sin menú lateral) -->
+      <div>
           
           <!-- Servicio 1: LIDERAZGO ESTRATÉGICO Y GOBERNANZA -->
           <div class="service-content active" id="content-servicio1">
-            <h3 class="text-2xl font-bold style="color: #ba9a5d;" mb-6">LIDERAZGO ESTRATÉGICO Y GOBERNANZA</h3>
-            <div class="p-4 bg-gray-800 rounded-lg space-y-3">
+            <!-- Grid 35-65: Título/Desc izquierda, Tarjetas derecha -->
+            <div class="grid md:grid-cols-[35%_65%] gap-8">
+              <!-- Izquierda: Título y Descripción -->
+              <div>
+                <h3 class="text-3xl md:text-4xl font-bold mb-4">
+                  <span style="color: #ba9a5d;">LIDERAZGO</span> ESTRATÉGICO Y GOBERNANZA
+                </h3>
+                <p class="text-gray-300 text-lg leading-relaxed">
+                  Liderazgo consciente, cultura de cumplimiento y gobernanza corporativa que eleva la competitividad y reputación.
+                </p>
+              </div>
+              <!-- Derecha: Servicios Específicos -->
+              <div>
+                <h3 class="text-2xl font-bold mb-6" style="color: #ba9a5d;">Servicios Específicos</h3>
+                <div class="p-4 bg-gray-800 rounded-lg space-y-3">
             
             <!-- Subservicio A -->
             <div class="mb-2">
@@ -746,14 +1050,28 @@
                 </div>
               </div>
             </div>
-
+                </div>
+              </div>
             </div>
           </div>
 
           <!-- Servicio 2: GESTIÓN INTEGRAL DE PROYECTOS -->
           <div class="service-content" id="content-servicio2">
-            <h3 class="text-2xl font-bold style="color: #ba9a5d;" mb-6">GESTIÓN INTEGRAL DE PROYECTOS</h3>
-            <div class="p-4 bg-gray-800 rounded-lg space-y-3">
+            <!-- Grid 35-65: Título/Desc izquierda, Tarjetas derecha -->
+            <div class="grid md:grid-cols-[35%_65%] gap-8">
+              <!-- Izquierda: Título y Descripción -->
+              <div>
+                <h3 class="text-3xl md:text-4xl font-bold mb-4">
+                  <span style="color: #ba9a5d;">GESTIÓN</span> INTEGRAL DE PROYECTOS Y DESARROLLO DE RECURSOS
+                </h3>
+                <p class="text-gray-300 text-lg leading-relaxed">
+                  Optimiza la gestión de proyectos de innovación y responsabilidad social, maximizando el retorno de inversión e impacto reputacional.
+                </p>
+              </div>
+              <!-- Derecha: Servicios Específicos -->
+              <div>
+                <h3 class="text-2xl font-bold mb-6" style="color: #ba9a5d;">Servicios Específicos</h3>
+                <div class="p-4 bg-gray-800 rounded-lg space-y-3">
             
             <!-- Subservicio A -->
             <div class="mb-2">
@@ -834,14 +1152,28 @@
                 </div>
               </div>
             </div>
-
+                </div>
+              </div>
             </div>
           </div>
 
           <!-- Servicio 3: ALIANZAS MULTISECTORIALES -->
           <div class="service-content" id="content-servicio3">
-            <h3 class="text-2xl font-bold style="color: #ba9a5d;" mb-6">ALIANZAS MULTISECTORIALES</h3>
-            <div class="p-4 bg-gray-800 rounded-lg space-y-3">
+            <!-- Grid 35-65: Título/Desc izquierda, Tarjetas derecha -->
+            <div class="grid md:grid-cols-[35%_65%] gap-8">
+              <!-- Izquierda: Título y Descripción -->
+              <div>
+                <h3 class="text-3xl md:text-4xl font-bold mb-4">
+                  <span style="color: #ba9a5d;">ALIANZAS</span> MULTISECTORIALES
+                </h3>
+                <p class="text-gray-300 text-lg leading-relaxed">
+                  Vincular y articular sectores para ampliar su impacto mediante sinergias con actores clave, fortaleciendo la reputación y el valor compartido.
+                </p>
+              </div>
+              <!-- Derecha: Servicios Específicos -->
+              <div>
+                <h3 class="text-2xl font-bold mb-6" style="color: #ba9a5d;">Servicios Específicos</h3>
+                <div class="p-4 bg-gray-800 rounded-lg space-y-3">
             
             <!-- Subservicio A -->
             <div class="mb-2">
@@ -905,14 +1237,28 @@
                 </div>
               </div>
             </div>
-
+                </div>
+              </div>
             </div>
           </div>
 
           <!-- Servicio 4: ESTRATEGIA FINANCIERA -->
           <div class="service-content" id="content-servicio4">
-            <h3 class="text-2xl font-bold style="color: #ba9a5d;" mb-6">ESTRATEGIA FINANCIERA</h3>
-            <div class="p-4 bg-gray-800 rounded-lg space-y-3">
+            <!-- Grid 35-65: Título/Desc izquierda, Tarjetas derecha -->
+            <div class="grid md:grid-cols-[35%_65%] gap-8">
+              <!-- Izquierda: Título y Descripción -->
+              <div>
+                <h3 class="text-3xl md:text-4xl font-bold mb-4">
+                  <span style="color: #ba9a5d;">ESTRATEGIA FINANCIERA</span> Y ANÁLISIS DE RIESGOS
+                </h3>
+                <p class="text-gray-300 text-lg leading-relaxed">
+                  Fortalece la rentabilidad y sostenibilidad del negocio a través de gestión de riesgos, planeación financiera y responsabilidad corporativa.
+                </p>
+              </div>
+              <!-- Derecha: Servicios Específicos -->
+              <div>
+                <h3 class="text-2xl font-bold mb-6" style="color: #ba9a5d;">Servicios Específicos</h3>
+                <div class="p-4 bg-gray-800 rounded-lg space-y-3">
             
             <!-- Subservicio A -->
             <div class="mb-2">
@@ -1018,19 +1364,33 @@
                 </div>
               </div>
             </div>
-
+                </div>
+              </div>
             </div>
           </div>
 
           <!-- Servicio 5: FORTALECIMIENTO DE CAPACIDADES -->
           <div class="service-content" id="content-servicio5">
-            <h3 class="text-2xl font-bold style="color: #ba9a5d;" mb-6">FORTALECIMIENTO DE CAPACIDADES</h3>
-            <div class="p-4 bg-gray-800 rounded-lg space-y-3">
+            <!-- Grid 35-65: Título/Desc izquierda, Tarjetas derecha -->
+            <div class="grid md:grid-cols-[35%_65%] gap-8">
+              <!-- Izquierda: Título y Descripción -->
+              <div>
+                <h3 class="text-3xl md:text-4xl font-bold mb-4">
+                  <span style="color: #ba9a5d;">FORTALECIMIENTO</span> DE CAPACIDADES Y FORMACIÓN
+                </h3>
+                <p class="text-gray-300 text-lg leading-relaxed">
+                  Impulsa el desarrollo del talento y la cultura organizacional orientada al alto desempeño y la innovación.
+                </p>
+              </div>
+              <!-- Derecha: Servicios Específicos -->
+              <div>
+                <h3 class="text-2xl font-bold mb-6" style="color: #ba9a5d;">Servicios Específicos</h3>
+                <div class="p-4 bg-gray-800 rounded-lg space-y-3">
             
             <!-- Subservicio A -->
             <div class="mb-2">
               <button class="sub-accordion-button w-full text-left p-4 bg-gray-700 rounded-lg flex justify-between items-center border border-gray-600" onclick="toggleSubAccordion('servicio5-a')">
-                <h3 class="text-lg font-bold style="color: #ba9a5d;"">A. Capacitación Técnica y Metodológica</h3>
+                <h3 class="text-lg font-bold" style="color: #fff;">A. Capacitación Técnica y Metodológica</h3>
                 <svg class="w-5 h-5 transform transition-transform duration-300" id="icon-servicio5-a" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/>
                 </svg>
@@ -1051,7 +1411,7 @@
             <!-- Subservicio B -->
             <div class="mb-2">
               <button class="sub-accordion-button w-full text-left p-4 bg-gray-700 rounded-lg flex justify-between items-center border border-gray-600" onclick="toggleSubAccordion('servicio5-b')">
-                <h3 class="text-lg font-bold style="color: #ba9a5d;"">B. Acompañamiento y Asistencia Técnica</h3>
+                <h3 class="text-lg font-bold" style="color: #fff;">B. Acompañamiento y Asistencia Técnica</h3>
                 <svg class="w-5 h-5 transform transition-transform duration-300" id="icon-servicio5-b" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/>
                 </svg>
@@ -1072,7 +1432,7 @@
             <!-- Subservicio C -->
             <div class="mb-2">
               <button class="sub-accordion-button w-full text-left p-4 bg-gray-700 rounded-lg flex justify-between items-center border border-gray-600" onclick="toggleSubAccordion('servicio5-c')">
-                <h3 class="text-lg font-bold style="color: #ba9a5d;"">C. Fortalecimiento Organizacional e Institucional</h3>
+                <h3 class="text-lg font-bold" style="color: #fff;">C. Fortalecimiento Organizacional e Institucional</h3>
                 <svg class="w-5 h-5 transform transition-transform duration-300" id="icon-servicio5-c" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/>
                 </svg>
@@ -1093,7 +1453,7 @@
             <!-- Subservicio D -->
             <div class="mb-2">
               <button class="sub-accordion-button w-full text-left p-4 bg-gray-700 rounded-lg flex justify-between items-center border border-gray-600" onclick="toggleSubAccordion('servicio5-d')">
-                <h3 class="text-lg font-bold style="color: #ba9a5d;"">D. Gestión del Conocimiento y Aprendizaje Organizacional</h3>
+                <h3 class="text-lg font-bold" style="color: #fff;">D. Gestión del Conocimiento y Aprendizaje Organizacional</h3>
                 <svg class="w-5 h-5 transform transition-transform duration-300" id="icon-servicio5-d" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/>
                 </svg>
@@ -1114,7 +1474,7 @@
             <!-- Subservicio E -->
             <div class="mb-2">
               <button class="sub-accordion-button w-full text-left p-4 bg-gray-700 rounded-lg flex justify-between items-center border border-gray-600" onclick="toggleSubAccordion('servicio5-e')">
-                <h3 class="text-lg font-bold style="color: #ba9a5d;"">E. Desarrollo de Liderazgos y Equipos de Alto Desempeño</h3>
+                <h3 class="text-lg font-bold" style="color: #fff;">E. Desarrollo de Liderazgos y Equipos de Alto Desempeño</h3>
                 <svg class="w-5 h-5 transform transition-transform duration-300" id="icon-servicio5-e" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/>
                 </svg>
@@ -1131,12 +1491,13 @@
                 </div>
               </div>
             </div>
-
+                </div>
+              </div>
             </div>
           </div>
           
-        </div> <!-- End Right Column -->
-      </div> <!-- End Grid -->
+        </div> <!-- End Content -->
+      </div> <!-- End Container -->
       
     </div>
   </section>
@@ -1402,6 +1763,16 @@
       }
     }
 
+    // Handle dropdown change in mobile
+    function handleDropdownChange(servicioId) {
+      toggleAccordion(servicioId);
+      // Update dropdown value
+      const dropdown = document.getElementById('especialidadesDropdown');
+      if (dropdown) {
+        dropdown.value = servicioId;
+      }
+    }
+    
     // Accordion functionality - Switch between main service sections
     function toggleAccordion(id) {
       // Hide all service contents
@@ -1410,30 +1781,112 @@
         c.classList.remove('active');
       });
       
-      // Remove active class from all menu buttons
-      const allButtons = document.querySelectorAll('.service-menu-button');
-      allButtons.forEach(b => {
+      // Remove active class from all navbar buttons
+      const allNavButtons = document.querySelectorAll('.especialidades-nav-button');
+      allNavButtons.forEach(b => {
         b.classList.remove('active');
       });
       
       // Show selected content
       const content = document.getElementById(`content-${id}`);
-      content.classList.add('active');
+      if (content) {
+        content.classList.add('active');
+      }
       
-      // Highlight selected button
-      const button = document.getElementById(`btn-${id}`);
-      button.classList.add('active');
+      // Highlight selected navbar button
+      const navButton = document.getElementById(`nav-btn-${id}`);
+      if (navButton) {
+        navButton.classList.add('active');
+      }
+      
+      // Update dropdown selection
+      const dropdown = document.getElementById('especialidadesDropdown');
+      if (dropdown) {
+        dropdown.value = id;
+      }
     }
 
-    // Check URL parameters and activate the corresponding service
-    window.addEventListener('DOMContentLoaded', () => {
-      const urlParams = new URLSearchParams(window.location.search);
-      const servicioParam = urlParams.get('servicio');
+    // Navbar visibility with IntersectionObserver
+    document.addEventListener('DOMContentLoaded', () => {
+      const navbar = document.querySelector('.especialidades-navbar');
+      const serviciosSection = document.getElementById('serviciosEspecialidades');
       
-      if (servicioParam && servicioParam.match(/^servicio[1-5]$/)) {
-        toggleAccordion(servicioParam);
+      if (navbar && serviciosSection) {
+        let isVisible = false;
+        const observer = new IntersectionObserver((entries) => {
+          entries.forEach(entry => {
+            const shouldBeVisible = entry.isIntersecting && entry.intersectionRatio > 0.05;
+            if (shouldBeVisible !== isVisible) {
+              isVisible = shouldBeVisible;
+              if (shouldBeVisible) {
+                navbar.classList.add('visible');
+              } else {
+                navbar.classList.remove('visible');
+              }
+            }
+          });
+        }, {
+          threshold: [0, 0.05, 0.1],
+          rootMargin: '-80px 0px 0px 0px'
+        });
+        
+        observer.observe(serviciosSection);
       }
     });
+    
+    // Check URL parameters and scroll immediately to avoid flickering
+    const urlParams = new URLSearchParams(window.location.search);
+    const servicioParam = urlParams.get('servicio');
+    
+    if (servicioParam && servicioParam.match(/^servicio[1-5]$/)) {
+      // Prevent default scroll restoration
+      if ('scrollRestoration' in history) {
+        history.scrollRestoration = 'manual';
+      }
+      
+      // Execute immediately when DOM is ready
+      document.addEventListener('DOMContentLoaded', () => {
+        const serviciosSection = document.getElementById('serviciosEspecialidades');
+        const transition = document.getElementById('page-transition');
+        
+        toggleAccordion(servicioParam);
+        
+        // Scroll immediately without animation to prevent flickering
+        if (serviciosSection) {
+          const navbarHeight = 160; // Navbar general + navbar de especialidades
+          const elementPosition = serviciosSection.getBoundingClientRect().top;
+          const offsetPosition = elementPosition + window.pageYOffset - navbarHeight;
+          
+          window.scrollTo({
+            top: offsetPosition,
+            behavior: 'auto'
+          });
+        }
+        
+        // Fade out transition screen after positioning
+        setTimeout(() => {
+          if (transition) {
+            transition.classList.add('fade-out');
+            setTimeout(() => {
+              transition.remove();
+            }, 400);
+          }
+        }, 50);
+      });
+    } else {
+      // No service parameter, fade out transition immediately
+      document.addEventListener('DOMContentLoaded', () => {
+        const transition = document.getElementById('page-transition');
+        setTimeout(() => {
+          if (transition) {
+            transition.classList.add('fade-out');
+            setTimeout(() => {
+              transition.remove();
+            }, 400);
+          }
+        }, 50);
+      });
+    }
 
     // Sub-accordion functionality
     function toggleSubAccordion(id) {
@@ -1501,33 +1954,84 @@
           title: "10. Capacitación en Educación Financiera",
           desc: "Fortalecimiento de capacidades de emprendimiento en cadenas de valor. Aumento del impacto social corporativo y del compromiso con el desarrollo local.",
           img: "Recursos/Servicios/Portafolio/Portafolio_0000_10.png"
+        },
+        {
+          title: "11. Liderazgo Estratégico y Gobernanza",
+          desc: "Impartimos cursos de liderazgo organizacional inclusivo y participativo, alineados con los objetivos de desarrollo social y ambiental a largo plazo.",
+          img: "Recursos/Inicio/Portafolio/Liderasgo y Gobernanza.jpg"
+        },
+        {
+          title: "12. Gestión Integral de Proyectos y Desarrollo de Recursos",
+          desc: "Diseñamos programas integrales para comunidades, incorporando espacios productivos y fomentando la autosuficiencia y mejora de ingresos familiares.",
+          img: "Recursos/Inicio/Portafolio/Diseño de Programas y Proyectos Innovadores.png"
+        },
+        {
+          title: "13. Fortalecimiento de Capacidades y Formación",
+          desc: "Fortalecemos capacidades para el desarrollo de alianzas, riesgos financieros y liderazgo en IAP, ONG y comunidades.",
+          img: "Recursos/Inicio/Portafolio/Fortalecimiento de Capacidades y Formacion.jpg"
+        },
+        {
+          title: "14. Organización Comunitaria y Participación Social",
+          desc: "Brindamos cursos y talleres para fortalecer la organización comunitaria, generando comités locales y liderazgo comunitario para empoderar a las comunidades.",
+          img: "Recursos/Inicio/Portafolio/Organizacion Comunitaria y Participacion Social.jpg"
+        },
+        {
+          title: "15. Fortalecimiento del Liderazgo Local y Planeación Estratégica",
+          desc: "Brindamos cursos para fortalecer liderazgos comunitarios y procesos de planificación estratégica que aseguran la sostenibilidad y escalabilidad de los proyectos sociales.",
+          img: "Recursos/Inicio/Portafolio/Fortalecimiento del Liderasgo Local y Planeacion Estrategica.png"
+        },
+        {
+          title: "16. Formación de Formadores y Asistencia Técnica",
+          desc: "Capacitamos a 'Formadores de Formadores' para replicar aprendizajes en proyectos sociales, asegurando soluciones duraderas y de calidad.",
+          img: "Recursos/Inicio/Portafolio/Formacion de Formadores y Asistencia Tecnica.png"
+        },
+        {
+          title: "17. Desarrollo Territorial y Resiliencia Comunitaria",
+          desc: "Capacitamos comunidades para implementar planes de desarrollo territorial y estrategias de adaptación climática y resiliencia comunitaria.",
+          img: "Recursos/Inicio/Portafolio/Desarrollo Territorial y Resilencia Comunitaria.png"
+        },
+        {
+          title: "18. Vivienda Saludable y Vivienda Productiva",
+          desc: "Capacitamos en programas de vivienda saludable y productiva, integrando espacios de trabajo para impulsar autosuficiencia y resiliencia familiar.",
+          img: "Recursos/Inicio/Portafolio/Vivienda Saludable y Vivienda Productiva.png"
+        },
+        {
+          title: "19. Mapeo y Análisis de Actores y Negociación de Acuerdos",
+          desc: "Capacitamos en mapeo de actores clave y negociación de acuerdos para consolidar relaciones y optimizar la implementación de proyectos.",
+          img: "Recursos/Inicio/Portafolio/Mapeo y Analisis de Actores y Negociacion de Acuerdos.png"
         }
       ];
       
       function initializeCarousel() {
         track.innerHTML = '';
-        const cardWidth = container.offsetWidth > 1024 ? container.offsetWidth * 0.30 : 
-                         container.offsetWidth > 768 ? container.offsetWidth * 0.40 : 
-                         container.offsetWidth * 0.80;
-        const duplicatesNeeded = Math.ceil(container.offsetWidth / (cardWidth * cards.length)) * 3 + 4;
         
-        for (let i = 0; i < duplicatesNeeded; i++) {
+        // Create 3 sets of cards for seamless looping
+        const setsToCreate = 3;
+        
+        for (let i = 0; i < setsToCreate; i++) {
           cards.forEach((card, index) => {
             track.appendChild(createCardElement(card, index));
           });
         }
         
-        // Center the first card (card #1) in the middle of the screen
-        const containerCenter = container.offsetWidth / 2;
-        const middleSetIndex = Math.floor(duplicatesNeeded / 2);
-        const totalCardsBeforeFirst = middleSetIndex * cards.length;
-        
-        // Calculate position considering card width and padding (24px total per card)
-        const cardTotalWidth = cardWidth + 24;
-        const firstCardOffset = totalCardsBeforeFirst * cardTotalWidth;
-        
-        position = -(firstCardOffset - containerCenter + (cardWidth / 2));
-        track.style.transform = `translateX(${position}px)`;
+        // Wait for render and calculate actual width
+        requestAnimationFrame(() => {
+          const firstCard = track.querySelector('.carousel-item');
+          if (firstCard) {
+            const cardStyle = window.getComputedStyle(firstCard);
+            const cardWidth = firstCard.offsetWidth;
+            const marginLeft = parseFloat(cardStyle.marginLeft) || 0;
+            const marginRight = parseFloat(cardStyle.marginRight) || 0;
+            const actualCardWidth = cardWidth + marginLeft + marginRight;
+            
+            // Store the width of one complete set for infinite loop calculations
+            window.carouselSetWidth = actualCardWidth * cards.length;
+            
+            // Start at the middle set (set index 1)
+            position = -window.carouselSetWidth;
+            track.style.transform = `translateX(${position}px)`;
+          }
+        });
       }
 
       function createCardElement(card, index) {
@@ -1542,8 +2046,8 @@
                 <h3 class="text-xl font-semibold mb-2" style="color: #ba9a5d;">${card.title}</h3>
                 <p class="text-gray-300 mb-4 flex-1">${card.desc}</p>
               </div>
-              <div class="overflow-hidden carousel-img-wrapper">
-                <img src="${card.img}" alt="${card.title}" class="w-full h-auto" draggable="false" style="object-fit: cover; object-position: -4px center; transform: scale(1.01); user-select: none;">
+              <div class="carousel-img-wrapper">
+                <img src="${card.img}" alt="${card.title}" draggable="false" style="user-select: none;">
               </div>
             </div>
           </div>
@@ -1569,13 +2073,16 @@
           if (Math.abs(manualScrollVelocity) < 0.5) manualScrollVelocity = 0;
         }
         
-        // Smooth infinite loop wrapping
-        const setWidth = track.scrollWidth / 3; // Width of one set (we have 3 sets)
+        // Seamless infinite loop: we have 3 sets, start at set 1 (middle)
+        // When we scroll past set 2, jump back to set 0
+        // When we scroll before set 0, jump forward to set 2
+        const setWidth = window.carouselSetWidth;
         
-        // Reset position seamlessly when needed
         if (position <= -setWidth * 2) {
+          // Scrolled past the end of set 2, jump back to set 0
           position += setWidth;
         } else if (position >= 0) {
+          // Scrolled before the start of set 0, jump forward to set 2
           position -= setWidth;
         }
         
